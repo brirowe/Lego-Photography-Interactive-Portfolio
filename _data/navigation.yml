@@ -1,0 +1,17 @@
+- name: Home
+  link: /
+
+- name: Map
+  link: /map/
+
+- name: Color Palettes
+  link: /palettes/
+
+- name: Mosaics
+  link: /mosaics/
+
+- name: Minifig Archive
+  link: /minifig-archive/
+
+- name: Shop
+  link: /shop/
