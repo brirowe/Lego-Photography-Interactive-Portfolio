@@ -6,7 +6,7 @@ permalink: /shop/
 
 # Shop
 
-Fill me in later. This page will eventually include links to where I list LEGO, art, clothes, and other random stuff.
+Fill in later. This page will eventually include links to where I list my minifg pic art and mosaics.
 
 - Depop
 - Whatnot
