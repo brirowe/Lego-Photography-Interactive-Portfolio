@@ -49,21 +49,27 @@ a {
   padding: 20px;
 }
 
-give me this whole updated sextion: .leaflet-popup-content-wrapper {
+.leaflet-popup-content-wrapper {
   padding: 0 !important;
   border-radius: 0 !important;
+  box-shadow: none !important;
 }
 .leaflet-popup-content {
   margin: 0 !important;
-  width: auto !important;
+  padding: 0 !important;
+  width: 150px !important;
+  line-height: 0 !important;
+}
+.leaflet-popup-content p {
+  margin: 0 !important;
 }
 .leaflet-popup-content img {
-  display: block;
-  width: 150px;
+  display: block !important;
+  width: 150px !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
-.leaflet-popup-tip-container {
-  margin-top: 0 !important;
-}
+
 #lightbox-overlay {
   display: none;
   position: fixed;
