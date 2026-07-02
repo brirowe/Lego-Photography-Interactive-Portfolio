@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Map
+text_width: false
 ---
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
