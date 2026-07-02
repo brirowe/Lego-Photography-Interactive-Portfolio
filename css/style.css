@@ -55,10 +55,14 @@ a {
 }
 .leaflet-popup-content {
   margin: 0 !important;
+  width: auto !important;
 }
-.photo-popup img {
+.leaflet-popup-content img {
   display: block;
   width: 150px;
+}
+.leaflet-popup-tip-container {
+  margin-top: 0 !important;
 }
 
 #lightbox-overlay {
