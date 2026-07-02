@@ -300,7 +300,7 @@ title: Map
   points.forEach(function(p) {
    L.marker([p.lat, p.lng]).addTo(map).bindPopup(
     '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150" onclick="showLightbox(this.src)">',
-    {className: 'photo-popup', maxWidth: 150, minWidth: 150, autoPan: true}
-  );
+    {className: 'photo-popup'}
+   );
   });
 </script>
