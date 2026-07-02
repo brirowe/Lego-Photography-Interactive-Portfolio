@@ -49,11 +49,11 @@ a {
   padding: 20px;
 }
 
-.photo-popup .leaflet-popup-content-wrapper {
+.leaflet-popup-content-wrapper {
   padding: 0 !important;
   border-radius: 0 !important;
 }
-.photo-popup .leaflet-popup-content {
+.leaflet-popup-content {
   margin: 0 !important;
 }
 .photo-popup img {
