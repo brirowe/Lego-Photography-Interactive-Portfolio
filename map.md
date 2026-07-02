@@ -8,7 +8,16 @@ title: Map
 
 <div id="map" style="width: 100%; height: 500px;"></div>
 
+<div id="lightbox-overlay" onclick="this.style.display='none'">
+  <img id="lightbox-img" src="">
+</div>
+
 <script>
+  function showLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-overlay').style.display = 'flex';
+  }
+
   var map = L.map('map').setView([39.5, -105.5], 8);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
@@ -288,10 +297,9 @@ title: Map
       {number: "212", lat: 39.538089, lng: -105.28204}
   ];
 
-
   points.forEach(function(p) {
     L.marker([p.lat, p.lng]).addTo(map).bindPopup(
-      '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150">',
+      '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150" onclick="showLightbox(this.src)">',
       {className: 'photo-popup'}
     );
   });
