@@ -48,3 +48,14 @@ a {
   height: 300px;
   padding: 20px;
 }
+
+.photo-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+}
+.photo-popup .leaflet-popup-content {
+  margin: 0;
+}
+.photo-popup img {
+  display: block;
+  width: 150px;
+}
