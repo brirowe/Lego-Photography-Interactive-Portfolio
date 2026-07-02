@@ -290,6 +290,8 @@ title: Map
 
 
   points.forEach(function(p) {
-    L.marker([p.lat, p.lng]).addTo(map).bindPopup(p.number);
+    L.marker([p.lat, p.lng]).addTo(map).bindPopup(
+      '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150"><br>#' + p.number
+    );
   });
 </script>
