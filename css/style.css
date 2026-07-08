@@ -73,17 +73,12 @@ a {
 #lightbox-overlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background: rgba(0,0,0,0.85);
   align-items: center;
   justify-content: center;
   z-index: 1000;
   cursor: pointer;
-  margin: 0;
-  padding: 0;
 }
 #lightbox-img {
   max-width: 90vw;
