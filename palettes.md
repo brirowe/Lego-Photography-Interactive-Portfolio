@@ -4,13 +4,11 @@ title: Color Palettes
 permalink: /palettes/
 ---
 # Color Palettes
-
 Color palettes pulled from photos of our Lego mountain, wildflower, rock, lake, and trail scenes.
-
 <div class="palette-grid">
 {% for row in site.data.palettes %}
   <div class="palette-card">
-    <img src="/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}">
+    <img src="{{ site.baseurl }}/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}">
     <div class="swatches">
       {% assign colors = row.palette | split: ", " %}
       {% for hex in colors %}
