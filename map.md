@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Map
+text_width: false
 ---
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
@@ -298,9 +299,9 @@ title: Map
   ];
 
   points.forEach(function(p) {
-    L.marker([p.lat, p.lng]).addTo(map).bindPopup(
-      '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150" onclick="showLightbox(this.src)">',
-      {className: 'photo-popup'}
-    );
+   L.marker([p.lat, p.lng]).addTo(map).bindPopup(
+    '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150" onclick="showLightbox(this.src)">',
+    {className: 'photo-popup'}
+   );
   });
 </script>

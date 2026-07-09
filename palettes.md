@@ -3,7 +3,20 @@ layout: default
 title: Color Palettes
 permalink: /palettes/
 ---
-
 # Color Palettes
 
-Fill me in later. This page will eventually include color palettes inspired by LEGO photos, mountain landscapes, wildflowers, rocks, lakes, and trail scenes.
+Color palettes pulled from photos of our Lego mountain, wildflower, rock, lake, and trail scenes.
+
+<div class="palette-grid">
+{% for row in site.data.palettes %}
+  <div class="palette-card">
+    <img src="/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}">
+    <div class="swatches">
+      {% assign colors = row.palette | split: ", " %}
+      {% for hex in colors %}
+        <div class="swatch" style="background-color: {{ hex }};" title="{{ hex }}"></div>
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+</div>
