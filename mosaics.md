@@ -14,13 +14,10 @@ LEGO mosaics, layered brick art, and other projects.
 <div class="mosaic-grid">
 {% for mosaic in site.data.mosaics %}
   <div class="mosaic-card">
-    {% if mosaic.name != "" %}<h3 class="mosaic-name">{{ mosaic.name }}</h3>{% endif %}
+    {% if mosaic.name %}<h3 class="mosaic-name">{{ mosaic.name }}</h3>{% endif %}
     <img src="{{ site.baseurl }}/photos/mosaics/{{ mosaic.filename }}" alt="{{ mosaic.name }}" loading="lazy" onclick="showLightbox(this.src)">
-    {% if mosaic.instagram_link != "" %}
+    {% if mosaic.instagram_link %}
       <a class="mosaic-link" href="{{ mosaic.instagram_link }}" target="_blank" rel="noopener">Click to see me building this! 🧱</a>
-    {% endif %}
-    {% if mosaic.tiktok_link != "" %}
-      <a class="mosaic-link" href="{{ mosaic.tiktok_link }}" target="_blank" rel="noopener">Watch me build this on TikTok</a>
     {% endif %}
   </div>
 {% endfor %}
