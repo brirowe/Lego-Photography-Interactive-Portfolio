@@ -19,7 +19,7 @@ text_width: false
     document.getElementById('lightbox-overlay').style.display = 'flex';
   }
 
-  var map = L.map('map').setView([39.5, -105.5], 8);
+  var map = L.map('map');
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
