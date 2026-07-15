@@ -303,7 +303,7 @@ text_width: false
       {number: "212", lat: 39.538089, lng: -105.28204}
   ];
 
-  // Group points that share the same coordinates
+// Group points that share the same coordinates
   function groupPoints(points) {
     var groups = {};
     points.forEach(function(p) {
@@ -317,27 +317,41 @@ text_width: false
   }
 
   var groups = groupPoints(points);
-  var clusters = L.markerClusterGroup();
+
+  var clusters = L.markerClusterGroup({
+    iconCreateFunction: function(cluster) {
+      var count = 0;
+      cluster.getAllChildMarkers().forEach(function(marker) {
+        count += marker.photoCount || 1;
+      });
+
+      var size = count < 10 ? 'small' : count < 50 ? 'medium' : 'large';
+
+      return L.divIcon({
+        html: '<div><span>' + count + '</span></div>',
+        className: 'marker-cluster marker-cluster-' + size,
+        iconSize: L.point(40, 40)
+      });
+    }
+  });
 
   groups.forEach(function(g) {
     var idx = 0;
     var marker = L.marker([g.lat, g.lng]);
+    marker.photoCount = g.numbers.length;
 
     function buildContent() {
       var container = document.createElement('div');
       container.className = 'carousel-popup';
-
       var img = document.createElement('img');
       img.src = '/Lego-Photography-Interactive-Portfolio/photos/Pic (' + g.numbers[idx] + ').jpg';
       img.width = 150;
       img.style.cursor = 'pointer';
       img.onclick = function() { showLightbox(img.src); };
       container.appendChild(img);
-
       if (g.numbers.length > 1) {
         var controls = document.createElement('div');
         controls.className = 'carousel-controls';
-
         var prevBtn = document.createElement('button');
         prevBtn.type = 'button';
         prevBtn.innerHTML = '&#8249;';
@@ -346,10 +360,8 @@ text_width: false
           idx = (idx - 1 + g.numbers.length) % g.numbers.length;
           marker.setPopupContent(buildContent());
         };
-
         var counter = document.createElement('span');
         counter.textContent = (idx + 1) + ' / ' + g.numbers.length;
-
         var nextBtn = document.createElement('button');
         nextBtn.type = 'button';
         nextBtn.innerHTML = '&#8250;';
@@ -358,16 +370,13 @@ text_width: false
           idx = (idx + 1) % g.numbers.length;
           marker.setPopupContent(buildContent());
         };
-
         controls.appendChild(prevBtn);
         controls.appendChild(counter);
         controls.appendChild(nextBtn);
         container.appendChild(controls);
       }
-
       return container;
     }
-
     marker.bindPopup(buildContent(), { className: 'photo-popup' });
     clusters.addLayer(marker);
   });
