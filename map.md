@@ -7,6 +7,10 @@ text_width: false
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
 <div id="map" style="width: 100%; height: 500px;"></div>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
@@ -298,7 +302,7 @@ text_width: false
       {number: "212", lat: 39.538089, lng: -105.28204}
   ];
 
-// Group points that share the same coordinates
+  // Group points that share the same coordinates
   function groupPoints(points) {
     var groups = {};
     points.forEach(function(p) {
@@ -312,12 +316,11 @@ text_width: false
   }
 
   var groups = groupPoints(points);
-  var bounds = L.latLngBounds([]);
+  var clusters = L.markerClusterGroup();
 
   groups.forEach(function(g) {
     var idx = 0;
-    var marker = L.marker([g.lat, g.lng]).addTo(map);
-    bounds.extend([g.lat, g.lng]);
+    var marker = L.marker([g.lat, g.lng]);
 
     function buildContent() {
       var container = document.createElement('div');
@@ -365,7 +368,9 @@ text_width: false
     }
 
     marker.bindPopup(buildContent(), { className: 'photo-popup' });
+    clusters.addLayer(marker);
   });
 
-  map.fitBounds(bounds, { padding: [30, 30] });
+  map.addLayer(clusters);
+  map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
 </script>
