@@ -3,6 +3,7 @@
   border: 1px solid #30363d;
   height: 300px;
   padding: 20px;
+  box-sizing: border-box; 
 }
 .leaflet-popup-content-wrapper {
   padding: 0 !important;
