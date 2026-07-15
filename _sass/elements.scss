@@ -7,7 +7,15 @@ html {
 
 header {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+
+	@media #{$tablet} {
+		flex-direction: row;
+		align-items: center;
+		text-align: left;
+	}
 }
 
 a {
@@ -25,8 +33,13 @@ nav {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: flex-end;
-	margin-right: -15px;
+	justify-content: center;
+	margin-right: 0;
+
+	@media #{$tablet} {
+		justify-content: flex-end;
+		margin-right: -15px;
+	}
 
 	a {
 		padding: 15px;
