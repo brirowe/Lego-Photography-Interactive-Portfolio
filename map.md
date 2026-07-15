@@ -383,4 +383,9 @@ text_width: false
 
   map.addLayer(clusters);
   map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+
+  window.addEventListener('load', function() {
+    map.invalidateSize();
+    map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+  });
 </script>
