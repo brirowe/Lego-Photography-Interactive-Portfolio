@@ -11,14 +11,20 @@ LEGO mosaics, layered brick art, and other projects.
   <img id="lightbox-img" src="">
 </div>
 
-<ul class="gallery">
-{% assign mosaic_photos = site.static_files | where_exp: "file", "file.path contains '/photos/mosaics/'" | sort: "name" %}
-{% for photo in mosaic_photos %}
-  <li style="background-image: url('{{ site.baseurl }}{{ photo.path }}');">
-    <a href="#" onclick="showLightbox('{{ site.baseurl }}{{ photo.path }}'); return false;"></a>
-  </li>
+<div class="mosaic-grid">
+{% for mosaic in site.data.mosaics %}
+  <div class="mosaic-card">
+    {% if mosaic.name != "" %}<h3 class="mosaic-name">{{ mosaic.name }}</h3>{% endif %}
+    <img src="{{ site.baseurl }}/photos/mosaics/{{ mosaic.filename }}" alt="{{ mosaic.name }}" loading="lazy" onclick="showLightbox(this.src)">
+    {% if mosaic.instagram_link != "" %}
+      <a class="mosaic-link" href="{{ mosaic.instagram_link }}" target="_blank" rel="noopener">Click to see me building this! 🧱</a>
+    {% endif %}
+    {% if mosaic.tiktok_link != "" %}
+      <a class="mosaic-link" href="{{ mosaic.tiktok_link }}" target="_blank" rel="noopener">Watch me build this on TikTok</a>
+    {% endif %}
+  </div>
 {% endfor %}
-</ul>
+</div>
 
 <script>
   function showLightbox(src) {
