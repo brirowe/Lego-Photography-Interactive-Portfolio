@@ -298,15 +298,74 @@ text_width: false
       {number: "212", lat: 39.538089, lng: -105.28204}
   ];
 
-var bounds = L.latLngBounds([]);
+// Group points that share the same coordinates
+  function groupPoints(points) {
+    var groups = {};
+    points.forEach(function(p) {
+      var key = p.lat.toFixed(6) + ',' + p.lng.toFixed(6);
+      if (!groups[key]) {
+        groups[key] = { lat: p.lat, lng: p.lng, numbers: [] };
+      }
+      groups[key].numbers.push(p.number);
+    });
+    return Object.values(groups);
+  }
 
-  points.forEach(function(p) {
-   L.marker([p.lat, p.lng]).addTo(map).bindPopup(
-    '<img src="/Lego-Photography-Interactive-Portfolio/photos/Pic (' + p.number + ').jpg" width="150" onclick="showLightbox(this.src)">',
-    {className: 'photo-popup'}
-   );
-   bounds.extend([p.lat, p.lng]);
+  var groups = groupPoints(points);
+  var bounds = L.latLngBounds([]);
+
+  groups.forEach(function(g) {
+    var idx = 0;
+    var marker = L.marker([g.lat, g.lng]).addTo(map);
+    bounds.extend([g.lat, g.lng]);
+
+    function buildContent() {
+      var container = document.createElement('div');
+      container.className = 'carousel-popup';
+
+      var img = document.createElement('img');
+      img.src = '/Lego-Photography-Interactive-Portfolio/photos/Pic (' + g.numbers[idx] + ').jpg';
+      img.width = 150;
+      img.style.cursor = 'pointer';
+      img.onclick = function() { showLightbox(img.src); };
+      container.appendChild(img);
+
+      if (g.numbers.length > 1) {
+        var controls = document.createElement('div');
+        controls.className = 'carousel-controls';
+
+        var prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.innerHTML = '&#8249;';
+        prevBtn.onclick = function(e) {
+          e.stopPropagation();
+          idx = (idx - 1 + g.numbers.length) % g.numbers.length;
+          marker.setPopupContent(buildContent());
+        };
+
+        var counter = document.createElement('span');
+        counter.textContent = (idx + 1) + ' / ' + g.numbers.length;
+
+        var nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.innerHTML = '&#8250;';
+        nextBtn.onclick = function(e) {
+          e.stopPropagation();
+          idx = (idx + 1) % g.numbers.length;
+          marker.setPopupContent(buildContent());
+        };
+
+        controls.appendChild(prevBtn);
+        controls.appendChild(counter);
+        controls.appendChild(nextBtn);
+        container.appendChild(controls);
+      }
+
+      return container;
+    }
+
+    marker.bindPopup(buildContent(), { className: 'photo-popup' });
   });
 
-  map.fitBounds(bounds, {padding: [30, 30]});
+  map.fitBounds(bounds, { padding: [30, 30] });
 </script>
