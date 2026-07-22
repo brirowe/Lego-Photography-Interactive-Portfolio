@@ -5,7 +5,6 @@ permalink: /mosaics/
 ---
 
 # Mosaics
-LEGO mosaics, layered brick art, and other projects.
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
   <img id="lightbox-img" src="">
