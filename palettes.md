@@ -4,7 +4,6 @@ title: Color Palettes
 permalink: /palettes/
 ---
 # Color Palettes
-Color palettes pulled from photos of our Lego mountain, wildflower, rock, lake, and trail scenes.
 <div class="palette-grid">
 {% for row in site.data.palettes %}
   <div class="palette-card">
