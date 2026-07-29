@@ -16,7 +16,7 @@ permalink: /mosaics/
     {% if mosaic.name %}<h3 class="mosaic-name">{{ mosaic.name }}</h3>{% endif %}
     <img src="{{ site.baseurl }}/photos/mosaics/{{ mosaic.filename }}" alt="{{ mosaic.name }}" loading="lazy" onclick="showLightbox(this.src)">
     {% if mosaic.instagram_link %}
-      <a class="mosaic-link" href="{{ mosaic.instagram_link }}" target="_blank" rel="noopener">Click to see me building this! 🧱</a>
+      <a class="mosaic-link" href="{{ mosaic.instagram_link }}" target="_blank" rel="noopener">Click to see the build</a>
     {% endif %}
   </div>
 {% endfor %}
