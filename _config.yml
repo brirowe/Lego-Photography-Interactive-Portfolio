@@ -31,7 +31,7 @@ defaults:
       path: ""
     values:
       layout: "default"
-      text_width: true
+      text_width: false
       image: /uploads/1.jpg
   -
     scope:
