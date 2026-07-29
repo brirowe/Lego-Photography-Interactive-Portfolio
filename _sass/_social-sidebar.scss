@@ -1,78 +1,46 @@
-.social-sidebar {
-	position: fixed;
-	left: 16px;
-	top: 50%;
-	transform: translateY(-50%);
+.header-social {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	gap: 10px;
-	z-index: 999;
-	background: rgba(255, 255, 255, 0.92);
-	padding: 12px 8px;
-	border-radius: 10px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-}
+	margin-left: 20px;
 
-.social-sidebar-title {
-	font-size: 9px;
-	font-weight: 600;
-	letter-spacing: 0.8px;
-	text-transform: uppercase;
-	color: #555;
-	margin-bottom: 2px;
-	white-space: nowrap;
-}
-
-.social-sidebar .social-icon {
-	width: 28px;
-	height: 28px;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #fff;
-	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-	svg {
-		width: 14px;
-		height: 14px;
-	}
-
-	&:hover {
-		transform: scale(1.12);
-		box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-	}
-}
-
-.social-sidebar .instagram {
-	background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-}
-
-.social-sidebar .tiktok {
-	background: #000;
-}
-
-.social-sidebar .pinterest {
-	background: #e60023;
-}
-
-@media (max-width: 768px) {
-	.social-sidebar {
-		left: 0;
-		right: 0;
-		top: auto;
-		bottom: 0;
-		transform: none;
-		width: 100%;
-		flex-direction: row;
+	.social-icon {
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
 		justify-content: center;
-		border-radius: 0;
-		gap: 14px;
+		color: #fff;
+		flex-shrink: 0;
+		transition: transform 0.2s ease;
+
+		svg {
+			width: 13px;
+			height: 13px;
+		}
+
+		&:hover {
+			transform: scale(1.15);
+		}
 	}
 
-	.social-sidebar-title {
-		display: none;
+	.instagram {
+		background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+	}
+
+	.tiktok {
+		background: #000;
+	}
+
+	.pinterest {
+		background: #e60023;
+	}
+}
+
+@media (max-width: 449px) {
+	.header-social {
+		margin-left: 0;
+		margin-top: 10px;
 	}
 }
