@@ -11,7 +11,7 @@ text_width: false
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-<div id="map" style="width: 100%; height: 500px;"></div>
+<div id="map" style="width: 100%; height: clamp(500px, 75vh, 900px);"></div>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
   <img id="lightbox-img" src="">

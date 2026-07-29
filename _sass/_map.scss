@@ -1,6 +1,9 @@
 #map {
   background-color: #0d1117;
-  border: 1px solid #30363d;
+  border: 2px solid rgba(123, 198, 255, 0.35);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(123, 198, 255, 0.1), 0 12px 40px rgba(0, 0, 0, 0.55);
   height: 300px;
   padding: 20px;
   box-sizing: border-box; 
