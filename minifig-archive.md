@@ -49,9 +49,22 @@ text_width: false
 
 	let openCategory = null;
 
+	function matchesExcluding(photo, excludeKey) {
+		return filterConfig.every(function(cfg) {
+			if (cfg.key === excludeKey) return true;
+			const chosen = selected[cfg.key];
+			if (chosen.size === 0) return true;
+			if (cfg.multiToken) {
+				return photo.setTokens.some(function(t) { return chosen.has(t); });
+			}
+			return chosen.has(photo[cfg.key]);
+		});
+	}
+
 	function uniqueValues(key, multiToken) {
 		const vals = new Set();
 		archivePhotos.forEach(function(p) {
+			if (!matchesExcluding(p, key)) return;
 			if (multiToken) {
 				p.setTokens.forEach(function(t) { if (t) vals.add(t); });
 			} else if (p[key]) {
@@ -109,9 +122,9 @@ text_width: false
 			pill.addEventListener('click', function() {
 				if (selected[cfg.key].has(val)) {
 					selected[cfg.key].delete(val);
-				} else {
+			} else {
 					selected[cfg.key].add(val);
-				}
+			}
 				renderFilterBar();
 				renderActiveChips();
 				renderGrid();
