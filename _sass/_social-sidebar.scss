@@ -1,0 +1,65 @@
+.social-sidebar {
+	position: fixed;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	z-index: 999;
+
+	.social-icon {
+		width: 42px;
+		height: 42px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		&:hover {
+			transform: scale(1.12) translateX(-2px);
+			box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+		}
+	}
+
+	.instagram {
+		background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+	}
+
+	.tiktok {
+		background: #000;
+	}
+
+	.pinterest {
+		background: #e60023;
+	}
+
+	.disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+}
+
+@media (max-width: 768px) {
+	.social-sidebar {
+		right: auto;
+		top: auto;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		flex-direction: row;
+		justify-content: center;
+		transform: none;
+		background: rgba(0,0,0,0.05);
+		padding: 10px 0;
+	}
+}
