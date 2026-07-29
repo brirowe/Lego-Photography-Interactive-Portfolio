@@ -66,8 +66,8 @@ text_width: false
 		archivePhotos.forEach(function(p) {
 			if (!matchesExcluding(p, key)) return;
 			if (multiToken) {
-				p.setTokens.forEach(function(t) { if (t) vals.add(t); });
-			} else if (p[key]) {
+				p.setTokens.forEach(function(t) { if (t && t !== 'None') vals.add(t); });
+			} else if (p[key] && p[key] !== 'None') {
 				vals.add(p[key]);
 			}
 		});
@@ -122,9 +122,9 @@ text_width: false
 			pill.addEventListener('click', function() {
 				if (selected[cfg.key].has(val)) {
 					selected[cfg.key].delete(val);
-			} else {
+				} else {
 					selected[cfg.key].add(val);
-			}
+				}
 				renderFilterBar();
 				renderActiveChips();
 				renderGrid();
@@ -211,7 +211,7 @@ text_width: false
 
 			const caption = document.createElement('div');
 			caption.className = 'archive-caption';
-			caption.textContent = [p.theme, p.set, p.year].filter(Boolean).join(' · ');
+			caption.textContent = [p.theme, p.set, p.year].filter(function(v) { return v && v !== 'None'; }).join(' · ');
 			item.appendChild(caption);
 
 			grid.appendChild(item);
