@@ -123,7 +123,7 @@ text_width: false
 		const filtered = archivePhotos.filter(matches);
 
 		filtered.sort(function(a, b) {
-			return a.theme.localeCompare(b.theme) || a.subtheme.localeCompare(b.subtheme);
+			return (a.theme || '').localeCompare(b.theme || '') || (a.subtheme || '').localeCompare(b.subtheme || '');
 		});
 
 		document.getElementById('archive-count').textContent =
