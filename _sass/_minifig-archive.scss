@@ -1,21 +1,68 @@
 .archive-intro {
 	color: rgba(255, 255, 255, 0.65);
 	margin-top: -10px;
-	margin-bottom: 24px;
+	margin-bottom: 20px;
 }
 
-.filter-group {
-	margin-bottom: 16px;
+.archive-filter-bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 
-.filter-group-label {
-	display: block;
-	font-size: 11px;
-	font-weight: 600;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.5);
-	margin-bottom: 6px;
+.filter-toggle {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	color: #ddd;
+	padding: 7px 14px;
+	border-radius: 8px;
+	font-size: 13px;
+	cursor: pointer;
+	transition: border-color 0.15s ease, background 0.15s ease;
+
+	&:hover {
+		border-color: $link-color;
+	}
+
+	&.open {
+		background: rgba(123, 198, 255, 0.12);
+		border-color: $link-color;
+		color: #fff;
+	}
+
+	&.has-selection {
+		border-color: $link-color;
+	}
+}
+
+.filter-toggle-count {
+	display: inline-block;
+	background: $link-color;
+	color: #0a0a0a;
+	font-size: 10px;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 1px 6px;
+	margin-left: 3px;
+}
+
+.filter-toggle-arrow {
+	font-size: 10px;
+	opacity: 0.6;
+	margin-left: 2px;
+}
+
+.archive-filter-panel {
+	display: none;
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 10px;
+	padding: 14px;
+	margin-top: 10px;
+
+	&.visible {
+		display: block;
+	}
 }
 
 .filter-pills {
@@ -47,31 +94,65 @@
 	}
 }
 
-.archive-toolbar {
+.archive-active-chips {
 	display: flex;
-	jstify-content: space-between;
-	align-items: center;
-	margin: 18px 0;
-	padding-top: 14px;
-	border-top: 1px solid rgba(255, 255, 255, 0.1);
-	font-size: 13px;
-	color: rgba(255, 255, 255, 0.6);
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 14px;
+
+	&:empty {
+		margin-top: 0;
+	}
 }
 
-.clear-filters-btn {
-	background: none;
-	border: 1px solid rgba(255, 255, 255, 0.25);
-	color: #ccc;
-	padding: 5px 12px;
-	border-radius: 6px;
-	cursor: pointer;
+.active-chip {
+	background: rgba(123, 198, 255, 0.12);
+	border: 1px solid $link-color;
+	color: #fff;
+	padding: 4px 10px;
+	border-radius: 16px;
 	font-size: 12px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+
+	&:hover {
+		background: rgba(123, 198, 255, 0.22);
+	}
+}
+
+.active-chip-label {
+	color: rgba(255, 255, 255, 0.55);
+}
+
+.active-chip-remove {
+	font-weight: 700;
+	opacity: 0.7;
+}
+
+.clear-all-chip {
+	background: none;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	color: #ccc;
+	padding: 4px 12px;
+	border-radius: 16px;
+	font-size: 12px;
+	cursor: pointer;
 	transition: border-color 0.15s ease, color 0.15s ease;
 
 	&:hover {
 		border-color: #fff;
 		color: #fff;
 	}
+}
+
+.archive-toolbar {
+	margin: 16px 0;
+	padding-top: 14px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	font-size: 13px;
+	color: rgba(255, 255, 255, 0.6);
 }
 
 .archive-grid {

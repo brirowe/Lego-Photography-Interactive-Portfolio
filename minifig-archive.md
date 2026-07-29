@@ -8,11 +8,12 @@ text_width: false
 <h1>Minifig Archive</h1>
 <p class="archive-intro">Browse every minifig photo below, or use the filters to find something specific.</p>
 
-<div class="archive-filters" id="archive-filters"></div>
+<div class="archive-filter-bar" id="archive-filter-bar"></div>
+<div class="archive-filter-panel" id="archive-filter-panel"></div>
+<div class="archive-active-chips" id="archive-active-chips"></div>
 
 <div class="archive-toolbar">
 	<span id="archive-count"></span>
-	<button id="clear-filters" class="clear-filters-btn">Clear filters</button>
 </div>
 
 <div class="archive-grid" id="archive-grid"></div>
@@ -30,7 +31,6 @@ text_width: false
 		document.getElementById('lightbox-overlay').style.display = 'flex';
 	}
 
-	// Split any comma-separated "set" values (e.g. "7128, 7667") into individual tokens
 	archivePhotos.forEach(function(p) {
 		p.setTokens = (p.set || '').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 	});
@@ -46,6 +46,8 @@ text_width: false
 
 	const selected = {};
 	filterConfig.forEach(function(c) { selected[c.key] = new Set(); });
+
+	let openCategory = null;
 
 	function uniqueValues(key, multiToken) {
 		const vals = new Set();
@@ -64,47 +66,100 @@ text_width: false
 		return arr;
 	}
 
-	function renderFilters() {
-		const container = document.getElementById('archive-filters');
-		container.innerHTML = '';
+	function renderFilterBar() {
+		const bar = document.getElementById('archive-filter-bar');
+		bar.innerHTML = '';
+
 		filterConfig.forEach(function(cfg) {
-			const values = uniqueValues(cfg.key, cfg.multiToken);
-			if (!values.length) return;
+			const count = selected[cfg.key].size;
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.className = 'filter-toggle' + (openCategory === cfg.key ? ' open' : '') + (count ? ' has-selection' : '');
+			btn.innerHTML = cfg.label + (count ? ' <span class="filter-toggle-count">' + count + '</span>' : '') + ' <span class="filter-toggle-arrow">▾</span>';
+			btn.addEventListener('click', function() {
+				openCategory = openCategory === cfg.key ? null : cfg.key;
+				renderFilterBar();
+				renderFilterPanel();
+			});
+			bar.appendChild(btn);
+		});
+	}
 
-			const group = document.createElement('div');
-			group.className = 'filter-group';
+	function renderFilterPanel() {
+		const panel = document.getElementById('archive-filter-panel');
+		panel.innerHTML = '';
+		if (!openCategory) {
+			panel.classList.remove('visible');
+			return;
+		}
+		panel.classList.add('visible');
 
-			const label = document.createElement('span');
-			label.className = 'filter-group-label';
-			label.textContent = cfg.label;
-			group.appendChild(label);
+		const cfg = filterConfig.find(function(c) { return c.key === openCategory; });
+		const values = uniqueValues(cfg.key, cfg.multiToken);
 
-			const pillWrap = document.createElement('div');
-			pillWrap.className = 'filter-pills';
+		const pillWrap = document.createElement('div');
+		pillWrap.className = 'filter-pills';
 
-			values.forEach(function(val) {
-				const pill = document.createElement('button');
-				pill.type = 'button';
-				pill.className = 'filter-pill';
-				pill.dataset.category = cfg.key;
-				pill.dataset.value = val;
-				pill.textContent = val;
-				if (selected[cfg.key].has(val)) pill.classList.add('active');
-				pill.addEventListener('click', function() {
-					if (selected[cfg.key].has(val)) {
-						selected[cfg.key].delete(val);
-					} else {
-						selected[cfg.key].add(val);
-					}
-					renderFilters();
+		values.forEach(function(val) {
+			const pill = document.createElement('button');
+			pill.type = 'button';
+			pill.className = 'filter-pill';
+			if (selected[cfg.key].has(val)) pill.classList.add('active');
+			pill.textContent = val;
+			pill.addEventListener('click', function() {
+				if (selected[cfg.key].has(val)) {
+					selected[cfg.key].delete(val);
+				} else {
+					selected[cfg.key].add(val);
+				}
+				renderFilterBar();
+				renderActiveChips();
+				renderGrid();
+				pill.classList.toggle('active');
+			});
+			pillWrap.appendChild(pill);
+		});
+
+		panel.appendChild(pillWrap);
+	}
+
+	function renderActiveChips() {
+		const container = document.getElementById('archive-active-chips');
+		container.innerHTML = '';
+
+		let any = false;
+		filterConfig.forEach(function(cfg) {
+			selected[cfg.key].forEach(function(val) {
+				any = true;
+				const chip = document.createElement('button');
+				chip.type = 'button';
+				chip.className = 'active-chip';
+				chip.innerHTML = '<span class="active-chip-label">' + cfg.label + ':</span> ' + val + ' <span class="active-chip-remove">&times;</span>';
+				chip.addEventListener('click', function() {
+					selected[cfg.key].delete(val);
+					renderFilterBar();
+					renderFilterPanel();
+					renderActiveChips();
 					renderGrid();
 				});
-				pillWrap.appendChild(pill);
+				container.appendChild(chip);
 			});
-
-			group.appendChild(pillWrap);
-			container.appendChild(group);
 		});
+
+		if (any) {
+			const clearAll = document.createElement('button');
+			clearAll.type = 'button';
+			clearAll.className = 'clear-all-chip';
+			clearAll.textContent = 'Clear all';
+			clearAll.addEventListener('click', function() {
+				filterConfig.forEach(function(c) { selected[c.key].clear(); });
+				renderFilterBar();
+				renderFilterPanel();
+				renderActiveChips();
+				renderGrid();
+			});
+			container.appendChild(clearAll);
+		}
 	}
 
 	function matches(photo) {
@@ -150,12 +205,8 @@ text_width: false
 		});
 	}
 
-	document.getElementById('clear-filters').addEventListener('click', function() {
-		filterConfig.forEach(function(c) { selected[c.key].clear(); });
-		renderFilters();
-		renderGrid();
-	});
-
-	renderFilters();
+	renderFilterBar();
+	renderFilterPanel();
+	renderActiveChips();
 	renderGrid();
 </script>
