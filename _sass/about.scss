@@ -1,5 +1,5 @@
 // -----
-// Hero
+// Hero (unchanged, full-bleed)
 
 .about-hero {
 	position: relative;
@@ -79,8 +79,8 @@
 // Logo minifig
 
 .about-logo {
-	max-width: 200px;
-	margin: -1rem auto 2.5rem;
+	max-width: 180px;
+	margin: -1rem auto 3rem;
 
 	img {
 		width: 100%;
@@ -91,60 +91,143 @@
 }
 
 // -----
-// Section headers
+// Buttons
 
-.section-eyebrow {
+.btn-outline {
+	display: inline-block;
+	border: 1px solid $accent;
+	color: $color;
+	text-decoration: none;
+	padding: .7em 1.6em;
+	border-radius: 3px;
 	font-family: $font-display;
 	text-transform: uppercase;
-	letter-spacing: .18em;
-	font-size: .8em;
-	color: $accent;
-	margin: 1rem 0 .4rem;
+	letter-spacing: .08em;
+	font-size: .85em;
+	transition: background .2s ease, color .2s ease;
+
+	&:hover {
+		background: $accent;
+		color: #101010;
+	}
 }
 
 // -----
-// Story grid (masonry, fluid, spans full width)
+// About intro
 
-.story-grid {
-	columns: 1;
-	column-gap: 2.5rem;
-	max-width: 1600px;
-	margin: 2rem auto;
+.intro-section {
+	max-width: 1100px;
+	margin: 4rem auto;
 
-	@media #{$mid-point} {
-		columns: 2;
-	}
-
-	@media #{$desktop} {
-		columns: 3;
+	h1 {
+		font-family: $font-display;
+		font-size: 2.4em;
+		margin-bottom: 2rem;
 	}
 }
 
-.story-item {
-	break-inside: avoid;
-	margin-bottom: 3rem;
+.intro-columns {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem 3rem;
+	margin-bottom: 2rem;
+
+	@media #{$mid-point} {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	p {
+		margin: 0;
+		font-size: 1.1em;
+	}
+}
+
+// -----
+// Breather photos (large, contained, unforced)
+
+.breather-photo {
+	max-width: 1100px;
+	margin: 3.5rem auto;
 
 	img {
 		width: 100%;
 		height: auto;
 		display: block;
-		border-radius: 6px;
-		box-shadow: 0 15px 30px rgba(0,0,0,.35);
+		border-radius: 4px;
 		cursor: pointer;
 	}
 
-	p:not(.section-eyebrow) {
-		margin: 0;
-		font-size: .98em;
-		line-height: 1.5;
+	.breather-caption {
+		margin: .75rem 0 0;
+		font-size: .95em;
+		color: rgba(255,255,255,.6);
 	}
 }
 
-.story-full-width {
-	break-inside: avoid;
-	column-span: all;
+// -----
+// Chapters (alternating photo + headline/text)
+
+.chapter {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2.5rem;
+	align-items: center;
+	max-width: 1100px;
+	margin: 5rem auto;
+
+	@media #{$mid-point} {
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+	}
+
+	.chapter-photo img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	.chapter-text {
+		h2 {
+			font-family: $font-display;
+			font-size: 1.8em;
+			margin-top: 0;
+		}
+
+		p {
+			font-size: 1.05em;
+		}
+	}
+
+	&.reverse {
+		@media #{$mid-point} {
+			.chapter-photo {
+				order: 2;
+			}
+
+			.chapter-text {
+				order: 1;
+			}
+		}
+	}
+}
+
+// -----
+// Section headers (values)
+
+.section-eyebrow {
+	font-family: $font-display;
+	text-transform: uppercase;
+	letter-spacing: .18em;
+	font-size: .85em;
+	color: $accent;
+	margin: 0 0 .5rem;
+}
+
+.about-section {
 	max-width: 700px;
-	margin: 1rem auto 3rem;
+	margin: 4rem auto;
 }
 
 // -----
