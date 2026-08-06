@@ -86,7 +86,7 @@
 
 .about-section {
 	max-width: 700px;
-	margin: 3.5rem 0 1.5rem;
+	margin: 3.5rem auto 1.5rem;
 
 	h2 {
 		margin-top: 0;
@@ -105,7 +105,7 @@
 	grid-template-columns: 1fr;
 	gap: 30px;
 	align-items: center;
-	margin: 3rem 0;
+	margin: 3rem auto;
 	max-width: 1100px;
 
 	@media #{$mid-point} {
@@ -151,6 +151,8 @@
 
 .values-section {
 	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .values-box {
@@ -172,21 +174,12 @@
 }
 
 // -----
-// Trail gallery
+// Photo break (standalone photos between sections, in numbered order)
 
-.about-gallery {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 1.25rem;
-	margin: 2rem 0 3rem;
-
-	@media #{$mid-point} {
-		grid-template-columns: repeat(3, 1fr);
-	}
-}
-
-.about-gallery-item {
-	aspect-ratio: 3 / 4;
+.photo-break {
+	max-width: 900px;
+	margin: 3rem auto;
+	aspect-ratio: 3 / 2;
 	border-radius: 6px;
 	overflow: hidden;
 
@@ -199,7 +192,7 @@
 		transition: transform .3s ease;
 
 		&:hover {
-			transform: scale(1.04);
+			transform: scale(1.03);
 		}
 	}
 }

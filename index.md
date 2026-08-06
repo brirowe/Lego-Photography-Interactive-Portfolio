@@ -23,6 +23,14 @@ permalink: /
   <p class="section-lede">I grew up building and playing with Legos, lost touch with them for a while, and found a whole new appreciation for them as an adult. Backcountry Bricks is that appreciation turned into a project: I take my childhood minifigs, plus a growing collection of ones I've picked up along the way, out hiking with me across the Rocky Mountains, mostly here in Colorado. I've also taken them to the deserts of Utah, the coast of Oregon, the beaches of Cancun, and the Alps of Japan.</p>
 </section>
 
+<div id="lightbox-overlay" onclick="this.style.display='none'">
+  <img id="lightbox-img" src="">
+</div>
+
+<div class="photo-break">
+  <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
+</div>
+
 <div class="split-content">
   <div class="side-photo">
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy">
@@ -32,6 +40,18 @@ permalink: /
     <p>When people are out in nature, they're usually chasing the big views. I get it, I do it too. But that means we miss the little things along the way: the plants, the rocks, the insects, the tiny landscapes underfoot.</p>
     <p>My goal isn't to take the most perfect photograph. It's to use a Lego minifigure as a size reference, something small and familiar, so you can actually see how tiny these things really are. A flower. A rock. A patch of moss. I'm sharing my mountain adventures through Legos, one tiny scene at a time.</p>
   </div>
+</div>
+
+<div class="photo-break">
+  <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri scrambling a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
+</div>
+
+<div class="photo-break">
+  <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri checking her camera in Arches National Park" loading="lazy" onclick="showLightbox(this.src)">
+</div>
+
+<div class="photo-break">
+  <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri standing on a dried up riverbed in the desert" loading="lazy" onclick="showLightbox(this.src)">
 </div>
 
 <div class="split-content reverse">
@@ -54,6 +74,10 @@ permalink: /
   </div>
 </div>
 
+<div class="photo-break">
+  <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri at a high alpine lake" loading="lazy" onclick="showLightbox(this.src)">
+</div>
+
 <section class="about-section values-section">
   <p class="section-eyebrow">What I Stand For</p>
   <div class="values-box">
@@ -65,22 +89,8 @@ permalink: /
   </div>
 </section>
 
-<section class="about-section">
-  <p class="section-eyebrow">On the Trail</p>
-  <h2>A few favorites</h2>
-</section>
-
-<div id="lightbox-overlay" onclick="this.style.display='none'">
-  <img id="lightbox-img" src="">
-</div>
-
-<div class="about-gallery">
-{% assign trail_photos = "2,4,5,6,8,10" | split: "," %}
-{% for n in trail_photos %}
-  <div class="about-gallery-item">
-    <img src="{{ site.baseurl }}/photos/about/about-{{ n }}.jpg" alt="Bri out in the mountains" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-{% endfor %}
+<div class="photo-break">
+  <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
 </div>
 
 <script>
