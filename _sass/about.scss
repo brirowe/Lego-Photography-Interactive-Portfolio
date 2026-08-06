@@ -79,7 +79,7 @@
 // Logo minifig
 
 .about-logo {
-	max-width: 220px;
+	max-width: 200px;
 	margin: -1rem auto 2.5rem;
 
 	img {
@@ -97,93 +97,58 @@
 	font-family: $font-display;
 	text-transform: uppercase;
 	letter-spacing: .18em;
-	font-size: .85em;
+	font-size: .8em;
 	color: $accent;
-	margin: 0 0 .5rem;
-}
-
-.about-section {
-	max-width: 900px;
-	width: 100%;
-	margin: 4rem auto 2rem;
-	padding-top: 2.5rem;
-	border-top: 1px solid rgba(255,255,255,.08);
-
-	&:first-of-type {
-		border-top: none;
-		padding-top: 0;
-	}
-
-	h2 {
-		margin-top: 0;
-	}
-
-	.section-lede {
-		font-size: 1.15em;
-	}
+	margin: 1rem 0 .4rem;
 }
 
 // -----
-// Story rows (staggered photo + text, alternating direction)
+// Story grid (masonry, fluid, spans full width)
 
-.story-row {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 2rem;
-	align-items: center;
-	margin: 4rem auto;
-	max-width: 1300px;
-	width: 100%;
-	padding-top: 2.5rem;
-	border-top: 1px solid rgba(255,255,255,.08);
+.story-grid {
+	columns: 1;
+	column-gap: 2.5rem;
+	max-width: 1600px;
+	margin: 2rem auto;
 
 	@media #{$mid-point} {
-		grid-template-columns: 1.15fr 1fr;
-		gap: 3.5rem;
+		columns: 2;
 	}
 
-	.row-photo {
-		img {
-			width: 100%;
-			height: auto;
-			display: block;
-			border-radius: 8px;
-			box-shadow: 0 25px 50px rgba(0,0,0,.4);
-		}
+	@media #{$desktop} {
+		columns: 3;
+	}
+}
+
+.story-item {
+	break-inside: avoid;
+	margin-bottom: 3rem;
+
+	img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: 6px;
+		box-shadow: 0 15px 30px rgba(0,0,0,.35);
+		cursor: pointer;
 	}
 
-	.row-text {
-		p:first-of-type {
-			margin-top: 0;
-		}
+	p:not(.section-eyebrow) {
+		margin: 0;
+		font-size: .98em;
+		line-height: 1.5;
 	}
+}
 
-	.row-caption {
-		font-size: 1.2em;
-		color: $color;
-	}
-
-	&.reverse {
-		@media #{$mid-point} {
-			grid-template-columns: 1fr 1.15fr;
-
-			.row-photo {
-				order: 2;
-			}
-
-			.row-text {
-				order: 1;
-			}
-		}
-	}
+.story-full-width {
+	break-inside: avoid;
+	column-span: all;
+	max-width: 700px;
+	margin: 1rem auto 3rem;
 }
 
 // -----
 // Values box
-
-.values-section {
-	max-width: 700px;
-}
 
 .values-box {
 	border: 1px solid rgba(255,255,255,.15);
