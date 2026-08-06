@@ -1,5 +1,5 @@
 // -----
-// Hero (unchanged, full-bleed)
+// Hero (unchanged size, now with corner logo badge)
 
 .about-hero {
 	position: relative;
@@ -39,7 +39,7 @@
 		font-family: $font-display;
 		font-weight: 700;
 		font-size: 1.7em;
-		margin: 0 0 .5rem;
+		margin: 0 0 .6rem;
 		line-height: 1;
 		color: $accent;
 
@@ -53,29 +53,53 @@
 	}
 
 	.hero-tagline {
+		list-style: none;
 		margin: 0;
-		font-size: 1em;
-		color: $color;
-		max-width: 600px;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		row-gap: .5em;
 
-		@media #{$tablet} {
-			font-size: 1.1em;
+		li {
+			font-family: $font-display;
+			text-transform: uppercase;
+			letter-spacing: .04em;
+			font-size: .95em;
+			color: $color;
+
+			&:not(:first-child) {
+				padding-left: 1.2em;
+				border-left: 1px solid rgba(255,255,255,.35);
+				margin-left: 1.2em;
+			}
 		}
 	}
 }
 
-// -----
-// Logo minifig (moved lower on the page, near closing)
+.hero-logo-badge {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 80px;
+	z-index: 2;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 10px 25px rgba(0,0,0,.55);
+	border: 2px solid rgba(255,255,255,.2);
 
-.about-logo {
-	max-width: 160px;
-	margin: 3rem auto 2rem;
+	@media #{$tablet} {
+		width: 100px;
+	}
+
+	@media #{$desktop} {
+		width: 120px;
+	}
 
 	img {
 		width: 100%;
-		height: auto;
+		height: 100%;
 		display: block;
-		border-radius: 8px;
+		object-fit: cover;
 	}
 }
 
@@ -102,11 +126,11 @@
 }
 
 // -----
-// About intro
+// About intro (wide, fluid)
 
 .intro-section {
-	max-width: 1000px;
-	margin: 4rem auto;
+	max-width: 1800px;
+	margin: 3rem auto;
 
 	h1 {
 		font-family: $font-display;
@@ -132,61 +156,51 @@
 }
 
 // -----
-// Chapters (alternating photo + headline/text, smaller photos)
+// Chapter grid (responsive: 1 / 2 / 3 columns, fills the screen)
 
-.chapter {
+.chapter-grid {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 1.75rem;
-	align-items: center;
-	max-width: 850px;
-	margin: 3.5rem auto;
+	gap: 3rem 2.5rem;
+	max-width: 1800px;
+	margin: 2rem auto 4rem;
 
 	@media #{$mid-point} {
-		grid-template-columns: 0.85fr 1fr;
-		gap: 2.5rem;
+		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.chapter-photo img {
+	@media #{$desktop} {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.chapter-card {
+	img {
 		width: 100%;
-		height: auto;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
 		display: block;
 		border-radius: 4px;
 		cursor: pointer;
+		margin-bottom: 1rem;
 	}
 
-	.chapter-text {
-		h2 {
-			font-family: $font-display;
-			font-size: 1.4em;
-			margin-top: 0;
-			color: rgba(255,255,255,.45);
-			font-style: italic;
-			font-weight: 500;
-		}
+	h2 {
+		font-family: $font-display;
+		font-size: 1.25em;
+		margin: 0 0 .5rem;
+		color: rgba(255,255,255,.45);
+		font-style: italic;
+		font-weight: 500;
+	}
 
-		p {
-			font-size: 1em;
-		}
+	p {
+		margin: 0;
+		font-size: .98em;
 	}
 
 	.chapter-caption {
-		font-size: 1.1em;
-		margin: 0;
-	}
-
-	&.reverse {
-		@media #{$mid-point} {
-			grid-template-columns: 1fr 0.85fr;
-
-			.chapter-photo {
-				order: 2;
-			}
-
-			.chapter-text {
-				order: 1;
-			}
-		}
+		font-size: 1.05em;
 	}
 }
 

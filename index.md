@@ -6,10 +6,18 @@ permalink: /
 
 <div class="about-hero">
   <img src="{{ site.baseurl }}/photos/about/about-1.jpg" alt="Bri checking her camera in Arches National Park" loading="lazy">
+  <div class="hero-logo-badge">
+    <img src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
+  </div>
   <div class="about-hero-overlay">
     <p class="hero-eyebrow">Backcountry Bricks</p>
     <div class="hero-name">I'm Bri</div>
-    <p class="hero-tagline">Adult Fan of Lego, Avid Hiker, Subpar Snowboarder, and a Less Than Average Rock Climber — all with a camera.</p>
+    <ul class="hero-tagline">
+      <li>Adult Fan of Lego</li>
+      <li>Avid Hiker</li>
+      <li>Subpar Snowboarder</li>
+      <li>Less Than Average Rock Climber — All With a Camera</li>
+    </ul>
   </div>
 </div>
 
@@ -26,98 +34,62 @@ permalink: /
   <img id="lightbox-img" src="">
 </div>
 
-<section class="chapter">
-  <div class="chapter-photo">
+<div class="chapter-grid">
+
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling along a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>When people are out in nature, they're usually chasing the big views. I get it, I do it too.</p>
   </div>
-</section>
 
-<section class="chapter reverse">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>But that means we miss the little things along the way: the plants, the rocks, the insects, the tiny landscapes underfoot. My goal isn't to take the most perfect photograph. It's to use a Lego minifigure as a size reference, something small and familiar, so you can actually see how tiny these things really are. A flower. A rock. A patch of moss.</p>
   </div>
-</section>
 
-<section class="chapter">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <p class="chapter-caption">Yes, that's actually me climbing.</p>
   </div>
-</section>
 
-<section class="chapter reverse">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on a dry cracked lakebed" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>[Write a sentence or two here]</p>
   </div>
-</section>
 
-<section class="chapter">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>I really enjoy photographing a variety of Legos to build almost a digital collection, since I don't have space for a real one.</p>
   </div>
-</section>
 
-<section class="chapter reverse">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-7.jpg" alt="Bri photographing a minifig at Red Rocks Amphitheatre" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>Everything outside my Lego hobby comes back to science for me, so I try to include a fact or two about whatever plant, bug, or landscape shows up in the shot. Half the fun is learning something new on the trail, and I like sharing that along with the photo.</p>
   </div>
-</section>
 
-<section class="chapter">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/mosaics/IMG_9289.JPG" alt="Trans Flag Wreath Lego mosaic build" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>A while back I took a class on Lego mosaics and got hooked. It's become my other creative outlet, piecing together art one brick at a time, and it's led me to some great little online communities of people doing the same thing. This one's my Trans Flag Wreath build.</p>
     <a class="btn-outline" href="{{ site.baseurl }}/mosaics/">See more mosaics</a>
   </div>
-</section>
 
-<section class="chapter reverse">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri jumping on a frozen alpine lake" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>[Write a sentence or two about your camera and lenses here]</p>
   </div>
-</section>
 
-<section class="chapter">
-  <div class="chapter-photo">
+  <div class="chapter-card">
     <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri at a high alpine lake with two dogs" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
     <h2>[Your headline here]</h2>
     <p>I'm sharing my mountain adventures through Legos, one tiny scene at a time.</p>
   </div>
-</section>
 
-<div class="about-logo">
-  <img src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
 </div>
 
 <section class="about-section values-section">
