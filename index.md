@@ -9,17 +9,8 @@ permalink: /
   <div class="about-hero-overlay">
     <p class="hero-eyebrow">Backcountry Bricks</p>
     <div class="hero-name">I'm Bri</div>
-    <ul class="hero-tagline">
-      <li>Adult Fan of Lego</li>
-      <li>Avid Hiker</li>
-      <li>Subpar Snowboarder</li>
-      <li>Less Than Average Rock Climber</li>
-    </ul>
+    <p class="hero-tagline">Adult Fan of Lego, Avid Hiker, Subpar Snowboarder, and a Less Than Average Rock Climber — all with a camera.</p>
   </div>
-</div>
-
-<div class="about-logo">
-  <img src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
 </div>
 
 <section class="intro-section">
@@ -40,7 +31,7 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling along a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>Chasing the big view</h2>
+    <h2>[Your headline here]</h2>
     <p>When people are out in nature, they're usually chasing the big views. I get it, I do it too.</p>
   </div>
 </section>
@@ -50,7 +41,7 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>The little things</h2>
+    <h2>[Your headline here]</h2>
     <p>But that means we miss the little things along the way: the plants, the rocks, the insects, the tiny landscapes underfoot. My goal isn't to take the most perfect photograph. It's to use a Lego minifigure as a size reference, something small and familiar, so you can actually see how tiny these things really are. A flower. A rock. A patch of moss.</p>
   </div>
 </section>
@@ -60,8 +51,7 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>Yes, that's actually me climbing</h2>
-    <p>I'm about as average at rock climbing as it gets, but that's never stopped me from trying.</p>
+    <p class="chapter-caption">Yes, that's actually me climbing.</p>
   </div>
 </section>
 
@@ -70,8 +60,8 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on a dry cracked lakebed" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>Always another trail</h2>
-    <p>I love traveling throughout Colorado, and I'm always looking for new places to bring my minifigs along on.</p>
+    <h2>[Your headline here]</h2>
+    <p>[Write a sentence or two here]</p>
   </div>
 </section>
 
@@ -80,7 +70,7 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>A collection with no shelf space</h2>
+    <h2>[Your headline here]</h2>
     <p>I really enjoy photographing a variety of Legos to build almost a digital collection, since I don't have space for a real one.</p>
   </div>
 </section>
@@ -90,7 +80,7 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-7.jpg" alt="Bri photographing a minifig at Red Rocks Amphitheatre" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>The science behind the shot</h2>
+    <h2>[Your headline here]</h2>
     <p>Everything outside my Lego hobby comes back to science for me, so I try to include a fact or two about whatever plant, bug, or landscape shows up in the shot. Half the fun is learning something new on the trail, and I like sharing that along with the photo.</p>
   </div>
 </section>
@@ -100,7 +90,7 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/mosaics/IMG_9289.JPG" alt="Trans Flag Wreath Lego mosaic build" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>Building with bricks, differently</h2>
+    <h2>[Your headline here]</h2>
     <p>A while back I took a class on Lego mosaics and got hooked. It's become my other creative outlet, piecing together art one brick at a time, and it's led me to some great little online communities of people doing the same thing. This one's my Trans Flag Wreath build.</p>
     <a class="btn-outline" href="{{ site.baseurl }}/mosaics/">See more mosaics</a>
   </div>
@@ -111,10 +101,24 @@ permalink: /
     <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri jumping on a frozen alpine lake" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>The gear</h2>
-    <p>I shoot on a Canon EOS 5D Mark II with a standard lens, and recently picked up a macro lens for getting even closer to the tiny stuff.</p>
+    <h2>[Your headline here]</h2>
+    <p>[Write a sentence or two about your camera and lenses here]</p>
   </div>
 </section>
+
+<section class="chapter">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri at a high alpine lake with two dogs" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>[Your headline here]</h2>
+    <p>I'm sharing my mountain adventures through Legos, one tiny scene at a time.</p>
+  </div>
+</section>
+
+<div class="about-logo">
+  <img src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
+</div>
 
 <section class="about-section values-section">
   <p class="section-eyebrow">What I Stand For</p>
@@ -124,16 +128,6 @@ permalink: /
       <li>LGBTQ+ supportive</li>
       <li>Committed to protecting public lands and national parks</li>
     </ul>
-  </div>
-</section>
-
-<section class="chapter">
-  <div class="chapter-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri at a high alpine lake with two dogs" loading="lazy" onclick="showLightbox(this.src)">
-  </div>
-  <div class="chapter-text">
-    <h2>One tiny scene at a time</h2>
-    <p>I'm sharing my mountain adventures through Legos, one tiny scene at a time.</p>
   </div>
 </section>
 
