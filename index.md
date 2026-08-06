@@ -5,7 +5,7 @@ permalink: /
 ---
 
 <div class="about-hero">
-  <img src="{{ site.baseurl }}/photos/about/about-1.jpg" alt="Bri jumping on a frozen alpine lake in the snow" loading="lazy">
+  <img src="{{ site.baseurl }}/photos/about/about-1.jpg" alt="Bri checking her camera in Arches National Park" loading="lazy">
   <div class="about-hero-overlay">
     <p class="hero-eyebrow">Backcountry Bricks</p>
     <div class="hero-name">I'm Bri</div>
@@ -34,11 +34,11 @@ permalink: /
 
 <div class="story-row">
   <div class="row-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling along a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="row-text">
     <p class="section-eyebrow">Trail Moment</p>
-    <p class="row-caption">Yes, that's actually me climbing.</p>
+    <p class="row-caption">Somewhere above treeline, having the best day.</p>
   </div>
 </div>
 
@@ -55,31 +55,31 @@ permalink: /
 
 <div class="story-row">
   <div class="row-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri hiking a fourteener ridge" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="row-text">
     <p class="section-eyebrow">Trail Moment</p>
-    <p class="row-caption">Hiking fourteeners, happy to be in nature.</p>
+    <p class="row-caption">Yes, that's actually me climbing.</p>
   </div>
 </div>
 
 <div class="story-row reverse">
   <div class="row-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri checking her camera in Arches National Park" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on a dry cracked lakebed" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="row-text">
     <p class="section-eyebrow">Trail Moment</p>
-    <p class="row-caption">Checking the shot in Arches National Park.</p>
+    <p class="row-caption">A dry lakebed, somewhere out west.</p>
   </div>
 </div>
 
 <div class="story-row">
   <div class="row-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri standing on a dried up riverbed in the desert" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="row-text">
-    <p class="section-eyebrow">Trail Moment</p>
-    <p class="row-caption">A dry lakebed somewhere in Utah.</p>
+    <p class="section-eyebrow">The Summit</p>
+    <p class="row-caption">Mt. Democrat, 14,148 ft.</p>
   </div>
 </div>
 
@@ -105,11 +105,11 @@ permalink: /
 
 <div class="story-row reverse">
   <div class="row-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri at a high alpine lake" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri jumping on a frozen alpine lake" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="row-text">
     <p class="section-eyebrow">Trail Moment</p>
-    <p class="row-caption">A stop at a high alpine lake.</p>
+    <p class="row-caption">Making the most of a frozen alpine lake.</p>
   </div>
 </div>
 
@@ -126,11 +126,11 @@ permalink: /
 
 <div class="story-row">
   <div class="row-photo">
-    <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri at a high alpine lake with two dogs" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="row-text">
-    <p class="section-eyebrow">The Summit</p>
-    <p class="row-caption">Mt. Democrat, 14,148 ft.</p>
+    <p class="section-eyebrow">Trail Moment</p>
+    <p class="row-caption">A stop at a high alpine lake.</p>
   </div>
 </div>
 
