@@ -35,34 +35,55 @@ permalink: /
   <img id="lightbox-img" src="">
 </div>
 
-<div class="breather-photo">
-  <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling along a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
-</div>
-
 <section class="chapter">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling along a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>Chasing the big view</h2>
+    <p>When people are out in nature, they're usually chasing the big views. I get it, I do it too.</p>
+  </div>
+</section>
+
+<section class="chapter reverse">
   <div class="chapter-photo">
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
   </div>
   <div class="chapter-text">
-    <h2>Why I do this</h2>
-    <p>When people are out in nature, they're usually chasing the big views. I get it, I do it too. But that means we miss the little things along the way: the plants, the rocks, the insects, the tiny landscapes underfoot.</p>
-    <p>My goal isn't to take the most perfect photograph. It's to use a Lego minifigure as a size reference, something small and familiar, so you can actually see how tiny these things really are. A flower. A rock. A patch of moss. I'm sharing my mountain adventures through Legos, one tiny scene at a time.</p>
+    <h2>The little things</h2>
+    <p>But that means we miss the little things along the way: the plants, the rocks, the insects, the tiny landscapes underfoot. My goal isn't to take the most perfect photograph. It's to use a Lego minifigure as a size reference, something small and familiar, so you can actually see how tiny these things really are. A flower. A rock. A patch of moss.</p>
   </div>
 </section>
 
-<div class="breather-photo">
-  <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
-  <p class="breather-caption">Yes, that's actually me climbing.</p>
-</div>
+<section class="chapter">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>Yes, that's actually me climbing</h2>
+    <p>I'm about as average at rock climbing as it gets, but that's never stopped me from trying.</p>
+  </div>
+</section>
 
-<div class="breather-photo">
-  <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on a dry cracked lakebed" loading="lazy" onclick="showLightbox(this.src)">
-</div>
+<section class="chapter reverse">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on a dry cracked lakebed" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>Always another trail</h2>
+    <p>I love traveling throughout Colorado, and I'm always looking for new places to bring my minifigs along on.</p>
+  </div>
+</section>
 
-<div class="breather-photo">
-  <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
-  <p class="breather-caption">Mt. Democrat, 14,148 ft.</p>
-</div>
+<section class="chapter">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Bri kicking her leg up on the summit of Mt. Democrat" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>A collection with no shelf space</h2>
+    <p>I really enjoy photographing a variety of Legos to build almost a digital collection, since I don't have space for a real one.</p>
+  </div>
+</section>
 
 <section class="chapter reverse">
   <div class="chapter-photo">
@@ -85,9 +106,15 @@ permalink: /
   </div>
 </section>
 
-<div class="breather-photo">
-  <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri jumping on a frozen alpine lake" loading="lazy" onclick="showLightbox(this.src)">
-</div>
+<section class="chapter reverse">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-8.jpg" alt="Bri jumping on a frozen alpine lake" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>The gear</h2>
+    <p>I shoot on a Canon EOS 5D Mark II with a standard lens, and recently picked up a macro lens for getting even closer to the tiny stuff.</p>
+  </div>
+</section>
 
 <section class="about-section values-section">
   <p class="section-eyebrow">What I Stand For</p>
@@ -100,9 +127,15 @@ permalink: /
   </div>
 </section>
 
-<div class="breather-photo">
-  <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri at a high alpine lake with two dogs" loading="lazy" onclick="showLightbox(this.src)">
-</div>
+<section class="chapter">
+  <div class="chapter-photo">
+    <img src="{{ site.baseurl }}/photos/about/about-10.jpg" alt="Bri at a high alpine lake with two dogs" loading="lazy" onclick="showLightbox(this.src)">
+  </div>
+  <div class="chapter-text">
+    <h2>One tiny scene at a time</h2>
+    <p>I'm sharing my mountain adventures through Legos, one tiny scene at a time.</p>
+  </div>
+</section>
 
 <script>
   function showLightbox(src) {

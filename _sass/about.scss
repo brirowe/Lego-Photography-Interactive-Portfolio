@@ -143,41 +143,19 @@
 }
 
 // -----
-// Breather photos (large, contained, unforced)
-
-.breather-photo {
-	max-width: 1100px;
-	margin: 3.5rem auto;
-
-	img {
-		width: 100%;
-		height: auto;
-		display: block;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-
-	.breather-caption {
-		margin: .75rem 0 0;
-		font-size: .95em;
-		color: rgba(255,255,255,.6);
-	}
-}
-
-// -----
 // Chapters (alternating photo + headline/text)
 
 .chapter {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 2.5rem;
+	gap: 2rem;
 	align-items: center;
-	max-width: 1100px;
-	margin: 5rem auto;
+	max-width: 1000px;
+	margin: 4rem auto;
 
 	@media #{$mid-point} {
 		grid-template-columns: 1fr 1fr;
-		gap: 4rem;
+		gap: 3rem;
 	}
 
 	.chapter-photo img {
@@ -191,12 +169,12 @@
 	.chapter-text {
 		h2 {
 			font-family: $font-display;
-			font-size: 1.8em;
+			font-size: 1.6em;
 			margin-top: 0;
 		}
 
 		p {
-			font-size: 1.05em;
+			font-size: 1.02em;
 		}
 	}
 
