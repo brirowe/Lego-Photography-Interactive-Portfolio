@@ -1,6 +1,42 @@
+.about-hero {
+	margin: 2rem 0;
+
+	img {
+		width: 100%;
+		max-height: 500px;
+		object-fit: cover;
+		border-radius: 6px;
+		display: block;
+	}
+}
+
+.about-gallery {
+	columns: 1;
+	column-gap: 1.5rem;
+	margin: 2rem 0;
+
+	@media #{$tablet} {
+		columns: 2;
+	}
+
+	@media #{$desktop} {
+		columns: 3;
+	}
+
+	img {
+		width: 100%;
+		display: block;
+		margin-bottom: 1.5rem;
+		border-radius: 6px;
+		cursor: pointer;
+		break-inside: avoid;
+	}
+}
+
 .split-content {
 	display: flex;
 	flex-wrap: wrap;
+	margin: 2rem 0;
 
 	.side-content {
 		flex: 1 0 300px;
@@ -23,6 +59,35 @@
 			display: block;
 			margin: 0 auto;
 			height: 100%;
+			border-radius: 6px;
 		}
+	}
+
+	&.reverse {
+		.side-content {
+			order: 1;
+		}
+
+		.side-photo {
+			order: 2;
+			margin: 0 0 30px 20px;
+		}
+	}
+}
+
+.values-box {
+	background: lighten($background, 6%);
+	border-radius: 6px;
+	padding: 1.5rem 2rem;
+	margin: 1.5rem 0 2rem;
+
+	ul {
+		margin: 0;
+		padding-left: 1.2rem;
+	}
+
+	li {
+		font-size: 1.1em;
+		line-height: 1.8em;
 	}
 }
