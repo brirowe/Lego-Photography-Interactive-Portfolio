@@ -102,7 +102,7 @@
 // About intro (logo sits small, inline, next to the heading)
 
 .intro-section {
-	max-width: 1000px;
+	max-width: 1400px;
 	margin: 3rem auto;
 
 	.intro-heading {
@@ -147,46 +147,42 @@
 }
 
 // -----
-// Staggered two-column layout
+// Staggered masonry layout (auto-flowing columns, scales up on wide screens)
 
 .stagger-grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 0;
-	max-width: 1000px;
+	columns: 1;
+	column-gap: 3rem;
+	max-width: 1900px;
 	margin: 2rem auto 4rem;
 
 	@media #{$mid-point} {
-		grid-template-columns: 1fr 1fr;
-		gap: 0 2.5rem;
+		columns: 2;
 	}
-}
 
-.stagger-col {
-	display: flex;
-	flex-direction: column;
-	gap: 2.5rem;
+	@media #{$desktop} {
+		columns: 3;
+	}
 
-	&.offset {
-		@media #{$mid-point} {
-			margin-top: 4rem;
-		}
+	@media (min-width: 1400px) {
+		columns: 4;
 	}
 }
 
 .stagger-item {
 	display: flex;
 	align-items: flex-start;
-	gap: 14px;
+	gap: 20px;
+	break-inside: avoid;
+	margin-bottom: 3.5rem;
 
 	img {
-		width: 130px;
-		max-width: 130px;
-		height: 130px;
-		max-height: 130px;
+		width: 190px;
+		max-width: 190px;
+		height: 190px;
+		max-height: 190px;
 		object-fit: cover;
 		display: block;
-		border-radius: 4px;
+		border-radius: 6px;
 		cursor: pointer;
 		flex-shrink: 0;
 	}
@@ -197,27 +193,27 @@
 
 	h2 {
 		font-family: $font-display;
-		font-size: 1.1em;
-		margin: 0 0 .4rem;
+		font-size: 1.3em;
+		margin: 0 0 .5rem;
 		color: rgba(255,255,255,.45);
 		font-style: italic;
 		font-weight: 500;
 	}
 
 	p {
-		margin: 0 0 .5rem;
-		font-size: .92em;
-		line-height: 1.4;
+		margin: 0 0 .6rem;
+		font-size: 1.05em;
+		line-height: 1.5;
 	}
 
 	.stagger-caption {
-		font-size: 1em;
+		font-size: 1.15em;
 		margin: 0;
 	}
 
 	.btn-outline {
-		font-size: .75em;
-		padding: .5em 1em;
+		font-size: .8em;
+		padding: .5em 1.1em;
 	}
 }
 

@@ -35,8 +35,6 @@ permalink: /
 </div>
 
 <div class="stagger-grid">
-  <div class="stagger-col">
-
     <div class="stagger-item">
       <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling along a rocky ridge" loading="lazy" onclick="showLightbox(this.src)">
       <div class="stagger-text">
@@ -77,10 +75,6 @@ permalink: /
       </div>
     </div>
 
-  </div>
-
-  <div class="stagger-col offset">
-
     <div class="stagger-item">
       <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
       <div class="stagger-text">
@@ -113,7 +107,6 @@ permalink: /
       </div>
     </div>
 
-  </div>
 </div>
 
 <section class="about-section values-section">
