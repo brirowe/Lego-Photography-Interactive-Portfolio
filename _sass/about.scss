@@ -1,5 +1,5 @@
 // -----
-// Hero (unchanged size, now with corner logo badge)
+// Hero (unchanged, full-bleed)
 
 .about-hero {
 	position: relative;
@@ -76,33 +76,6 @@
 	}
 }
 
-.hero-logo-badge {
-	position: absolute;
-	top: 20px;
-	right: 20px;
-	width: 80px;
-	z-index: 2;
-	border-radius: 8px;
-	overflow: hidden;
-	box-shadow: 0 10px 25px rgba(0,0,0,.55);
-	border: 2px solid rgba(255,255,255,.2);
-
-	@media #{$tablet} {
-		width: 100px;
-	}
-
-	@media #{$desktop} {
-		width: 120px;
-	}
-
-	img {
-		width: 100%;
-		height: 100%;
-		display: block;
-		object-fit: cover;
-	}
-}
-
 // -----
 // Buttons
 
@@ -126,16 +99,34 @@
 }
 
 // -----
-// About intro (wide, fluid)
+// About intro (logo sits small, inline, next to the heading)
 
 .intro-section {
-	max-width: 1800px;
+	max-width: 1000px;
 	margin: 3rem auto;
 
-	h1 {
-		font-family: $font-display;
-		font-size: 2.2em;
+	.intro-heading {
+		display: flex;
+		align-items: center;
+		gap: 16px;
 		margin-bottom: 2rem;
+
+		h1 {
+			font-family: $font-display;
+			font-size: 2.2em;
+			margin: 0;
+		}
+	}
+
+	.intro-logo {
+		width: 56px;
+		height: 56px;
+		max-width: 56px;
+		max-height: 56px;
+		object-fit: cover;
+		border-radius: 6px;
+		display: block;
+		flex-shrink: 0;
 	}
 }
 
@@ -156,51 +147,77 @@
 }
 
 // -----
-// Chapter grid (responsive: 1 / 2 / 3 columns, fills the screen)
+// Staggered two-column layout
 
-.chapter-grid {
+.stagger-grid {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 3rem 2.5rem;
-	max-width: 1800px;
+	gap: 0;
+	max-width: 1000px;
 	margin: 2rem auto 4rem;
 
 	@media #{$mid-point} {
-		grid-template-columns: repeat(2, 1fr);
-	}
-
-	@media #{$desktop} {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: 1fr 1fr;
+		gap: 0 2.5rem;
 	}
 }
 
-.chapter-card {
+.stagger-col {
+	display: flex;
+	flex-direction: column;
+	gap: 2.5rem;
+
+	&.offset {
+		@media #{$mid-point} {
+			margin-top: 4rem;
+		}
+	}
+}
+
+.stagger-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+
 	img {
-		width: 100%;
-		aspect-ratio: 4 / 3;
+		width: 130px;
+		max-width: 130px;
+		height: 130px;
+		max-height: 130px;
 		object-fit: cover;
 		display: block;
 		border-radius: 4px;
 		cursor: pointer;
-		margin-bottom: 1rem;
+		flex-shrink: 0;
 	}
+}
+
+.stagger-text {
+	min-width: 0;
 
 	h2 {
 		font-family: $font-display;
-		font-size: 1.25em;
-		margin: 0 0 .5rem;
+		font-size: 1.1em;
+		margin: 0 0 .4rem;
 		color: rgba(255,255,255,.45);
 		font-style: italic;
 		font-weight: 500;
 	}
 
 	p {
-		margin: 0;
-		font-size: .98em;
+		margin: 0 0 .5rem;
+		font-size: .92em;
+		line-height: 1.4;
 	}
 
-	.chapter-caption {
-		font-size: 1.05em;
+	.stagger-caption {
+		font-size: 1em;
+		margin: 0;
+	}
+
+	.btn-outline {
+		font-size: .75em;
+		padding: .5em 1em;
 	}
 }
 
