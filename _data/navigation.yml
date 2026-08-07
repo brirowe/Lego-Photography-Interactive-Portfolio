@@ -1,6 +1,9 @@
 - name: Home
   link: /
 
+- name: About
+  link: /about/
+
 - name: Map
   link: /map/
 

@@ -30,13 +30,18 @@ p {
 
 nav {
 	flex: 1;
-	display: flex;
+	display: none;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
 	margin-right: 0;
 
+	&.open {
+		display: flex;
+	}
+
 	@media #{$tablet} {
+		display: flex;
 		justify-content: flex-end;
 		margin-right: -15px;
 	}
@@ -54,6 +59,23 @@ nav {
 		&:hover {
 			color: $color;
 		}
+	}
+}
+
+.menu-toggle {
+	display: block;
+	background: none;
+	border: 1px solid rgba(255,255,255,.3);
+	color: $color;
+	font-family: 'Rosario', sans-serif;
+	font-size: .9em;
+	padding: .5em 1.2em;
+	border-radius: 4px;
+	cursor: pointer;
+	margin: 0 0 10px;
+
+	@media #{$tablet} {
+		display: none;
 	}
 }
 
