@@ -30,11 +30,10 @@ text_width: false
     maxZoom: 19
   });
 
-  var labels = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Labels &copy; Esri',
-    maxZoom: 19,
-    maxNativeZoom: 12,
-    className: 'esri-labels-blend'
+  var labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+    subdomains: 'abcd',
+    maxZoom: 20
   });
 
   var hybrid = L.layerGroup([satellite, labels]);
