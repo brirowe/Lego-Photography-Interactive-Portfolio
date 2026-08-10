@@ -39,7 +39,7 @@ permalink: /
 
   <a class="preview-card" href="{{ site.baseurl }}/palettes/">
     <img src="{{ site.baseurl }}/photos/about/palette-preview.jpg" alt="Color Palettes">
-    <span class="preview-label">Color Palettes<br><small>Colors pulled from the my photos</small></span>
+    <span class="preview-label">Color Palettes<br><small>Colors pulled from my photos</small></span>
   </a>
 
 </div>
