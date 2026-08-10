@@ -36,20 +36,20 @@ text_width: false
     maxZoom: 20
   });
 
-  var hybrid = L.layerGroup([satellite, labels]);
-
   var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
     maxZoom: 19
   });
 
-  hybrid.addTo(map);
+  satellite.addTo(map);
+  labels.addTo(map);
 
   L.control.layers({
-    'Hybrid': hybrid,
     'Satellite': satellite,
     'Street': streets
-  }, null, { position: 'topright' }).addTo(map);
+  }, {
+    'Labels': labels
+  }, { position: 'topright' }).addTo(map);
 
   var points = [
       {number: "331", lat: 39.674577, lng: -105.662019},
