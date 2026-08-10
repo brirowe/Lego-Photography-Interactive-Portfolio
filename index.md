@@ -23,8 +23,7 @@ permalink: /
   </a>
 
   <a class="preview-card" href="{{ site.baseurl }}/map/">
-    <!-- TODO: swap in a map screenshot -->
-    <img src="{{ site.baseurl }}/photos/about/map-PLACEHOLDER.jpg" alt="Map">
+    <img src="{{ site.baseurl }}/photos/about/map-preview.jpg" alt="Map">
     <span class="preview-label">Map<br><small>See where I've been</small></span>
   </a>
 
@@ -39,8 +38,7 @@ permalink: /
   </a>
 
   <a class="preview-card" href="{{ site.baseurl }}/palettes/">
-    <!-- TODO: swap in a color palette screenshot -->
-    <img src="{{ site.baseurl }}/photos/about/palette-PLACEHOLDER.jpg" alt="Color Palettes">
+    <img src="{{ site.baseurl }}/photos/about/palette-preview.jpg" alt="Color Palettes">
     <span class="preview-label">Color Palettes<br><small>Colors pulled from the trail</small></span>
   </a>
 
