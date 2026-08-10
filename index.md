@@ -4,9 +4,11 @@ title: Home
 permalink: /
 ---
 
-<!-- TODO: swap in the photo number Bri picks for the home hero -->
-<div class="about-hero">
+<div class="about-hero home-hero">
   <img src="{{ site.baseurl }}/photos/about/about-12.jpg" alt="Home hero photo" loading="lazy">
+  <div class="home-hero-overlay">
+    <span class="home-hero-title">Backcountry Bricks</span>
+  </div>
 </div>
 
 <section class="home-intro">
