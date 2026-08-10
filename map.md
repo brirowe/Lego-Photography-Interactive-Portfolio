@@ -11,6 +11,10 @@ text_width: false
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
+<div class="archive-filter-bar" id="map-filter-bar"></div>
+<div class="archive-filter-panel" id="map-filter-panel"></div>
+<div class="archive-active-chips" id="map-active-chips"></div>
+
 <div id="map" style="width: 100%; height: clamp(500px, 75vh, 900px);"></div>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
@@ -22,6 +26,12 @@ text_width: false
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox-overlay').style.display = 'flex';
   }
+
+  const archiveData = {{ site.data.minifig_archive | jsonify }};
+  const photoInfo = {};
+  archiveData.forEach(function(p) {
+    photoInfo[p.filename] = p;
+  });
 
   var map = L.map('map');
 
@@ -318,10 +328,147 @@ text_width: false
       {number: "212", lat: 39.538089, lng: -105.28204}
   ];
 
-// Group points that share the same coordinates
-  function groupPoints(points) {
-    var groups = {};
+  points.forEach(function(p) {
+    var info = photoInfo['Pic (' + p.number + ').jpg'];
+    p.theme = info ? info.theme : null;
+    p.background_type = info ? info.background_type : null;
+  });
+
+  var filterConfig = [
+    { key: 'theme', label: 'Theme' },
+    { key: 'background_type', label: 'Background' }
+  ];
+
+  var selected = {};
+  filterConfig.forEach(function(c) { selected[c.key] = new Set(); });
+
+  var openCategory = null;
+
+  function matchesExcluding(point, excludeKey) {
+    return filterConfig.every(function(cfg) {
+      if (cfg.key === excludeKey) return true;
+      var chosen = selected[cfg.key];
+      if (chosen.size === 0) return true;
+      return chosen.has(point[cfg.key]);
+    });
+  }
+
+  function uniqueValues(key) {
+    var vals = new Set();
     points.forEach(function(p) {
+      if (!matchesExcluding(p, key)) return;
+      if (p[key] && p[key] !== 'None') vals.add(p[key]);
+    });
+    return Array.from(vals).sort(function(a, b) { return a.localeCompare(b); });
+  }
+
+  function pointMatches(p) {
+    return filterConfig.every(function(cfg) {
+      var chosen = selected[cfg.key];
+      if (chosen.size === 0) return true;
+      return chosen.has(p[cfg.key]);
+    });
+  }
+
+  function renderFilterBar() {
+    var bar = document.getElementById('map-filter-bar');
+    bar.innerHTML = '';
+    filterConfig.forEach(function(cfg) {
+      var count = selected[cfg.key].size;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'filter-toggle' + (openCategory === cfg.key ? ' open' : '') + (count ? ' has-selection' : '');
+      btn.innerHTML = cfg.label + (count ? ' <span class="filter-toggle-count">' + count + '</span>' : '') + ' <span class="filter-toggle-arrow">▾</span>';
+      btn.addEventListener('click', function() {
+        openCategory = openCategory === cfg.key ? null : cfg.key;
+        renderFilterBar();
+        renderFilterPanel();
+      });
+      bar.appendChild(btn);
+    });
+  }
+
+  function renderFilterPanel() {
+    var panel = document.getElementById('map-filter-panel');
+    panel.innerHTML = '';
+    if (!openCategory) {
+      panel.classList.remove('visible');
+      return;
+    }
+    panel.classList.add('visible');
+
+    var cfg = filterConfig.find(function(c) { return c.key === openCategory; });
+    var values = uniqueValues(cfg.key);
+
+    var pillWrap = document.createElement('div');
+    pillWrap.className = 'filter-pills';
+
+    values.forEach(function(val) {
+      var pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'filter-pill';
+      if (selected[cfg.key].has(val)) pill.classList.add('active');
+      pill.textContent = val;
+      pill.addEventListener('click', function() {
+        if (selected[cfg.key].has(val)) {
+          selected[cfg.key].delete(val);
+        } else {
+          selected[cfg.key].add(val);
+        }
+        renderFilterBar();
+        renderActiveChips();
+        renderMarkers();
+        pill.classList.toggle('active');
+      });
+      pillWrap.appendChild(pill);
+    });
+
+    panel.appendChild(pillWrap);
+  }
+
+  function renderActiveChips() {
+    var container = document.getElementById('map-active-chips');
+    container.innerHTML = '';
+
+    var any = false;
+    filterConfig.forEach(function(cfg) {
+      selected[cfg.key].forEach(function(val) {
+        any = true;
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'active-chip';
+        chip.innerHTML = '<span class="active-chip-label">' + cfg.label + ':</span> ' + val + ' <span class="active-chip-remove">&times;</span>';
+        chip.addEventListener('click', function() {
+          selected[cfg.key].delete(val);
+          renderFilterBar();
+          renderFilterPanel();
+          renderActiveChips();
+          renderMarkers();
+        });
+        container.appendChild(chip);
+      });
+    });
+
+    if (any) {
+      var clearAll = document.createElement('button');
+      clearAll.type = 'button';
+      clearAll.className = 'clear-all-chip';
+      clearAll.textContent = 'Clear all';
+      clearAll.addEventListener('click', function() {
+        filterConfig.forEach(function(c) { selected[c.key].clear(); });
+        renderFilterBar();
+        renderFilterPanel();
+        renderActiveChips();
+        renderMarkers();
+      });
+      container.appendChild(clearAll);
+    }
+  }
+
+  // Group points that share the same coordinates
+  function groupPoints(pts) {
+    var groups = {};
+    pts.forEach(function(p) {
       var key = p.lat.toFixed(6) + ',' + p.lng.toFixed(6);
       if (!groups[key]) {
         groups[key] = { lat: p.lat, lng: p.lng, numbers: [] };
@@ -330,8 +477,6 @@ text_width: false
     });
     return Object.values(groups);
   }
-
-  var groups = groupPoints(points);
 
   var clusters = L.markerClusterGroup({
     iconCreateFunction: function(cluster) {
@@ -350,57 +495,75 @@ text_width: false
     }
   });
 
-  groups.forEach(function(g) {
-    var idx = 0;
-    var marker = L.marker([g.lat, g.lng]);
-    marker.photoCount = g.numbers.length;
-
-    function buildContent() {
-      var container = document.createElement('div');
-      container.className = 'carousel-popup';
-      var img = document.createElement('img');
-      img.src = '/Lego-Photography-Interactive-Portfolio/photos/Pic (' + g.numbers[idx] + ').jpg';
-      img.width = 150;
-      img.style.cursor = 'pointer';
-      img.onclick = function() { showLightbox(img.src); };
-      container.appendChild(img);
-      if (g.numbers.length > 1) {
-        var controls = document.createElement('div');
-        controls.className = 'carousel-controls';
-        var prevBtn = document.createElement('button');
-        prevBtn.type = 'button';
-        prevBtn.innerHTML = '&#8249;';
-        prevBtn.onclick = function(e) {
-          e.stopPropagation();
-          idx = (idx - 1 + g.numbers.length) % g.numbers.length;
-          marker.setPopupContent(buildContent());
-        };
-        var counter = document.createElement('span');
-        counter.textContent = (idx + 1) + ' / ' + g.numbers.length;
-        var nextBtn = document.createElement('button');
-        nextBtn.type = 'button';
-        nextBtn.innerHTML = '&#8250;';
-        nextBtn.onclick = function(e) {
-          e.stopPropagation();
-          idx = (idx + 1) % g.numbers.length;
-          marker.setPopupContent(buildContent());
-        };
-        controls.appendChild(prevBtn);
-        controls.appendChild(counter);
-        controls.appendChild(nextBtn);
-        container.appendChild(controls);
-      }
-      return container;
-    }
-    marker.bindPopup(buildContent(), { className: 'photo-popup' });
-    clusters.addLayer(marker);
-  });
-
   map.addLayer(clusters);
-  map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+  var firstRender = true;
+
+  function renderMarkers() {
+    clusters.clearLayers();
+
+    var filtered = points.filter(pointMatches);
+    var groups = groupPoints(filtered);
+
+    groups.forEach(function(g) {
+      var idx = 0;
+      var marker = L.marker([g.lat, g.lng]);
+      marker.photoCount = g.numbers.length;
+
+      function buildContent() {
+        var container = document.createElement('div');
+        container.className = 'carousel-popup';
+        var img = document.createElement('img');
+        img.src = '/Lego-Photography-Interactive-Portfolio/photos/Pic (' + g.numbers[idx] + ').jpg';
+        img.width = 150;
+        img.style.cursor = 'pointer';
+        img.onclick = function() { showLightbox(img.src); };
+        container.appendChild(img);
+        if (g.numbers.length > 1) {
+          var controls = document.createElement('div');
+          controls.className = 'carousel-controls';
+          var prevBtn = document.createElement('button');
+          prevBtn.type = 'button';
+          prevBtn.innerHTML = '&#8249;';
+          prevBtn.onclick = function(e) {
+            e.stopPropagation();
+            idx = (idx - 1 + g.numbers.length) % g.numbers.length;
+            marker.setPopupContent(buildContent());
+          };
+          var counter = document.createElement('span');
+          counter.textContent = (idx + 1) + ' / ' + g.numbers.length;
+          var nextBtn = document.createElement('button');
+          nextBtn.type = 'button';
+          nextBtn.innerHTML = '&#8250;';
+          nextBtn.onclick = function(e) {
+            e.stopPropagation();
+            idx = (idx + 1) % g.numbers.length;
+            marker.setPopupContent(buildContent());
+          };
+          controls.appendChild(prevBtn);
+          controls.appendChild(counter);
+          controls.appendChild(nextBtn);
+          container.appendChild(controls);
+        }
+        return container;
+      }
+      marker.bindPopup(buildContent(), { className: 'photo-popup' });
+      clusters.addLayer(marker);
+    });
+
+    if (groups.length) {
+      map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+    }
+  }
+
+  renderFilterBar();
+  renderFilterPanel();
+  renderActiveChips();
+  renderMarkers();
 
   window.addEventListener('load', function() {
     map.invalidateSize();
-    map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+    if (clusters.getLayers().length) {
+      map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+    }
   });
 </script>
