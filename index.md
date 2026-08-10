@@ -12,7 +12,7 @@ permalink: /
 </div>
 
 <section class="home-intro">
-  <p>Taking pics of my minifigs in the mountains. Don't forget to appreciate the little things.</p>
+  <p>Documenting my Outdoor Adventures with Legos. Don't forget to appreciate the little things.</p>
 </section>
 
 <div class="preview-grid">
@@ -39,7 +39,7 @@ permalink: /
 
   <a class="preview-card" href="{{ site.baseurl }}/palettes/">
     <img src="{{ site.baseurl }}/photos/about/palette-preview.jpg" alt="Color Palettes">
-    <span class="preview-label">Color Palettes<br><small>Colors pulled from the trail</small></span>
+    <span class="preview-label">Color Palettes<br><small>Colors pulled from the my photos</small></span>
   </a>
 
 </div>
