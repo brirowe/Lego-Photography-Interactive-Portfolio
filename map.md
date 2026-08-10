@@ -32,7 +32,8 @@ text_width: false
 
   var labels = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Labels &copy; Esri',
-    maxZoom: 19
+    maxZoom: 19,
+    maxNativeZoom: 12
   });
 
   var hybrid = L.layerGroup([satellite, labels]);
