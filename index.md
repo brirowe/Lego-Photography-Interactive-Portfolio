@@ -18,12 +18,13 @@ permalink: /
 <div class="preview-grid">
 
   <a class="preview-card" href="{{ site.baseurl }}/about/">
-    <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="About Bri">
+    <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="About Bri">
     <span class="preview-label">About Me<br><small>Get to know me</small></span>
   </a>
 
   <a class="preview-card" href="{{ site.baseurl }}/map/">
-    <img src="{{ site.baseurl }}/photos/about/about-6.jpg" alt="Map">
+    <!-- TODO: swap in a map screenshot -->
+    <img src="{{ site.baseurl }}/photos/about/map-PLACEHOLDER.jpg" alt="Map">
     <span class="preview-label">Map<br><small>See where I've been</small></span>
   </a>
 
@@ -33,12 +34,13 @@ permalink: /
   </a>
 
   <a class="preview-card" href="{{ site.baseurl }}/minifig-archive/">
-    <img src="{{ site.baseurl }}/photos/about/about-7.jpg" alt="Minifig Archive">
+    <img src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Minifig Archive">
     <span class="preview-label">Minifig Archive<br><small>Browse the collection</small></span>
   </a>
 
   <a class="preview-card" href="{{ site.baseurl }}/palettes/">
-    <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Color Palettes">
+    <!-- TODO: swap in a color palette screenshot -->
+    <img src="{{ site.baseurl }}/photos/about/palette-PLACEHOLDER.jpg" alt="Color Palettes">
     <span class="preview-label">Color Palettes<br><small>Colors pulled from the trail</small></span>
   </a>
 
