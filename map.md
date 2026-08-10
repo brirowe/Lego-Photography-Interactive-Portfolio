@@ -53,6 +53,14 @@ text_width: false
     'Labels': labels
   }, { position: 'topright' }).addTo(map);
 
+  map.on('baselayerchange', function(e) {
+    if (e.name === 'Street') {
+      map.removeLayer(labels);
+    } else if (!map.hasLayer(labels)) {
+      map.addLayer(labels);
+    }
+  });
+
   var points = [
       {number: "331", lat: 39.674577, lng: -105.662019},
       {number: "182", lat: 39.757872, lng: -105.857065},
