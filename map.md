@@ -37,29 +37,12 @@ text_width: false
     className: 'thin-labels'
   });
 
-  var streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 20
-  });
-
   satellite.addTo(map);
   labels.addTo(map);
 
-  L.control.layers({
-    'Satellite': satellite,
-    'Street': streets
-  }, {
+  L.control.layers(null, {
     'Labels': labels
   }, { position: 'topright' }).addTo(map);
-
-  map.on('baselayerchange', function(e) {
-    if (e.name === 'Street') {
-      map.removeLayer(labels);
-    } else if (!map.hasLayer(labels)) {
-      map.addLayer(labels);
-    }
-  });
 
   var points = [
       {number: "331", lat: 39.674577, lng: -105.662019},
