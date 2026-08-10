@@ -6,7 +6,7 @@ permalink: /
 
 <!-- TODO: swap in the photo number Bri picks for the home hero -->
 <div class="about-hero">
-  <img src="{{ site.baseurl }}/photos/about/about-PLACEHOLDER.jpg" alt="Home hero photo" loading="lazy">
+  <img src="{{ site.baseurl }}/photos/about/about-12.jpg" alt="Home hero photo" loading="lazy">
 </div>
 
 <section class="home-intro">
