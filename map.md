@@ -23,11 +23,32 @@ text_width: false
     document.getElementById('lightbox-overlay').style.display = 'flex';
   }
 
-  var map = L.map('map');      
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  var map = L.map('map');
+
+  var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
     maxZoom: 19
-  }).addTo(map);
+  });
+
+  var labels = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Labels &copy; Esri',
+    maxZoom: 19
+  });
+
+  var hybrid = L.layerGroup([satellite, labels]);
+
+  var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  });
+
+  hybrid.addTo(map);
+
+  L.control.layers({
+    'Hybrid': hybrid,
+    'Satellite': satellite,
+    'Street': streets
+  }, null, { position: 'topright' }).addTo(map);
 
   var points = [
       {number: "331", lat: 39.674577, lng: -105.662019},
