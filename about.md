@@ -7,13 +7,12 @@ permalink: /about/
 <div class="about-hero">
   <img src="{{ site.baseurl }}/photos/about/about-1.jpg" alt="Bri checking her camera in Arches National Park" loading="lazy">
   <div class="about-hero-overlay">
-    <p class="hero-eyebrow">Backcountry Bricks</p>
     <div class="hero-name">I'm Bri</div>
     <ul class="hero-tagline">
       <li>Adult Fan of Lego</li>
       <li>Avid Hiker</li>
       <li>Subpar Snowboarder</li>
-      <li>Less Than Average Rock Climber — All With a Camera</li>
+      <li>Less Than Average Rock Climber</li>
     </ul>
   </div>
 </div>
