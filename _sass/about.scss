@@ -73,39 +73,38 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: .5em 0;
+		display: flex;
+		flex-wrap: nowrap;
+		overflow-x: auto;
 
 		@media #{$tablet} {
-			display: flex;
 			flex-wrap: wrap;
 			row-gap: .5em;
+			overflow-x: visible;
 		}
 
 		li {
 			font-family: $font-display;
 			text-transform: uppercase;
 			letter-spacing: .04em;
-			font-size: .95em;
+			font-size: .55em;
 			color: $color;
-
-			&:nth-child(2n) {
-				padding-left: 1.2em;
-				border-left: 1px solid rgba(255,255,255,.35);
-				margin-left: 1.2em;
-			}
+			white-space: nowrap;
+			flex-shrink: 0;
 
 			@media #{$tablet} {
-				&:nth-child(2n) {
-					padding-left: 0;
-					border-left: none;
-					margin-left: 0;
-				}
+				font-size: .95em;
+				white-space: normal;
+				flex-shrink: 1;
+			}
 
-				&:not(:first-child) {
+			&:not(:first-child) {
+				padding-left: .8em;
+				border-left: 1px solid rgba(255,255,255,.35);
+				margin-left: .8em;
+
+				@media #{$tablet} {
 					padding-left: 1.2em;
-					border-left: 1px solid rgba(255,255,255,.35);
 					margin-left: 1.2em;
 				}
 			}
