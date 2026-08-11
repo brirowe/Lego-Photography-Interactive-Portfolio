@@ -63,6 +63,14 @@ permalink: /about/
   </div>
 
   <div class="stagger-item">
+    <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on cracked mud flats next to a river with red rock cliffs behind her" loading="lazy" onclick="showLightbox(this.src)">
+    <div class="stagger-text">
+      <h2>The Archive</h2>
+      <p>Between Colorado's cost of living and the basically impossible task of finding a house with a spare room, I don't have anywhere to keep a physical Lego collection. So I use this as a digital collection instead, not just of nostalgic and new minifigs, but also as an archive of the plants, places, and small things I've seen along my adventures.</p>
+    </div>
+  </div>
+
+  <div class="stagger-item">
     <img src="{{ site.baseurl }}/photos/mosaics/IMG_9289.JPG" alt="Trans Flag Wreath Lego mosaic build" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Mosaics</h2>
