@@ -20,9 +20,9 @@ permalink: /about/
 <section class="intro-section">
   <div class="intro-heading">
     <img class="intro-logo" src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
-    <h1>About Bri</h1>
+    <h1>About Me</h1>
   </div>
-  <p class="intro-lede">I'm just a Colorado mountain gremlin with a camera. Basically, I take my Lego minifigs on outdoor adventures with me around the world to capture nature from a tiny perspective.</p>
+  <p class="intro-lede">I'm just a Colorado mountain gremlin with a camera. While I'm wondering around in the mountains I bring my Lego minifigs along to capture nature from a tiny perspective.</p>
   <a class="btn-outline" href="https://instagram.com/backcountry_bricks" target="_blank" rel="noopener">Follow along</a>
 </section>
 
@@ -44,7 +44,7 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/about/about-7.jpg" alt="Bri photographing a minifig at Red Rocks Amphitheatre" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Science</h2>
-      <p>Everything outside my Lego hobby comes back to science, so I love sharing a fact or two along with each photo.</p>
+      <p>Outside of my Lego hobby I spend most of my time working as a scientist, so I love sharing a fact with each photo to help myself and others learn more about the outdoor world.</p>
     </div>
   </div>
 
@@ -52,23 +52,13 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/mosaics/IMG_9289.JPG" alt="Trans Flag Wreath Lego mosaic build" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Mosaics</h2>
-      <p>I also build Lego mosaics as a creative outlet, one brick at a time.</p>
+      <p>I also love to build Lego mosaic-style art as a creative outlet.</p>
       <a class="btn-outline" href="{{ site.baseurl }}/mosaics/">See more mosaics</a>
     </div>
   </div>
 
 </div>
 
-<section class="about-section values-section">
-  <p class="section-eyebrow">What I Stand For</p>
-  <div class="values-box">
-    <ul>
-      <li>Women-owned</li>
-      <li>LGBTQ+ supportive</li>
-      <li>Committed to protecting public lands and national parks</li>
-    </ul>
-  </div>
-</section>
 
 <script>
   function showLightbox(src) {
