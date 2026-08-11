@@ -19,7 +19,6 @@ permalink: /about/
 
 <section class="intro-section">
   <div class="intro-heading">
-    <img class="intro-logo" src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
     <h1>About Me</h1>
   </div>
   <p class="intro-lede">I'm just a Colorado mountain gremlin with a camera. While I'm wondering around in the mountains I bring my Lego minifigs along to capture nature from a tiny perspective.</p>
