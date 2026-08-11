@@ -9,7 +9,7 @@ permalink: /about/
   <div class="about-hero-overlay">
     <div class="hero-name">I'm Bri</div>
     <ul class="hero-tagline">
-      <li>Adult Fan of Lego</li>
+      <li>AFOL</li>
       <li>Avid Hiker</li>
       <li>Subpar Snowboarder</li>
       <li>Less Than Average Rock Climber</li>
@@ -22,7 +22,7 @@ permalink: /about/
     <img class="intro-logo" src="{{ site.baseurl }}/photos/about/about-11.jpg" alt="Custom Bri minifig holding a camera" loading="lazy">
     <h1>About Bri</h1>
   </div>
-  <p class="intro-lede">Hi, I'm Bri! Adult fan of Lego, avid hiker, subpar snowboarder, and less than average rock climber — all with a camera. I take my Lego minifigs hiking across Colorado (and beyond) to capture how tiny the world really is, one scene at a time.</p>
+  <p class="intro-lede">I'm just a Colorado mountain gremlin with a camera. Basically, I take my Lego minifigs on outdoor adventures with me around the world to capture nature from a tiny perspective.</p>
   <a class="btn-outline" href="https://instagram.com/backcountry_bricks" target="_blank" rel="noopener">Follow along</a>
 </section>
 
