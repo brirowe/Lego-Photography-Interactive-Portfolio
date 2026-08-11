@@ -28,20 +28,13 @@ permalink: /about/
   <img id="lightbox-img" src="">
 </div>
 
-<section class="about-section background-section">
-  <p class="section-eyebrow">Background</p>
-  <p>Growing up, I loved playing with Legos &mdash; building the set was never really the point for me. I was a creative kid (my older sister might call me a menace) who'd finish a set, immediately take it completely apart, throw away the instructions, and try to build something totally random instead. I didn't know it at the time, but I was making MOCs, and I loved the chaos of it. My sister didn't always appreciate me doing the same thing to her sets.</p>
-  <p>As a toddler I was mesmerized by Jurassic Park, then that faded into loving Star Wars, Harry Potter, and eventually anything space-related.</p>
-</section>
-
 <div class="stagger-grid">
 
   <div class="stagger-item">
     <div class="photo-placeholder">Photo coming soon</div>
     <div class="stagger-text">
       <h2>Background</h2>
-      <p>Growing up, I loved playing with Legos &mdash; building the set was never really the point for me. I was a creative kid (my older sister might call me a menace) who'd finish a set, immediately take it completely apart, throw away the instructions, and try to build something totally random instead. I didn't know it at the time, but I was making MOCs, and I loved the chaos of it. My sister didn't always appreciate me doing the same thing to her sets.</p>
-      <p>As a toddler I was mesmerized by Jurassic Park, then that faded into loving Star Wars, Harry Potter, and eventually anything space-related.</p>
+      <p>Growing up I loved playing with Legos, but as a creative kid (my older sister might call me a menace) I'd finish a set, immediately take it completely apart, throw away the instructions, and try to build something totally random instead. I didn't know it at the time, but I was making MOCs, and I loved the chaos of it. As a toddler I was mesmerized by Jurassic Park, then that faded into loving Star Wars, Harry Potter, and eventually anything space-related.</p>
     </div>
   </div>
 
