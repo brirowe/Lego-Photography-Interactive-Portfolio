@@ -22,7 +22,6 @@ permalink: /about/
     <h1>About Me</h1>
   </div>
   <p class="intro-lede">I'm just a Colorado mountain gremlin with a camera. While I'm wondering around in the mountains I bring my Lego minifigs along to capture nature from a tiny perspective.</p>
-  <a class="btn-outline" href="https://instagram.com/backcountry_bricks" target="_blank" rel="noopener">Follow along</a>
 </section>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
