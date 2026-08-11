@@ -31,7 +31,7 @@ permalink: /about/
 <div class="stagger-grid">
 
   <div class="stagger-item">
-    <div class="photo-placeholder">Photo coming soon</div>
+    <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering, hanging upside down on a rock formation" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>Background</h2>
       <p>Growing up I loved Legos, mostly for the creativity of it and being able to build whatever I wanted. As a toddler I was really into Jurassic Park, then that turned into a Star Wars phase, then Harry Potter, then pretty much anything space related, so it was cool to see that Lego had tiny versions of all of it.</p>
@@ -39,7 +39,7 @@ permalink: /about/
   </div>
 
   <div class="stagger-item">
-    <div class="photo-placeholder">Photo coming soon</div>
+    <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling up a rocky mountain ridge with mountain views behind her" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Backcountry</h2>
       <p>One of my biggest passions in life is getting outside and exploring, especially in the mountains. I'm lucky enough to live in Colorado, which has endless places to appreciate. I spend most of my free time hiking, snowboarding, and rock climbing, though I don't strive to be the best at any of them (photography included, lol). It's really just about my love of nature and experiencing the outdoors, and it's cool to be able to share that with people in a unique way.</p>
