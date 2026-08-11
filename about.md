@@ -39,6 +39,14 @@ permalink: /about/
   </div>
 
   <div class="stagger-item">
+    <div class="photo-placeholder">Photo coming soon</div>
+    <div class="stagger-text">
+      <h2>The Backcountry</h2>
+      <p>One of my biggest passions in life is getting outside and exploring, especially in the mountains. I'm lucky enough to live in Colorado, which has endless places to appreciate. I spend most of my free time hiking, snowboarding, and rock climbing, though I don't strive to be the best at any of them (photography included, lol). It's really just about my love of nature and experiencing the outdoors, and it's cool to be able to share that with people in a unique way.</p>
+    </div>
+  </div>
+
+  <div class="stagger-item">
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Idea</h2>
