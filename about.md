@@ -55,7 +55,7 @@ permalink: /about/
   </div>
 
   <div class="stagger-item">
-    <img src="{{ site.baseurl }}/photos/about/about-7.jpg" alt="Bri photographing a minifig at Red Rocks Amphitheatre" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/about/about-13.jpg" alt="Bri sitting on her snowboard on a mountain slope, smiling" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Science</h2>
       <p>Outside of my Lego hobby I spend most of my time working as a scientist, so I love sharing a fact with each photo to help myself and others learn more about the outdoor world. Alpine environments are incredibly complex, from how plants manage to survive in such harsh conditions to the intricate details in rock formations and weird facts about popular landmarks across the West. </p>
