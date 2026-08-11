@@ -37,6 +37,15 @@ permalink: /about/
 <div class="stagger-grid">
 
   <div class="stagger-item">
+    <div class="photo-placeholder">Photo coming soon</div>
+    <div class="stagger-text">
+      <h2>Background</h2>
+      <p>Growing up, I loved playing with Legos &mdash; building the set was never really the point for me. I was a creative kid (my older sister might call me a menace) who'd finish a set, immediately take it completely apart, throw away the instructions, and try to build something totally random instead. I didn't know it at the time, but I was making MOCs, and I loved the chaos of it. My sister didn't always appreciate me doing the same thing to her sets.</p>
+      <p>As a toddler I was mesmerized by Jurassic Park, then that faded into loving Star Wars, Harry Potter, and eventually anything space-related.</p>
+    </div>
+  </div>
+
+  <div class="stagger-item">
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Idea</h2>
