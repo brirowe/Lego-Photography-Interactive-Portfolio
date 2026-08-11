@@ -28,7 +28,7 @@ permalink: /
   </a>
 
   <a class="preview-card" href="{{ site.baseurl }}/mosaics/">
-    <img src="{{ site.baseurl }}/photos/mosaics/IMG_9289.JPG" alt="Mosaics">
+    <img src="{{ site.baseurl }}/photos/mosaics/leaf-mosaic.jpg" alt="Leaf mosaic">
     <span class="preview-label">Mosaics<br><small>My brick-built art</small></span>
   </a>
 
