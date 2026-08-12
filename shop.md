@@ -30,7 +30,7 @@ permalink: /shop/
       Poshmark
     </a>
 
-    <a class="shop-app-link" href="https://www.vinted.com/member/buy1get1bri" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://www.vinted.com/member/3162033656" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#007782; color:#fefefe">V</span>
       Vinted
     </a>

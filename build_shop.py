@@ -152,7 +152,7 @@ permalink: /shop/
       Poshmark
     </a>
 
-    <a class="shop-app-link" href="https://www.vinted.com/member/buy1get1bri" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://www.vinted.com/member/3162033656" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#007782; color:#fefefe">V</span>
       Vinted
     </a>
@@ -190,4 +190,4 @@ permalink: /shop/
 with open("shop.md", "w") as f:
     f.write(shop_md)
 
-print("Done: shop page rebuilt with real links, buy1get1bri username, eBay pending.")
+print("Done: Vinted link fixed.")
