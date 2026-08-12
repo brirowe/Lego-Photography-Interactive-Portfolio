@@ -4,7 +4,7 @@ title: Shop
 permalink: /shop/
 ---
 
-<section class="intro-section">
+<section class="intro-section shop-intro">
   <div class="intro-heading">
     <h1>Shop</h1>
   </div>
