@@ -22,7 +22,7 @@ permalink: /about/
     <h1>About Me</h1>
   </div>
   <p class="intro-lede">I'm just a Colorado mountain gremlin with a camera.</p>
-  <p class="intro-lede">While I'm wandering around in the mountains, I bring my Lego minifigs along to capture nature from a tiny perspective.</p>
+  <p class="intro-lede">While I'm wandering around in the wild, I bring my Lego minifigs along to capture nature from a tiny perspective.</p>
 </section>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
