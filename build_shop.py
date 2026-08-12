@@ -6,16 +6,24 @@ os.chdir(base)
 shop_scss = '''// -----
 // Shop page
 
+.shop-section {
+	max-width: 1100px;
+	margin: 3rem auto 4rem;
+
+	p {
+		margin: 0 0 1rem;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
 .shop-apps-grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 	gap: 1rem;
-	max-width: 700px;
-	margin: 1.5rem auto 0;
-
-	@media #{$tablet} {
-		grid-template-columns: repeat(3, 1fr);
-	}
+	margin: 1.5rem 0 0;
 }
 
 .shop-app-link {
@@ -58,8 +66,7 @@ shop_scss = '''// -----
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 2rem;
-	max-width: 1000px;
-	margin: 1.5rem auto 0;
+	margin: 1.5rem 0 0;
 
 	@media #{$mid-point} {
 		grid-template-columns: 1.1fr 1fr;
@@ -133,7 +140,7 @@ permalink: /shop/
   <p class="intro-lede">I sell complete used Lego sets, parts and pieces, minifigs, and my custom Lego art and prints.</p>
 </section>
 
-<section class="about-section">
+<section class="shop-section">
   <p class="section-eyebrow">Apps I Sell On</p>
   <div class="shop-apps-grid">
 
@@ -165,7 +172,7 @@ permalink: /shop/
   </div>
 </section>
 
-<section class="about-section">
+<section class="shop-section">
   <p class="section-eyebrow">Buy Prints In Person</p>
   <div class="partner-card">
     <div class="partner-info">
@@ -190,4 +197,4 @@ permalink: /shop/
 with open("shop.md", "w") as f:
     f.write(shop_md)
 
-print("Done: Vinted link fixed.")
+print("Done: shop page now fills the page width responsively.")

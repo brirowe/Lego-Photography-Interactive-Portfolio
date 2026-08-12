@@ -11,7 +11,7 @@ permalink: /shop/
   <p class="intro-lede">I sell complete used Lego sets, parts and pieces, minifigs, and my custom Lego art and prints.</p>
 </section>
 
-<section class="about-section">
+<section class="shop-section">
   <p class="section-eyebrow">Apps I Sell On</p>
   <div class="shop-apps-grid">
 
@@ -43,7 +43,7 @@ permalink: /shop/
   </div>
 </section>
 
-<section class="about-section">
+<section class="shop-section">
   <p class="section-eyebrow">Buy Prints In Person</p>
   <div class="partner-card">
     <div class="partner-info">
