@@ -137,28 +137,28 @@ permalink: /shop/
   <p class="section-eyebrow">Apps I Sell On</p>
   <div class="shop-apps-grid">
 
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://www.depop.com/buy1get1bri/" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#FF2300; color:#fefefe">D</span>
       Depop
     </a>
 
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://www.whatnot.com/user/buy1get1bri" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#FFF351; color:#101010">W</span>
       Whatnot
     </a>
 
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://poshmark.com/closet/buy1get1bri" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#610722; color:#fefefe">P</span>
       Poshmark
     </a>
 
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://www.vinted.com/member/buy1get1bri" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#007782; color:#fefefe">V</span>
       Vinted
     </a>
 
     <a class="shop-app-link" href="#" target="_blank" rel="noopener">
-      <span class="shop-app-monogram" style="background:#E53238; color:#fefefe">E</span>
+      <span class="shop-app-monogram" style="background:#0064D2; color:#fefefe">E</span>
       eBay
     </a>
 
@@ -190,4 +190,4 @@ permalink: /shop/
 with open("shop.md", "w") as f:
     f.write(shop_md)
 
-print("Done: shop page rebuilt with brand-color monograms.")
+print("Done: shop page rebuilt with real links, buy1get1bri username, eBay pending.")
