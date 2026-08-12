@@ -18,7 +18,7 @@ text_width: false
 <div class="archive-filter-panel" id="map-filter-panel"></div>
 <div class="archive-active-chips" id="map-active-chips"></div>
 
-<div id="map" style="width: 100%; height: clamp(500px, 75vh, 900px);"></div>
+<div id="map"></div>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
   <img id="lightbox-img" src="">
@@ -568,5 +568,13 @@ text_width: false
     if (clusters.getLayers().length) {
       map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
     }
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      map.invalidateSize();
+    }, 150);
   });
 </script>

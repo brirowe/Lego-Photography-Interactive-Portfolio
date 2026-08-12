@@ -4,9 +4,10 @@
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 0 0 1px rgba(123, 198, 255, 0.1), 0 12px 40px rgba(0, 0, 0, 0.55);
-  height: 300px;
-  padding: 20px;
-  box-sizing: border-box; 
+  width: 100%;
+  height: clamp(480px, 70vh, 750px);
+  height: clamp(480px, 70dvh, 750px);
+  box-sizing: border-box;
 }
 .leaflet-popup-content-wrapper {
   padding: 0 !important;
