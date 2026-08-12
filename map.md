@@ -553,8 +553,11 @@ text_width: false
       clusters.addLayer(marker);
     });
 
-    if (groups.length) {
-      map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
+    if (filtered.length) {
+      var primaryPoints = filtered.filter(function(p) { return p.lng < -50; });
+      var basisPoints = primaryPoints.length ? primaryPoints : filtered;
+      var bounds = L.latLngBounds(basisPoints.map(function(p) { return [p.lat, p.lng]; }));
+      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
     }
   }
 
@@ -565,9 +568,7 @@ text_width: false
 
   window.addEventListener('load', function() {
     map.invalidateSize();
-    if (clusters.getLayers().length) {
-      map.fitBounds(clusters.getBounds(), { padding: [30, 30] });
-    }
+    renderMarkers();
   });
 
   var resizeTimer;
