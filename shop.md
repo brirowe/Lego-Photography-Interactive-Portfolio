@@ -14,11 +14,32 @@ permalink: /shop/
 <section class="about-section">
   <p class="section-eyebrow">Apps I Sell On</p>
   <div class="shop-apps-grid">
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">Depop</a>
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">Whatnot</a>
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">Poshmark</a>
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">Vinted</a>
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">eBay</a>
+
+    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+      <span class="shop-app-monogram" style="background:#FF2300; color:#fefefe">D</span>
+      Depop
+    </a>
+
+    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+      <span class="shop-app-monogram" style="background:#FFF351; color:#101010">W</span>
+      Whatnot
+    </a>
+
+    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+      <span class="shop-app-monogram" style="background:#610722; color:#fefefe">P</span>
+      Poshmark
+    </a>
+
+    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+      <span class="shop-app-monogram" style="background:#007782; color:#fefefe">V</span>
+      Vinted
+    </a>
+
+    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+      <span class="shop-app-monogram" style="background:#E53238; color:#fefefe">E</span>
+      eBay
+    </a>
+
   </div>
 </section>
 
