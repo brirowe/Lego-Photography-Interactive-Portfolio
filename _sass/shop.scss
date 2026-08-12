@@ -1,0 +1,94 @@
+// -----
+// Shop page
+
+.shop-apps-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1rem;
+	max-width: 700px;
+	margin: 1.5rem auto 0;
+
+	@media #{$tablet} {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.shop-app-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.1em 1em;
+	border: 1px solid rgba(255,255,255,.15);
+	border-radius: 6px;
+	color: $color;
+	text-decoration: none;
+	font-family: $font-display;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	font-size: .95em;
+	text-align: center;
+	transition: border-color .2s ease, background .2s ease;
+
+	&:hover {
+		border-color: $accent;
+		background: rgba(201,123,74,.1);
+	}
+}
+
+.partner-card {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem;
+	max-width: 1000px;
+	margin: 1.5rem auto 0;
+
+	@media #{$mid-point} {
+		grid-template-columns: 1.1fr 1fr;
+		align-items: center;
+	}
+}
+
+.partner-info {
+	h3 {
+		font-family: $font-display;
+		font-size: 1.3em;
+		margin: 0 0 .6rem;
+	}
+
+	p {
+		margin: 0 0 1rem;
+	}
+
+	.partner-address {
+		color: rgba(255,255,255,.65);
+		font-size: .95em;
+		margin: 0 0 1.2rem;
+		line-height: 1.6;
+	}
+}
+
+.partner-photos {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+
+	@media #{$tablet} {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.partner-photo-placeholder {
+	aspect-ratio: 3 / 4;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed rgba(255,255,255,.3);
+	border-radius: 6px;
+	color: rgba(255,255,255,.5);
+	font-family: $font-display;
+	text-transform: uppercase;
+	letter-spacing: .08em;
+	font-size: .8em;
+	text-align: center;
+	padding: .5em;
+}
