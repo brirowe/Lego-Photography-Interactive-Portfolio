@@ -11,7 +11,7 @@ text_width: false
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-<h1>Map</h1>
+<h1>Explore the Minifig Adventures</h1>
 <p class="archive-intro">An interactive map of every place I've taken photos on my hiking and outdoor adventures. Filter by theme or background type, and click any photo to view it larger.</p>
 
 <div class="archive-filter-bar" id="map-filter-bar"></div>
