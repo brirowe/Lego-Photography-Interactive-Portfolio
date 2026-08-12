@@ -1,4 +1,9 @@
-.mosaic-grid {
+import os
+
+base = os.path.expanduser("~/Lego Website/Lego-Photography-Interactive-Portfolio")
+os.chdir(base)
+
+mosaics_scss = '''.mosaic-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.5rem;
@@ -30,3 +35,9 @@
     font-size: 0.9em;
   }
 }
+'''
+
+with open("_sass/_mosaics.scss", "w") as f:
+    f.write(mosaics_scss)
+
+print("Done: mosaics images now scale fluidly with screen width instead of a fixed height.")
