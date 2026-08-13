@@ -42,4 +42,9 @@ permalink: /
     <span class="preview-label">Color Palettes<br><small>Colors pulled from my photos</small></span>
   </a>
 
+  <a class="preview-card" href="{{ site.baseurl }}/shop/">
+    <img src="{{ site.baseurl }}/photos/about/shop-preview.jpg" alt="Shop">
+    <span class="preview-label">Shop<br><small>Used sets, parts, and prints</small></span>
+  </a>
+
 </div>
