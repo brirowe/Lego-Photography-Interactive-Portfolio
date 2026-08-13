@@ -44,7 +44,7 @@ text_width: false
       };
     });
 
-  var map = L.map('map', { worldCopyJump: true });
+  var map = L.map('map', { worldCopyJump: false, maxBounds: [[-85, -230], [85, 190]], maxBoundsViscosity: 0.8 });
 
   var satellite = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
