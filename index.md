@@ -44,7 +44,7 @@ permalink: /
 
   <a class="preview-card" href="{{ site.baseurl }}/shop/">
     <img src="{{ site.baseurl }}/photos/about/shop-preview.jpg" alt="Shop">
-    <span class="preview-label">Shop<br><small>Minifigs, used sets, random parts, and prints</small></span>
+    <span class="preview-label">Shop<br><small>Minifigs, used sets, and prints</small></span>
   </a>
 
 </div>
