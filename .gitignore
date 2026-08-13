@@ -1,0 +1,7 @@
+
+# one-off scratch scripts, don't commit these
+apply_*.py
+fix_*.py
+build_*.py
+*_update.py
+widen_*.py
