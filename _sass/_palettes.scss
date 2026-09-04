@@ -20,21 +20,20 @@
   }
 
   .swatch {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
     height: 44px;
     border: none;
     margin: 0;
     padding: 0;
     cursor: pointer;
     position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    overflow: visible;
     transition: transform 0.15s ease, flex 0.15s ease;
 
     &:hover,
     &:focus-visible {
-      flex: 1.6;
+      flex: 1.6 1 0;
       z-index: 1;
     }
 
@@ -59,13 +58,16 @@
   }
 
   .swatch-label {
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    transform: translateX(-50%);
     font-size: 0.6rem;
     font-family: monospace;
     color: #fff;
     background: rgba(0, 0, 0, 0.55);
     padding: 1px 4px;
     border-radius: 3px;
-    margin-bottom: 3px;
     opacity: 0;
     transition: opacity 0.15s ease;
     white-space: nowrap;
