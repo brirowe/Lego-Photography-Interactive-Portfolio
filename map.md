@@ -10,6 +10,8 @@ text_width: false
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling@1.2.2/dist/leaflet-gesture-handling.min.css" />
+<script src="https://unpkg.com/leaflet-gesture-handling@1.2.2/dist/leaflet-gesture-handling.min.js"></script>
 
 <h1>Explore the Minifig Adventures</h1>
 <p class="archive-intro">An interactive map of every place I've taken photos on my hiking and outdoor adventures. Filter by theme or background type, and click any photo to view it larger.</p>
@@ -32,30 +34,40 @@ text_width: false
 
   const archiveData = {{ site.data.minifig_archive | jsonify }};
 
+  // Points east of 60°E (Japan, etc.) are moved one world-width west so they
+  // sit just past Hawaii, next to the Americas, instead of across the map.
+  function shiftLng(lng) { return lng > 60 ? lng - 360 : lng; }
+
   var points = archiveData
     .filter(function(p) { return p.latitude && p.longitude; })
     .map(function(p) {
       return {
         filename: p.filename,
         lat: parseFloat(p.latitude),
-        lng: parseFloat(p.longitude),
+        lng: shiftLng(parseFloat(p.longitude)),
         theme: p.theme,
         background_type: p.background_type
       };
     });
 
-  var map = L.map('map', { worldCopyJump: false, maxBounds: [[-85, -230], [85, 190]], maxBoundsViscosity: 0.8 });
+  var isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  var map = L.map('map', {
+    worldCopyJump: false,
+    maxBounds: [[-85, -300], [85, 60]],
+    maxBoundsViscosity: 0.8,
+    zoomSnap: 0.5,
+    gestureHandling: L.Browser.mobile
+  });
 
   var satellite = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
     maxZoom: 19
   });
 
-  var labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 20,
-    className: 'thin-labels'
+  var labels = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Labels &copy; Esri',
+    maxZoom: 19
   });
 
   satellite.addTo(map);
@@ -63,7 +75,7 @@ text_width: false
 
   L.control.layers(null, {
     'Labels': labels
-  }, { position: 'topright' }).addTo(map);
+  }, { position: 'topright', collapsed: true }).addTo(map);
 
 
   var filterConfig = [
@@ -228,7 +240,6 @@ text_width: false
   });
 
   map.addLayer(clusters);
-  var firstRender = true;
 
   function renderMarkers() {
     clusters.clearLayers();
@@ -246,7 +257,7 @@ text_width: false
         container.className = 'carousel-popup';
         var img = document.createElement('img');
         img.src = '/Lego-Photography-Interactive-Portfolio/photos/' + g.filenames[idx];
-        img.width = 150;
+        img.width = 200;
         img.style.cursor = 'pointer';
         img.onclick = function() { showLightbox(img.src); };
         container.appendChild(img);
@@ -278,15 +289,18 @@ text_width: false
         }
         return container;
       }
-      marker.bindPopup(buildContent(), { className: 'photo-popup' });
+      marker.bindPopup(buildContent(), {
+        className: 'photo-popup',
+        maxWidth: 260,
+        autoPanPadding: [20, 20]
+      });
       clusters.addLayer(marker);
     });
 
     if (filtered.length) {
-      var primaryPoints = filtered.filter(function(p) { return p.lng < -50; });
-      var basisPoints = primaryPoints.length ? primaryPoints : filtered;
-      var bounds = L.latLngBounds(basisPoints.map(function(p) { return [p.lat, p.lng]; }));
-      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
+      var bounds = L.latLngBounds(filtered.map(function(p) { return [p.lat, p.lng]; }));
+      var pad = isMobile ? [20, 20] : [40, 40];
+      map.fitBounds(bounds, { padding: pad, maxZoom: 12 });
     }
   }
 
