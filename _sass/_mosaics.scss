@@ -22,16 +22,47 @@
     display: block;
     cursor: pointer;
   }
-
-  .mosaic-link {
-    display: inline-block;
-    margin-top: 0.5rem;
-    color: $link-color;
-    font-size: 0.9em;
-  }
 }
+
 .mosaic-links {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0.6rem;
+
+  .mosaic-links-label {
+    font-size: 0.9em;
+    opacity: 0.85;
+  }
+
+  .mosaic-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  .instagram {
+    background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  }
+
+  .tiktok {
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
 }
