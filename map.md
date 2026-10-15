@@ -256,10 +256,10 @@ text_width: false
         var container = document.createElement('div');
         container.className = 'carousel-popup';
         var img = document.createElement('img');
-        img.src = '/Lego-Photography-Interactive-Portfolio/photos/' + g.filenames[idx];
+        img.src = '/Lego-Photography-Interactive-Portfolio/photos/photos_compressed/' + g.filenames[idx];
         img.width = 200;
         img.style.cursor = 'pointer';
-        img.onclick = function() { showLightbox(img.src); };
+        img.onclick = function() { showLightbox('/Lego-Photography-Interactive-Portfolio/photos/' + g.filenames[idx]); };
         container.appendChild(img);
         if (g.filenames.length > 1) {
           var controls = document.createElement('div');

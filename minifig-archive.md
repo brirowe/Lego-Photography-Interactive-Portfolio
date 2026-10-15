@@ -206,7 +206,7 @@ text_width: false
 			img.loading = 'lazy';
 			img.src = baseurl + '/photos/photos_compressed/' + p.filename;
 			img.alt = p.theme;
-			img.addEventListener('click', function() { showLightbox(img.src); });
+			img.addEventListener('click', function() { showLightbox(baseurl + '/photos/' + p.filename); });
 			item.appendChild(img);
 
 			const caption = document.createElement('div');
