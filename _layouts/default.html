@@ -30,5 +30,15 @@
 				  © 2026 Backcountry Bricks
 			</footer>
 		</div>
+
+		<script>
+			// Block right-click and drag-to-save on all images
+			document.addEventListener('contextmenu', function(e) {
+				if (e.target.tagName === 'IMG') e.preventDefault();
+			});
+			document.addEventListener('dragstart', function(e) {
+				if (e.target.tagName === 'IMG') e.preventDefault();
+			});
+		</script>
 	</body>
 </html>
