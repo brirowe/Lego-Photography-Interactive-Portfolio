@@ -14,7 +14,7 @@ text_width: false
 <script src="https://unpkg.com/leaflet-gesture-handling@1.2.2/dist/leaflet-gesture-handling.min.js"></script>
 
 <h1>Explore the Minifig Adventures</h1>
-<p class="archive-intro">An interactive map of every place I've taken photos on my hiking and outdoor adventures. Filter by theme or background type, and click any photo to view it larger.</p>
+<p class="archive-intro">An interactive map of every place I've taken photos on my hiking and outdoor adventures. Filter by theme, background, country, state, or elevation, and click any photo to view it larger.</p>
 
 <div class="archive-filter-bar" id="map-filter-bar"></div>
 <div class="archive-filter-panel" id="map-filter-panel"></div>
@@ -38,6 +38,23 @@ text_width: false
   // sit just past Hawaii, next to the Americas, instead of across the map.
   function shiftLng(lng) { return lng > 60 ? lng - 360 : lng; }
 
+  // Elevation ranges for the Elevation filter (feet)
+  var ELEV_BANDS = [
+    [5000, 'Under 5,000 ft'],
+    [8000, '5,000 to 8,000 ft'],
+    [10000, '8,000 to 10,000 ft'],
+    [12000, '10,000 to 12,000 ft'],
+    [Infinity, '12,000+ ft']
+  ];
+  var ELEV_ORDER = ELEV_BANDS.map(function(b) { return b[1]; });
+  function elevBand(ft) {
+    if (ft === '' || ft == null || isNaN(ft)) return '';
+    ft = Number(ft);
+    for (var i = 0; i < ELEV_BANDS.length; i++) {
+      if (ft < ELEV_BANDS[i][0]) return ELEV_BANDS[i][1];
+    }
+  }
+
   var points = archiveData
     .filter(function(p) { return p.latitude && p.longitude; })
     .map(function(p) {
@@ -46,7 +63,10 @@ text_width: false
         lat: parseFloat(p.latitude),
         lng: shiftLng(parseFloat(p.longitude)),
         theme: p.theme,
-        background_type: p.background_type
+        background_type: p.background_type,
+        country: p.country,
+        state: p.state,
+        elevation_band: elevBand(p.elevation_ft)
       };
     });
 
@@ -80,7 +100,10 @@ text_width: false
 
   var filterConfig = [
     { key: 'theme', label: 'Theme' },
-    { key: 'background_type', label: 'Background' }
+    { key: 'background_type', label: 'Background' },
+    { key: 'country', label: 'Country' },
+    { key: 'state', label: 'State' },
+    { key: 'elevation_band', label: 'Elevation', order: ELEV_ORDER }
   ];
 
   var selected = {};
@@ -97,12 +120,15 @@ text_width: false
     });
   }
 
-  function uniqueValues(key) {
+  function uniqueValues(key, order) {
     var vals = new Set();
     points.forEach(function(p) {
       if (!matchesExcluding(p, key)) return;
       if (p[key] && p[key] !== 'None') vals.add(p[key]);
     });
+    if (order) {
+      return Array.from(vals).sort(function(a, b) { return order.indexOf(a) - order.indexOf(b); });
+    }
     return Array.from(vals).sort(function(a, b) { return a.localeCompare(b); });
   }
 
@@ -142,7 +168,7 @@ text_width: false
     panel.classList.add('visible');
 
     var cfg = filterConfig.find(function(c) { return c.key === openCategory; });
-    var values = uniqueValues(cfg.key);
+    var values = uniqueValues(cfg.key, cfg.order);
 
     var pillWrap = document.createElement('div');
     pillWrap.className = 'filter-pills';

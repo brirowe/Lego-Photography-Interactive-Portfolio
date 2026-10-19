@@ -31,7 +31,25 @@ text_width: false
 		document.getElementById('lightbox-overlay').style.display = 'flex';
 	}
 
+	// Elevation ranges for the Elevation filter (feet)
+	var ELEV_BANDS = [
+		[5000, 'Under 5,000 ft'],
+		[8000, '5,000 to 8,000 ft'],
+		[10000, '8,000 to 10,000 ft'],
+		[12000, '10,000 to 12,000 ft'],
+		[Infinity, '12,000+ ft']
+	];
+	var ELEV_ORDER = ELEV_BANDS.map(function(b) { return b[1]; });
+	function elevBand(ft) {
+		if (ft === '' || ft == null || isNaN(ft)) return '';
+		ft = Number(ft);
+		for (var i = 0; i < ELEV_BANDS.length; i++) {
+			if (ft < ELEV_BANDS[i][0]) return ELEV_BANDS[i][1];
+		}
+	}
+
 	archivePhotos.forEach(function(p) {
+		p.elevation_band = elevBand(p.elevation_ft);
 		p.setTokens = (p.set || '').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 	});
 
@@ -41,7 +59,10 @@ text_width: false
 		{ key: 'set', label: 'Set Number', multiToken: true },
 		{ key: 'year', label: 'Year' },
 		{ key: 'season', label: 'Season' },
-		{ key: 'background_type', label: 'Background' }
+		{ key: 'background_type', label: 'Background' },
+		{ key: 'country', label: 'Country' },
+		{ key: 'state', label: 'State' },
+		{ key: 'elevation_band', label: 'Elevation', order: ELEV_ORDER }
 	];
 
 	const selected = {};
@@ -61,7 +82,7 @@ text_width: false
 		});
 	}
 
-	function uniqueValues(key, multiToken) {
+	function uniqueValues(key, multiToken, order) {
 		const vals = new Set();
 		archivePhotos.forEach(function(p) {
 			if (!matchesExcluding(p, key)) return;
@@ -72,6 +93,9 @@ text_width: false
 			}
 		});
 		const arr = Array.from(vals);
+		if (order) {
+			return arr.sort(function(a, b) { return order.indexOf(a) - order.indexOf(b); });
+		}
 		const numeric = arr.every(function(v) { return !isNaN(v); });
 		arr.sort(function(a, b) {
 			return numeric ? (Number(a) - Number(b)) : a.localeCompare(b);
@@ -108,7 +132,7 @@ text_width: false
 		panel.classList.add('visible');
 
 		const cfg = filterConfig.find(function(c) { return c.key === openCategory; });
-		const values = uniqueValues(cfg.key, cfg.multiToken);
+		const values = uniqueValues(cfg.key, cfg.multiToken, cfg.order);
 
 		const pillWrap = document.createElement('div');
 		pillWrap.className = 'filter-pills';
