@@ -37,7 +37,9 @@ text_width: false
 		[8000, '5,000 to 8,000 ft'],
 		[10000, '8,000 to 10,000 ft'],
 		[12000, '10,000 to 12,000 ft'],
-		[Infinity, '12,000+ ft']
+		[13000, '12,000 to 13,000 ft'],
+		[14000, '13,000 to 14,000 ft'],
+		[Infinity, '14,000+ ft']
 	];
 	var ELEV_ORDER = ELEV_BANDS.map(function(b) { return b[1]; });
 	function elevBand(ft) {
