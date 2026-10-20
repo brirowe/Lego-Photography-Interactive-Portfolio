@@ -35,7 +35,7 @@ permalink: /shop/
       Vinted
     </a>
 
-    <a class="shop-app-link" href="#" target="_blank" rel="noopener">
+    <a class="shop-app-link" href="https://www.ebay.com/usr/backcountry_bricks" target="_blank" rel="noopener">
       <span class="shop-app-monogram" style="background:#0064D2; color:#fefefe">E</span>
       eBay
     </a>
