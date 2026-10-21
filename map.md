@@ -23,8 +23,10 @@ text_width: false
 <div id="map"></div>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
-  <img id="lightbox-img" src="">
-  <p id="lightbox-caption"></p>
+  <div id="lightbox-frame">
+    <img id="lightbox-img" src="">
+    <p id="lightbox-caption"></p>
+  </div>
 </div>
 
 <script>

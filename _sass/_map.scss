@@ -53,20 +53,32 @@
   margin: 0;
   padding: 0;
 }
+#lightbox-frame {
+  position: relative;
+  display: inline-block;
+}
 #lightbox-img {
   max-width: 90vw;
-  max-height: calc(90vh - 3rem);
-  max-height: calc(90dvh - 3rem);
+  max-height: 90vh;
+  max-height: 90dvh;
   object-fit: contain;
   display: block;
 }
 #lightbox-caption {
-  margin: 0.75rem 0 0;
-  padding: 0 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   color: #fff;
   font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
   text-align: center;
 }
 
