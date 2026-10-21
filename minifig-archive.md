@@ -274,4 +274,15 @@ text_width: false
 
 			const caption = document.createElement('div');
 			caption.className = 'archive-caption';
-			caption.textContent =
+			caption.textContent = [p.theme, p.set, p.year].filter(function(v) { return v && v !== 'None'; }).join(' · ');
+			item.appendChild(caption);
+
+			grid.appendChild(item);
+		});
+	}
+
+	renderFilterBar();
+	renderFilterPanel();
+	renderActiveChips();
+	renderGrid();
+</script>
