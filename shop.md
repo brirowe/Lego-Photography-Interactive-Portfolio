@@ -56,10 +56,10 @@ permalink: /shop/
       </p>
       <a class="btn-outline" href="https://www.google.com/maps/search/?api=1&query=Bricks+%26+Minifigs+Centennial+12201+E+Arapahoe+Rd+Ste+A4+Centennial+CO+80112" target="_blank" rel="noopener">Get Directions</a>
     </div>
-    <div class="partner-photos">
-      <div class="partner-photo-placeholder">Photo</div>
-      <div class="partner-photo-placeholder">Photo</div>
-      <div class="partner-photo-placeholder">Photo</div>
+        <div class="partner-photos">
+      <img class="partner-photo" src="{{ '/photos/photos_compressed/Pic%20(2943).jpg' | relative_url }}" alt="Vader and Maul desert love" loading="lazy">
+      <img class="partner-photo" src="{{ '/photos/photos_compressed/Pic%20(130).jpg' | relative_url }}" alt="SpongeBob from Chum Bucket in aspen fluff" loading="lazy">
+      <img class="partner-photo" src="{{ '/photos/photos_compressed/Pic%20(2913).jpg' | relative_url }}" alt="Goldfish and columbine" loading="lazy">
     </div>
   </div>
 </section>
