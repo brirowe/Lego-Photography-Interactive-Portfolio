@@ -35,7 +35,7 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/about/about-4.jpg" alt="Bri bouldering, hanging upside down on a rock formation" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>Background</h2>
-      <p>Growing up I loved Legos as a creative outlet and saw them as a way to build my own creations rather than follow the instructions. On top of that, as a toddler I was really into Jurassic Park, then became a huge Star Wars fan and eventually grew to be fascinated with pretty much anything space related. As an adult, my creativity, love of science fiction, and interest in human space flight eventually brought me back to Legos where it's been fun to rediscover this world and see all the cool options that exists now. </p>
+      <p>Growing up I loved Legos and saw them as a way to build my own creations rather than follow the instructions. On top of that, as a toddler I was fascinated by Jurassic Park, then became a huge Star Wars fan and eventually grew to be fascinated with pretty much anything space related as an adult. Rediscovering my love for Legos and using them to not only show my creativity, but also share my outdoor adventures has been such a blast! </p>
     </div>
   </div>
 
@@ -43,7 +43,7 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/about/about-2.jpg" alt="Bri scrambling up a rocky mountain ridge with mountain views behind her" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Backcountry</h2>
-      <p>Some of my biggest passions in life are adventure and exploration, especially within the mountains. I'm lucky enough to live in Colorado, where I spend most of my free time hiking, snowboarding, and rock climbing, though I don't strive to be the best at any of them (photography included, lol). It's really just about my love of being in nature, and this photography hobby has been a great way to share my experiences with people in a unique way.</p>
+      <p>Some of my biggest passions in life are adventure and exploration, especially in the mountains. I'm lucky enough to live in Colorado, where I spend most of my free time hiking, snowboarding, and rock climbing, though I don't strive to be the best at any of them (photography included, lol). It's really just about my love of being in nature, and this photography hobby has been a great way to share my experiences with people in a unique way.</p>
     </div>
   </div>
 
@@ -51,7 +51,7 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/about/about-3.jpg" alt="Bri crouched down photographing a minifig in the sand dunes" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Idea</h2>
-      <p>Macro photography often captures incredibly small details, but can lack size perspective, making it hard to visualize just how tiny some things really are. So I thought it would be helpful to use Lego minifigures as a reference, since most people are familiar with their size, as a way to help show how small the little things in nature really are, like wildflowers, rock features, moss, and more.</p>
+      <p>Macro photography captures incredibly small details, but can lack size perspective. This can make it hard to visualize just how tiny some things really are, so I thought it would be helpful to use Lego minifigures as a reference, since most people are familiar with their size.  Often times people go hiking to chase the end destination and picture perfect views, but there are so many little things along the way like wildflowers, rocks, moss, etc. My goal with this photography is to highlight the small side of nature and beautiful places from the perspertive of Legos.</p>
     </div>
   </div>
 
@@ -59,7 +59,7 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/about/about-13.jpg" alt="Bri sitting on her snowboard on a mountain slope, smiling" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Science</h2>
-      <p>Outside of my Lego hobby I spend most of my time working as a scientist, so I love sharing a fact with each photo to help myself and others learn more about the outdoor world. Alpine environments are incredibly complex and interesting, whether it's how plants manage to survive in such harsh conditions, the intricate details in rock formations, or weird facts about popular landmarks across the West. </p>
+      <p>Outside of my Lego hobby I spend most of my time working as a researcher, so I love sharing a fact with each photo to help myself and others learn more about the outdoor world. Alpine environments are incredibly complex and interesting, whether it's how plants manage to survive in such harsh conditions, the intricate details in rock formations, or weird facts about popular landmarks across the West. </p>
     </div>
   </div>
 
@@ -67,7 +67,7 @@ permalink: /about/
     <img src="{{ site.baseurl }}/photos/about/about-5.jpg" alt="Bri standing on cracked mud flats next to a river with red rock cliffs behind her" loading="lazy" onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Archive</h2>
-      <p>Due to Colorado's cost of living, I don't foresee having space anytime soon for a spare Lego room, so I use this photography as a digital collection instead. This is my way of "collecting" not only nostalgic and new minifigs, but also serves as an archive of the plants, places, and small things I've seen along my adventures.</p>
+      <p>Due to Colorado's cost of living, I don't foresee having space anytime soon for a spare Lego room, so I use this photography as a digital collection instead. This is my way of "collecting" not only nostalgic and new minifigs, but also serves as an archive of the plants, places, and small things I've seen along my adventures. Due to this I often sell my used pieces/minifigs so check out my shop page if you're looking to build your physical collection!</p>
     </div>
   </div>
 
