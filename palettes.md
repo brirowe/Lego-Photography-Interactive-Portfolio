@@ -6,6 +6,13 @@ permalink: /palettes/
 # Color Palettes
 
 <div class="palette-controls">
+<div class="filter-pills" id="style-pills">
+  <button type="button" class="filter-pill active" data-style="palette">All</button>
+  <button type="button" class="filter-pill" data-style="converging">Converging</button>
+  <button type="button" class="filter-pill" data-style="diverging">Diverging</button>
+  <button type="button" class="filter-pill" data-style="categorical">Categorical</button>
+</div>
+<div class="cvd-control">
 <label for="cvd-select">View as</label>
 <select id="cvd-select" class="cvd-select">
   <option value="normal">Normal vision</option>
@@ -15,6 +22,9 @@ permalink: /palettes/
   <option value="gray">Grayscale</option>
 </select>
 </div>
+</div>
+
+<p class="style-note" id="style-note"></p>
 
 <div class="cvd-filters" aria-hidden="true">
 <svg width="0" height="0" focusable="false">
@@ -27,16 +37,13 @@ permalink: /palettes/
 
 <div class="palette-grid">
 {% for row in site.data.palettes %}
-  <div class="palette-card">
+  <div class="palette-card"
+       data-palette="{{ row.palette }}"
+       data-converging="{{ row.converging }}"
+       data-diverging="{{ row.diverging }}"
+       data-categorical="{{ row.categorical }}">
     <img src="{{ site.baseurl }}/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}" loading="lazy">
-    <div class="swatches">
-      {% assign colors = row.palette | split: ", " %}
-      {% for hex in colors %}
-        <button type="button" class="swatch" style="background-color: {{ hex }};" data-hex="{{ hex }}" title="Click to copy {{ hex }}">
-          <span class="swatch-label">{{ hex }}</span>
-        </button>
-      {% endfor %}
-    </div>
+    <div class="swatches"></div>
   </div>
 {% endfor %}
 </div>
@@ -45,52 +52,8 @@ permalink: /palettes/
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var toast = document.getElementById('copy-toast');
-  var toastTimer;
 
-  document.querySelectorAll('.swatch').forEach(function (swatch) {
-    swatch.addEventListener('click', function () {
-      var hex = swatch.getAttribute('data-hex');
-
-      var copyText = function (text) {
-        if (navigator.clipboard && window.isSecureContext) {
-          return navigator.clipboard.writeText(text);
-        }
-        var textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        try {
-          document.execCommand('copy');
-        } catch (err) {}
-        document.body.removeChild(textarea);
-        return Promise.resolve();
-      };
-
-      copyText(hex).then(function () {
-        swatch.classList.add('copied');
-        toast.textContent = 'Copied ' + hex;
-        toast.classList.add('show');
-
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () {
-          toast.classList.remove('show');
-        }, 1200);
-
-        setTimeout(function () {
-          swatch.classList.remove('copied');
-        }, 600);
-      });
-    });
-  });
-});
-</script>
-
-<script>
-(function () {
+  // ---- colorblind simulation ----
   var M = {
     deutan: [[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.011820, 0.042940, 0.968881]],
     protan: [[0.152286, 1.052583, -0.204868], [0.114503, 0.786281, 0.099216], [-0.003882, -0.048116, 1.051998]],
@@ -113,15 +76,105 @@ document.addEventListener('DOMContentLoaded', function () {
     return '#' + out.map(function (v) { return ('0' + toSrgb(v).toString(16)).slice(-2); }).join('');
   }
 
+  // ---- styles + view ----
+  var NOTES = {
+    palette: 'Every photo. Each color sits next to its closest match, darker end first.',
+    converging: 'Muted at both ends, building to the boldest color in the middle.',
+    diverging: 'Warm colors on one side, cool on the other, meeting in the middle.',
+    categorical: 'A few colors picked to be as different from each other as possible.'
+  };
+
+  var grid = document.querySelector('.palette-grid');
+  var cards = grid.querySelectorAll('.palette-card');
+  var note = document.getElementById('style-note');
   var select = document.getElementById('cvd-select');
-  select.addEventListener('change', function () {
-    var kind = select.value;
-    document.querySelectorAll('.palette-card .swatch').forEach(function (s) {
-      s.style.backgroundColor = simulate(s.getAttribute('data-hex'), kind);
+  var pills = document.querySelectorAll('#style-pills .filter-pill');
+  var style = 'palette';
+  var view = 'normal';
+
+  function render() {
+    var shown = 0;
+    cards.forEach(function (card) {
+      var hexes = (card.getAttribute('data-' + style) || '').trim();
+      if (!hexes) {
+        card.hidden = true;
+        return;
+      }
+      card.hidden = false;
+      shown++;
+
+      var box = card.querySelector('.swatches');
+      box.innerHTML = '';
+      hexes.split(',').forEach(function (raw) {
+        var hex = raw.trim();
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'swatch';
+        b.setAttribute('data-hex', hex);
+        b.title = 'Click to copy ' + hex;
+        b.style.backgroundColor = simulate(hex, view);
+        var label = document.createElement('span');
+        label.className = 'swatch-label';
+        label.textContent = hex;
+        b.appendChild(label);
+        box.appendChild(b);
+      });
+
+      card.querySelector('img').style.filter = view === 'normal' ? '' : 'url(#cvd-' + view + ')';
     });
-    document.querySelectorAll('.palette-card img').forEach(function (img) {
-      img.style.filter = kind === 'normal' ? '' : 'url(#cvd-' + kind + ')';
+    note.textContent = NOTES[style] + ' (' + shown + (shown === 1 ? ' photo)' : ' photos)');
+  }
+
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pills.forEach(function (p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+      style = pill.getAttribute('data-style');
+      render();
     });
   });
-})();
+
+  select.addEventListener('change', function () {
+    view = select.value;
+    render();
+  });
+
+  // ---- click a swatch to copy ----
+  var toast = document.getElementById('copy-toast');
+  var toastTimer;
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try {
+      document.execCommand('copy');
+    } catch (err) {}
+    document.body.removeChild(textarea);
+    return Promise.resolve();
+  }
+
+  grid.addEventListener('click', function (e) {
+    var swatch = e.target.closest('.swatch');
+    if (!swatch) return;
+    var hex = swatch.getAttribute('data-hex');
+    copyText(hex).then(function () {
+      swatch.classList.add('copied');
+      toast.textContent = 'Copied ' + hex;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1200);
+      setTimeout(function () { swatch.classList.remove('copied'); }, 600);
+    });
+  });
+
+  render();
+});
 </script>
