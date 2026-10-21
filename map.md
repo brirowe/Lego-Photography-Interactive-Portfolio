@@ -24,11 +24,15 @@ text_width: false
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
   <img id="lightbox-img" src="">
+  <p id="lightbox-caption"></p>
 </div>
 
 <script>
-  function showLightbox(src) {
+  function showLightbox(src, caption) {
     document.getElementById('lightbox-img').src = src;
+    var cap = document.getElementById('lightbox-caption');
+    cap.textContent = caption || '';
+    cap.style.display = caption ? 'block' : 'none';
     document.getElementById('lightbox-overlay').style.display = 'flex';
   }
 
@@ -62,6 +66,7 @@ text_width: false
     .map(function(p) {
       return {
         filename: p.filename,
+        landmark: p.landmark,
         lat: parseFloat(p.latitude),
         lng: shiftLng(parseFloat(p.longitude)),
         theme: p.theme,
@@ -243,9 +248,10 @@ text_width: false
     pts.forEach(function(p) {
       var key = p.lat.toFixed(6) + ',' + p.lng.toFixed(6);
       if (!groups[key]) {
-        groups[key] = { lat: p.lat, lng: p.lng, filenames: [] };
+        groups[key] = { lat: p.lat, lng: p.lng, filenames: [], landmarks: [] };
       }
       groups[key].filenames.push(p.filename);
+      groups[key].landmarks.push(p.landmark);
     });
     return Object.values(groups);
   }
@@ -287,7 +293,7 @@ text_width: false
         img.src = '/Lego-Photography-Interactive-Portfolio/photos/photos_compressed/' + g.filenames[idx];
         img.width = 200;
         img.style.cursor = 'pointer';
-        img.onclick = function() { showLightbox('/Lego-Photography-Interactive-Portfolio/photos/' + g.filenames[idx]); };
+        img.onclick = function() { showLightbox('/Lego-Photography-Interactive-Portfolio/photos/' + g.filenames[idx], g.landmarks[idx]); };
         container.appendChild(img);
         if (g.filenames.length > 1) {
           var controls = document.createElement('div');

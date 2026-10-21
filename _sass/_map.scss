@@ -55,10 +55,19 @@
 }
 #lightbox-img {
   max-width: 90vw;
-  max-height: 90vh;
-  max-height: 90dvh;
+  max-height: calc(90vh - 3rem);
+  max-height: calc(90dvh - 3rem);
   object-fit: contain;
   display: block;
+}
+#lightbox-caption {
+  margin: 0.75rem 0 0;
+  padding: 0 1rem;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-align: center;
 }
 
 .carousel-popup {
