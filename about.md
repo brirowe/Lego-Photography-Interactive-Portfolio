@@ -44,6 +44,7 @@ permalink: /about/
     <div class="stagger-text">
       <h2>The Backcountry</h2>
       <p>Some of my biggest passions in life are adventure and exploration, especially in the mountains. I'm lucky enough to live in Colorado, where I spend most of my free time hiking, snowboarding, and rock climbing, though I don't strive to be the best at any of them (photography included, lol). It's really just about my love of being in nature, and this photography hobby has been a great way to share my experiences with people in a unique way.</p>
+      <a class="btn-outline" href="{{ site.baseurl }}/map/">See the map</a>
     </div>
   </div>
 
