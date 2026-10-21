@@ -18,18 +18,55 @@ text_width: false
 
 <div class="archive-grid" id="archive-grid"></div>
 
-<div id="lightbox-overlay" onclick="this.style.display='none'">
-	<img id="lightbox-img" src="">
+<div id="archive-lightbox" onclick="closeArchiveLightbox()">
+	<div class="archive-lightbox-card" onclick="event.stopPropagation()">
+		<button type="button" class="archive-lightbox-close" onclick="closeArchiveLightbox()" aria-label="Close">&times;</button>
+		<img id="archive-lightbox-img" src="" alt="">
+		<dl id="archive-lightbox-info"></dl>
+	</div>
 </div>
 
 <script>
 	const archivePhotos = {{ site.data.minifig_archive | jsonify }};
 	const baseurl = "{{ site.baseurl }}";
 
-	function showLightbox(src) {
-		document.getElementById('lightbox-img').src = src;
-		document.getElementById('lightbox-overlay').style.display = 'flex';
+	function openArchiveLightbox(p) {
+		var img = document.getElementById('archive-lightbox-img');
+		img.src = baseurl + '/photos/' + p.filename;
+		img.alt = p.theme || '';
+
+		var sets = p.setTokens.filter(function(t) { return t !== 'None'; });
+		var rows = [
+			['Theme', p.theme],
+			['Subtheme', p.subtheme],
+			[sets.length > 1 ? 'Sets' : 'Set', sets.join(', ')],
+			['Year', p.year]
+		];
+
+		var info = document.getElementById('archive-lightbox-info');
+		info.innerHTML = '';
+		rows.forEach(function(r) {
+			if (!r[1] || r[1] === 'None') return;
+			var dt = document.createElement('dt');
+			dt.textContent = r[0];
+			var dd = document.createElement('dd');
+			dd.textContent = r[1];
+			info.appendChild(dt);
+			info.appendChild(dd);
+		});
+
+		document.getElementById('archive-lightbox').classList.add('open');
+		document.body.style.overflow = 'hidden';
 	}
+
+	function closeArchiveLightbox() {
+		document.getElementById('archive-lightbox').classList.remove('open');
+		document.body.style.overflow = '';
+	}
+
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape') closeArchiveLightbox();
+	});
 
 	// Elevation ranges for the Elevation filter (feet)
 	var ELEV_BANDS = [
@@ -232,20 +269,9 @@ text_width: false
 			img.loading = 'lazy';
 			img.src = baseurl + '/photos/photos_compressed/' + p.filename;
 			img.alt = p.theme;
-			img.addEventListener('click', function() { showLightbox(baseurl + '/photos/' + p.filename); });
 			item.appendChild(img);
+			item.addEventListener('click', function() { openArchiveLightbox(p); });
 
 			const caption = document.createElement('div');
 			caption.className = 'archive-caption';
-			caption.textContent = [p.theme, p.set, p.year].filter(function(v) { return v && v !== 'None'; }).join(' · ');
-			item.appendChild(caption);
-
-			grid.appendChild(item);
-		});
-	}
-
-	renderFilterBar();
-	renderFilterPanel();
-	renderActiveChips();
-	renderGrid();
-</script>
+			caption.textContent =

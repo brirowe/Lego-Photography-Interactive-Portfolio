@@ -177,10 +177,6 @@
 		transition: transform 0.25s ease;
 	}
 
-	&:hover img {
-		transform: scale(1.08);
-	}
-
 	.archive-caption {
 		position: absolute;
 		bottom: 0;
@@ -195,7 +191,89 @@
 		pointer-events: none;
 	}
 
-	&:hover .archive-caption {
-		opacity: 1;
+	// Hover effects only on devices with a real mouse, so taps on phones don't trigger them
+	@media (hover: hover) {
+		&:hover img {
+			transform: scale(1.08);
+		}
+
+		&:hover .archive-caption {
+			opacity: 1;
+		}
 	}
+}
+
+/* Click/tap lightbox with photo info */
+#archive-lightbox {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	background: rgba(0, 0, 0, 0.85);
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+
+	&.open {
+		display: flex;
+	}
+}
+
+.archive-lightbox-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	max-width: min(90vw, 900px);
+	max-height: 90vh;
+	max-height: 90dvh;
+	background: #141414;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+
+	img {
+		display: block;
+		width: 100%;
+		flex: 1 1 auto;
+		min-height: 0;
+		object-fit: contain;
+		background: #000;
+	}
+}
+
+#archive-lightbox-info {
+	flex: 0 0 auto;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 4px 14px;
+	margin: 0;
+	padding: 12px 16px 14px;
+	font-size: 14px;
+	line-height: 1.4;
+
+	dt {
+		margin: 0;
+		color: rgba(255, 255, 255, 0.55);
+	}
+
+	dd {
+		margin: 0;
+		color: #fff;
+	}
+}
+
+.archive-lightbox-close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 1;
+	width: 36px;
+	height: 36px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
 }
