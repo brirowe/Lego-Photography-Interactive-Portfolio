@@ -43,21 +43,7 @@ permalink: /palettes/
 </svg>
 </div>
 
-<div class="palette-grid">
-{% for row in site.data.palettes %}
-  <div class="palette-card"
-       data-filename="{{ row.filename }}"
-       data-palette="{{ row.palette }}"
-       data-sequential="{{ row.sequential }}"
-       data-converging="{{ row.converging }}"
-       data-diverging="{{ row.diverging }}"
-       data-cool_warm="{{ row.cool_warm }}"
-       data-categorical="{{ row.categorical }}">
-    <img src="{{ site.baseurl }}/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}" loading="lazy">
-    <div class="palette-rows"></div>
-  </div>
-{% endfor %}
-</div>
+<div class="palette-grid"></div>
 
 <div class="copy-toast" id="copy-toast">Copied!</div>
 
@@ -65,6 +51,10 @@ permalink: /palettes/
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+  var baseurl = "{{ site.baseurl }}";
+  var PALETTES = {};
+  {{ site.data.palettes | jsonify }}.forEach(function (row) { PALETTES[row.filename] = row; });
 
   // ---- colorblind simulation ----
   var M = {
@@ -110,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   var grid = document.querySelector('.palette-grid');
-  var cards = Array.prototype.slice.call(grid.querySelectorAll('.palette-card'));
   var note = document.getElementById('style-note');
   var select = document.getElementById('cvd-select');
   var pills = document.querySelectorAll('#style-pills .filter-pill');
@@ -182,9 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ---- photo filters (theme, background, etc.) ----
-  var info = {};
-  PHOTO_DATA.forEach(function (p) { info[p.filename] = p; });
-
   var filterConfig = [
     { key: 'theme', label: 'Theme' },
     { key: 'subtheme', label: 'Subtheme' },
@@ -194,26 +180,31 @@ document.addEventListener('DOMContentLoaded', function () {
     { key: 'state', label: 'State' }
   ];
 
+  // only photos that have a palette, each filter value as a list so a photo
+  // with two figs (like "Star Wars, Agents") shows up under both
+  var photos = PHOTO_DATA.filter(function (p) { return PALETTES[p.filename]; });
+  photos.forEach(function (p) {
+    p.tok = {};
+    filterConfig.forEach(function (cfg) { p.tok[cfg.key] = photoTokens(p[cfg.key]); });
+  });
+
   var selected = {};
   filterConfig.forEach(function (c) { selected[c.key] = new Set(); });
   var openCategory = null;
-
-  function photoOf(card) { return info[card.getAttribute('data-filename')] || {}; }
 
   function matchesExcluding(p, excludeKey) {
     return filterConfig.every(function (cfg) {
       if (cfg.key === excludeKey) return true;
       var chosen = selected[cfg.key];
-      return chosen.size === 0 || chosen.has(p[cfg.key]);
+      return chosen.size === 0 || p.tok[cfg.key].some(function (t) { return chosen.has(t); });
     });
   }
 
   function uniqueValues(key) {
     var vals = new Set();
-    cards.forEach(function (card) {
-      var p = photoOf(card);
+    photos.forEach(function (p) {
       if (!matchesExcluding(p, key)) return;
-      if (p[key] && p[key] !== 'None') vals.add(p[key]);
+      p.tok[key].forEach(function (t) { vals.add(t); });
     });
     return Array.from(vals).sort(function (a, b) { return a.localeCompare(b); });
   }
@@ -311,29 +302,82 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // ---- cards: one per shot, dots flip between near-duplicate versions ----
+  var cards = [];   // the cards currently on the page
+
+  function cvd() { return view === 'normal' ? '' : 'url(#cvd-' + view + ')'; }
+
+  // redraw one card for its current version
+  function drawCard(card) {
+    var f = card._files[card._idx];
+    var img = card.querySelector('img');
+    img.src = baseurl + '/photos/photos_compressed/' + f;
+    img.alt = f;
+    img.style.filter = cvd();
+
+    card.querySelectorAll('.version-dot').forEach(function (d, i) {
+      d.classList.toggle('active', i === card._idx);
+    });
+
+    var rows = card.querySelector('.palette-rows');
+    rows.innerHTML = '';
+    styles.forEach(function (s) {
+      var raw = (PALETTES[f][s] || '').trim();
+      if (raw) rows.appendChild(buildRow(raw, s, styles.length > 1));
+    });
+  }
+
+  function makeCard(files) {
+    var card = document.createElement('div');
+    card.className = 'palette-card';
+    card._files = files;
+    card._idx = 0;
+
+    var img = document.createElement('img');
+    img.loading = 'lazy';
+    card.appendChild(img);
+
+    if (files.length > 1) {
+      var dots = document.createElement('div');
+      dots.className = 'version-dots';
+      files.forEach(function (f, i) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'version-dot';
+        d.setAttribute('aria-label', 'Version ' + (i + 1));
+        d.addEventListener('click', function () {
+          card._idx = i;
+          drawCard(card);
+        });
+        dots.appendChild(d);
+      });
+      card.appendChild(dots);
+    }
+
+    var rows = document.createElement('div');
+    rows.className = 'palette-rows';
+    card.appendChild(rows);
+    return card;
+  }
+
   // ---- draw the grid ----
   function render() {
-    var shown = 0;
     var multi = styles.length > 1;
 
-    cards.forEach(function (card) {
-      var hasAny = styles.some(function (s) { return (card.getAttribute('data-' + s) || '').trim(); });
-      if (!hasAny || !matchesExcluding(photoOf(card), null)) {
-        card.hidden = true;
-        return;
-      }
-      card.hidden = false;
-      shown++;
+    // one card per shot, mixed by theme
+    var groups = mixOrder(groupPhotos(photos.filter(function (p) { return matchesExcluding(p, null); })));
+    var keep = {};
+    cards.forEach(function (c) { keep[c._files.join('|')] = c; });
 
-      var rows = card.querySelector('.palette-rows');
-      rows.innerHTML = '';
-      styles.forEach(function (s) {
-        var raw = (card.getAttribute('data-' + s) || '').trim();
-        if (raw) rows.appendChild(buildRow(raw, s, multi));
-      });
-
-      card.querySelector('img').style.filter = view === 'normal' ? '' : 'url(#cvd-' + view + ')';
+    grid.innerHTML = '';
+    cards = groups.map(function (g) {
+      var files = g.map(function (p) { return p.filename; });
+      var card = keep[files.join('|')] || makeCard(files);
+      drawCard(card);
+      grid.appendChild(card);
+      return card;
     });
+    var shown = cards.length;
 
     note.innerHTML = '';
     styles.forEach(function (s) {
@@ -376,13 +420,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // ---- popup: every palette for the clicked photo ----
   var popupImg = document.getElementById('photo-lightbox-img');
   window.onPhotoOpen = function (filename, extra) {
-    var card = cards.find(function (c) { return c.getAttribute('data-filename') === filename; });
-    popupImg.style.filter = view === 'normal' ? '' : 'url(#cvd-' + view + ')';
-    if (!card) return;
+    popupImg.style.filter = cvd();
+    var row = PALETTES[filename];
+    if (!row) return;
     var wrap = document.createElement('div');
     wrap.className = 'palette-rows palette-rows-compact';
     STYLE_ORDER.forEach(function (s) {
-      var raw = (card.getAttribute('data-' + s) || '').trim();
+      var raw = (row[s] || '').trim();
       if (raw) wrap.appendChild(buildRow(raw, s, true));
     });
     extra.appendChild(wrap);
@@ -439,7 +483,8 @@ document.addEventListener('DOMContentLoaded', function () {
   grid.addEventListener('click', function (e) {
     var photo = e.target.closest('.palette-card img');
     if (photo) {
-      openPhoto(photo.closest('.palette-card').getAttribute('data-filename'));
+      var card = photo.closest('.palette-card');
+      openPhoto(card._files[card._idx], card._files);
       return;
     }
     handleCopy(e);
@@ -452,15 +497,17 @@ document.addEventListener('DOMContentLoaded', function () {
   renderActiveChips();
   render();
 
-  // Arrived from another page: scroll to that photo's palette
+  // Arrived from another page: scroll to that photo's card, on that version, and open it
   if (linkedPhoto) {
-    var target = cards.find(function (c) {
-      return c.getAttribute('data-filename') === linkedPhoto;
-    });
+    var target = cards.find(function (c) { return c._files.indexOf(linkedPhoto) !== -1; });
     if (target) {
+      target._idx = target._files.indexOf(linkedPhoto);
+      drawCard(target);
       showLinked(target);
+      openPhoto(linkedPhoto, target._files);
+    } else {
+      openPhoto(linkedPhoto);
     }
-    openPhoto(linkedPhoto);
   }
 });
-</script>
+</script>

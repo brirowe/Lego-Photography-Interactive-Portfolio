@@ -43,15 +43,10 @@ text_width: false
 		}
 	}
 
-	archivePhotos.forEach(function(p) {
-		p.elevation_band = elevBand(p.elevation_ft);
-		p.setTokens = (p.set || '').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
-	});
-
 	const filterConfig = [
 		{ key: 'theme', label: 'Theme' },
 		{ key: 'subtheme', label: 'Subtheme' },
-		{ key: 'set', label: 'Set Number', multiToken: true },
+		{ key: 'set', label: 'Set Number' },
 		{ key: 'year', label: 'Year' },
 		{ key: 'season', label: 'Season' },
 		{ key: 'background_type', label: 'Background' },
@@ -59,6 +54,14 @@ text_width: false
 		{ key: 'state', label: 'State' },
 		{ key: 'elevation_band', label: 'Elevation', order: ELEV_ORDER }
 	];
+
+	// Each filter value as a list, so a photo with two figs (like "Star Wars, Agents")
+	// shows up under both
+	archivePhotos.forEach(function(p) {
+		p.elevation_band = elevBand(p.elevation_ft);
+		p.tok = {};
+		filterConfig.forEach(function(cfg) { p.tok[cfg.key] = photoTokens(p[cfg.key]); });
+	});
 
 	const selected = {};
 	filterConfig.forEach(function(c) { selected[c.key] = new Set(); });
@@ -70,22 +73,15 @@ text_width: false
 			if (cfg.key === excludeKey) return true;
 			const chosen = selected[cfg.key];
 			if (chosen.size === 0) return true;
-			if (cfg.multiToken) {
-				return photo.setTokens.some(function(t) { return chosen.has(t); });
-			}
-			return chosen.has(photo[cfg.key]);
+			return photo.tok[cfg.key].some(function(t) { return chosen.has(t); });
 		});
 	}
 
-	function uniqueValues(key, multiToken, order) {
+	function uniqueValues(key, order) {
 		const vals = new Set();
 		archivePhotos.forEach(function(p) {
 			if (!matchesExcluding(p, key)) return;
-			if (multiToken) {
-				p.setTokens.forEach(function(t) { if (t && t !== 'None') vals.add(t); });
-			} else if (p[key] && p[key] !== 'None') {
-				vals.add(p[key]);
-			}
+			p.tok[key].forEach(function(t) { vals.add(t); });
 		});
 		const arr = Array.from(vals);
 		if (order) {
@@ -127,7 +123,7 @@ text_width: false
 		panel.classList.add('visible');
 
 		const cfg = filterConfig.find(function(c) { return c.key === openCategory; });
-		const values = uniqueValues(cfg.key, cfg.multiToken, cfg.order);
+		const values = uniqueValues(cfg.key, cfg.order);
 
 		const pillWrap = document.createElement('div');
 		pillWrap.className = 'filter-pills';
@@ -195,39 +191,41 @@ text_width: false
 	}
 
 	function matches(photo) {
-		return filterConfig.every(function(cfg) {
-			const chosen = selected[cfg.key];
-			if (chosen.size === 0) return true;
-			if (cfg.multiToken) {
-				return photo.setTokens.some(function(t) { return chosen.has(t); });
-			}
-			return chosen.has(photo[cfg.key]);
-		});
+		return matchesExcluding(photo, null);
 	}
 
 	function renderGrid() {
 		const grid = document.getElementById('archive-grid');
-		const filtered = archivePhotos.filter(matches);
 
-		filtered.sort(function(a, b) {
-			return (a.theme || '').localeCompare(b.theme || '') || (a.subtheme || '').localeCompare(b.subtheme || '');
-		});
+		// one tile per shot (near-duplicate versions grouped), mixed by theme
+		const groups = mixOrder(groupPhotos(archivePhotos.filter(matches)));
 
 		document.getElementById('archive-count').textContent =
-			filtered.length + (filtered.length === 1 ? ' photo' : ' photos');
+			groups.length + (groups.length === 1 ? ' photo' : ' photos');
 
 		grid.innerHTML = '';
-		filtered.forEach(function(p) {
+		groups.forEach(function(g) {
+			const p = g[0];
+			const files = g.map(function(x) { return x.filename; });
+
 			const item = document.createElement('div');
 			item.className = 'archive-item';
-			item.dataset.filename = p.filename;
+			item.dataset.files = files.join('|');
 
 			const img = document.createElement('img');
 			img.loading = 'lazy';
 			img.src = baseurl + '/photos/photos_compressed/' + p.filename;
 			img.alt = p.theme;
 			item.appendChild(img);
-			item.addEventListener('click', function() { openPhoto(p.filename); });
+			item.addEventListener('click', function() { openPhoto(p.filename, files); });
+
+			if (g.length > 1) {
+				const badge = document.createElement('span');
+				badge.className = 'version-badge';
+				badge.textContent = g.length;
+				badge.title = g.length + ' versions';
+				item.appendChild(badge);
+			}
 
 			const caption = document.createElement('div');
 			caption.className = 'archive-caption';
@@ -243,14 +241,16 @@ text_width: false
 	renderActiveChips();
 	renderGrid();
 
-	// Arrived from another page: scroll to that photo and open it
+	// Arrived from another page: scroll to that photo's tile and open that version
 	if (linkedPhoto) {
 		const target = Array.from(document.querySelectorAll('.archive-item')).find(function(el) {
-			return el.dataset.filename === linkedPhoto;
+			return el.dataset.files.split('|').indexOf(linkedPhoto) !== -1;
 		});
 		if (target) {
 			showLinked(target);
+			openPhoto(linkedPhoto, target.dataset.files.split('|'));
+		} else {
+			openPhoto(linkedPhoto);
 		}
-		openPhoto(linkedPhoto);
 	}
-</script>
+</script>

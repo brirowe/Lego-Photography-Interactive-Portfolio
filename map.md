@@ -103,6 +103,13 @@ text_width: false
     { key: 'elevation_band', label: 'Elevation', order: ELEV_ORDER }
   ];
 
+  // Each filter value as a list, so a photo with two figs (like "Star Wars, Agents")
+  // shows up under both
+  points.forEach(function(p) {
+    p.tok = {};
+    filterConfig.forEach(function(cfg) { p.tok[cfg.key] = photoTokens(p[cfg.key]); });
+  });
+
   var selected = {};
   filterConfig.forEach(function(c) { selected[c.key] = new Set(); });
 
@@ -113,7 +120,7 @@ text_width: false
       if (cfg.key === excludeKey) return true;
       var chosen = selected[cfg.key];
       if (chosen.size === 0) return true;
-      return chosen.has(point[cfg.key]);
+      return point.tok[cfg.key].some(function(t) { return chosen.has(t); });
     });
   }
 
@@ -121,7 +128,7 @@ text_width: false
     var vals = new Set();
     points.forEach(function(p) {
       if (!matchesExcluding(p, key)) return;
-      if (p[key] && p[key] !== 'None') vals.add(p[key]);
+      p.tok[key].forEach(function(t) { vals.add(t); });
     });
     if (order) {
       return Array.from(vals).sort(function(a, b) { return order.indexOf(a) - order.indexOf(b); });
@@ -130,11 +137,7 @@ text_width: false
   }
 
   function pointMatches(p) {
-    return filterConfig.every(function(cfg) {
-      var chosen = selected[cfg.key];
-      if (chosen.size === 0) return true;
-      return chosen.has(p[cfg.key]);
-    });
+    return matchesExcluding(p, null);
   }
 
   function renderFilterBar() {
@@ -287,7 +290,7 @@ text_width: false
         img.src = baseurl + '/photos/photos_compressed/' + g.filenames[idx];
         img.width = 200;
         img.style.cursor = 'pointer';
-        img.onclick = function() { openPhoto(g.filenames[idx]); };
+        img.onclick = function() { openPhoto(g.filenames[idx], g.filenames); };
         container.appendChild(img);
         if (g.filenames.length > 1) {
           var controls = document.createElement('div');
@@ -370,4 +373,4 @@ text_width: false
       map.invalidateSize();
     }, 150);
   });
-</script>
+</script>

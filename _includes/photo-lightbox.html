@@ -3,6 +3,11 @@
 		<button type="button" class="photo-lightbox-close" aria-label="Close">&times;</button>
 		<img id="photo-lightbox-img" class="photo-lightbox-img" src="" alt="">
 		<div class="photo-lightbox-body">
+			<div class="photo-lightbox-nav" id="photo-lightbox-nav">
+				<button type="button" class="photo-lightbox-step" data-step="-1" aria-label="Previous version">&#8249;</button>
+				<span class="photo-lightbox-dots" id="photo-lightbox-dots"></span>
+				<button type="button" class="photo-lightbox-step" data-step="1" aria-label="Next version">&#8250;</button>
+			</div>
 			<p class="photo-lightbox-title" id="photo-lightbox-title"></p>
 			<dl class="photo-lightbox-info" id="photo-lightbox-info"></dl>
 			<div class="photo-lightbox-extra" id="photo-lightbox-extra"></div>
@@ -30,6 +35,8 @@
 
 		var box = document.getElementById('photo-lightbox');
 		var img = document.getElementById('photo-lightbox-img');
+		var nav = document.getElementById('photo-lightbox-nav');
+		var dots = document.getElementById('photo-lightbox-dots');
 		var title = document.getElementById('photo-lightbox-title');
 		var info = document.getElementById('photo-lightbox-info');
 		var links = document.getElementById('photo-lightbox-links');
@@ -40,25 +47,92 @@
 			return v === 'None' ? '' : v;
 		}
 
-		function openPhoto(filename) {
-			var p = byFile[filename];
-			if (!p) return;
+		// "Star Wars, Agents" -> ["Star Wars", "Agents"] (photos with more than one fig)
+		function tokens(v) {
+			return clean(v).split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s && s !== 'None'; });
+		}
+
+		function picNum(f) { return Number((f.match(/\d+/) || [0])[0]); }
+
+		// Near-duplicate shots share a group. Returns a list of groups,
+		// each an array of photos with version 1 first.
+		function groupPhotos(list) {
+			var map = {}, out = [];
+			list.forEach(function (p) {
+				var k = p.group || p.filename;
+				if (!map[k]) { map[k] = []; out.push(map[k]); }
+				map[k].push(p);
+			});
+			out.forEach(function (g) {
+				g.sort(function (a, b) {
+					return (Number(a.variant) || 0) - (Number(b.variant) || 0) || picNum(a.filename) - picNum(b.filename);
+				});
+			});
+			return out;
+		}
+
+		// Take one from each list in turn: [a1, b1, c1, a2, b2, ...]
+		function roundRobin(lists) {
+			var out = [];
+			for (var i = 0, more = true; more; i++) {
+				more = false;
+				lists.forEach(function (l) {
+					if (i < l.length) { out.push(l[i]); more = true; }
+				});
+			}
+			return out;
+		}
+
+		// Mix the order so the page starts with one shot from every theme (A to Z),
+		// then loops around again. Inside a theme, subthemes take turns too.
+		function mixOrder(groups) {
+			var byTheme = {};
+			groups.forEach(function (g) {
+				var th = tokens(g[0].theme)[0] || 'zzz';
+				var sub = tokens(g[0].subtheme)[0] || '';
+				byTheme[th] = byTheme[th] || {};
+				(byTheme[th][sub] = byTheme[th][sub] || []).push(g);
+			});
+			var az = function (a, b) { return a.localeCompare(b); };
+			return roundRobin(Object.keys(byTheme).sort(az).map(function (th) {
+				return roundRobin(Object.keys(byTheme[th]).sort(az).map(function (s) { return byTheme[th][s]; }));
+			}));
+		}
+
+		// ---- the popup ----
+		var list = [];   // filenames you can flip through (versions of one shot)
+		var idx = 0;
+
+		function show() {
+			var p = byFile[list[idx]];
 
 			img.src = base + '/photos/' + p.filename;
 			img.alt = clean(p.theme) || 'Minifig photo';
 
+			// arrows and dots only when there's more than one version
+			nav.hidden = list.length < 2;
+			dots.innerHTML = '';
+			list.forEach(function (f, i) {
+				var d = document.createElement('button');
+				d.type = 'button';
+				d.className = 'photo-lightbox-dot' + (i === idx ? ' active' : '');
+				d.setAttribute('aria-label', 'Version ' + (i + 1));
+				d.addEventListener('click', function () { idx = i; show(); });
+				dots.appendChild(d);
+			});
+
 			// Each page only shows its own kind of info; the buttons go to the rest.
-			// Map: location. Archive: set details. Palettes: just the photo.
+			// Map: location. Archive: set details. Palettes: just the photo and its palettes.
 			title.textContent = here === 'map' ? (clean(p.landmark) || clean(p.location_name)) : '';
 
 			info.innerHTML = '';
 			if (here === 'archive') {
-				var sets = clean(p.set).split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s && s !== 'None'; });
+				var themes = tokens(p.theme), subs = tokens(p.subtheme), sets = tokens(p.set), years = tokens(p.year);
 				var rows = [
-					['Theme', clean(p.theme)],
-					['Subtheme', clean(p.subtheme)],
+					[themes.length > 1 ? 'Themes' : 'Theme', themes.join(', ')],
+					[subs.length > 1 ? 'Subthemes' : 'Subtheme', subs.join(', ')],
 					[sets.length > 1 ? 'Sets' : 'Set', sets.join(', ')],
-					['Year', clean(p.year)]
+					[years.length > 1 ? 'Years' : 'Year', years.join(', ')]
 				];
 				rows.forEach(function (r) {
 					if (!r[1]) return;
@@ -84,10 +158,23 @@
 				a.textContent = pg.label;
 				links.appendChild(a);
 			});
+		}
 
+		// filename: the photo to open. versions: optional list of filenames to flip through.
+		function openPhoto(filename, versions) {
+			if (!byFile[filename]) return;
+			list = (versions && versions.length ? versions : [filename]).filter(function (f) { return byFile[f]; });
+			idx = Math.max(0, list.indexOf(filename));
+			show();
 			box.classList.add('open');
 			box.setAttribute('aria-hidden', 'false');
 			document.body.style.overflow = 'hidden';
+		}
+
+		function step(n) {
+			if (list.length < 2) return;
+			idx = (idx + n + list.length) % list.length;
+			show();
 		}
 
 		function closePhoto() {
@@ -97,15 +184,33 @@
 		}
 
 		box.addEventListener('click', function (e) {
+			var s = e.target.closest('.photo-lightbox-step');
+			if (s) { step(Number(s.getAttribute('data-step'))); return; }
 			if (e.target === box || e.target.closest('.photo-lightbox-close')) closePhoto();
 		});
 
 		document.addEventListener('keydown', function (e) {
+			if (!box.classList.contains('open')) return;
 			if (e.key === 'Escape') closePhoto();
+			if (e.key === 'ArrowLeft') step(-1);
+			if (e.key === 'ArrowRight') step(1);
+		});
+
+		// swipe the photo left/right on phones to flip versions
+		var touchX = null;
+		img.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+		img.addEventListener('touchend', function (e) {
+			if (touchX == null) return;
+			var dx = e.changedTouches[0].clientX - touchX;
+			touchX = null;
+			if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
 		});
 
 		window.openPhoto = openPhoto;
 		window.closePhoto = closePhoto;
+		window.photoTokens = tokens;
+		window.groupPhotos = groupPhotos;
+		window.mixOrder = mixOrder;
 
 		// Filename passed in from another page, like ?photo=Pic%20(225).jpg
 		window.linkedPhoto = (function () {
