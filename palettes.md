@@ -5,6 +5,8 @@ permalink: /palettes/
 ---
 # Color Palettes
 
+<p class="archive-intro">Color palettes pulled from each minifig photo. Pick a style to see the colors arranged in different ways, use "View as" to see how they look with different types of color blindness, and click any color to copy its hex code.</p>
+
 <div class="palette-controls">
 <div class="filter-pills" id="style-pills">
   <button type="button" class="filter-pill active" data-style="palette">All</button>

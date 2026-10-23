@@ -6,6 +6,8 @@ permalink: /mosaics/
 
 # Mosaics
 
+<p class="archive-intro">Lego mosaic and art I've build out of random pieces. Filter by collection, click any mosaic to see it larger, and tap the icons to watch me build it on social media.</p>
+
 <div class="mosaic-filter filter-pills" id="mosaic-filter"></div>
 
 <div id="lightbox-overlay" onclick="this.style.display='none'">
