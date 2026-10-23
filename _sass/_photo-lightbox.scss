@@ -131,6 +131,11 @@
 	}
 }
 
+/* Palettes popup has no text above the buttons */
+.photo-lightbox-title:empty + .photo-lightbox-info:empty + .photo-lightbox-links {
+	margin-top: 0;
+}
+
 .photo-lightbox-close {
 	position: absolute;
 	top: 8px;

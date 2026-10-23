@@ -44,28 +44,30 @@
 
 			img.src = base + '/photos/' + p.filename;
 			img.alt = clean(p.theme) || 'Minifig photo';
-			title.textContent = clean(p.landmark) || clean(p.location_name);
 
-			var sets = clean(p.set).split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s && s !== 'None'; });
-			var elev = clean(p.elevation_ft);
-			var rows = [
-				['Theme', clean(p.theme)],
-				['Subtheme', clean(p.subtheme)],
-				[sets.length > 1 ? 'Sets' : 'Set', sets.join(', ')],
-				['Year', clean(p.year)],
-				['Elevation', elev && !isNaN(elev) ? Math.round(Number(elev)).toLocaleString() + ' ft' : '']
-			];
+			// Each page only shows its own kind of info; the buttons go to the rest.
+			// Map: location. Archive: set details. Palettes: just the photo.
+			title.textContent = here === 'map' ? (clean(p.landmark) || clean(p.location_name)) : '';
 
 			info.innerHTML = '';
-			rows.forEach(function (r) {
-				if (!r[1]) return;
-				var dt = document.createElement('dt');
-				dt.textContent = r[0];
-				var dd = document.createElement('dd');
-				dd.textContent = r[1];
-				info.appendChild(dt);
-				info.appendChild(dd);
-			});
+			if (here === 'archive') {
+				var sets = clean(p.set).split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s && s !== 'None'; });
+				var rows = [
+					['Theme', clean(p.theme)],
+					['Subtheme', clean(p.subtheme)],
+					[sets.length > 1 ? 'Sets' : 'Set', sets.join(', ')],
+					['Year', clean(p.year)]
+				];
+				rows.forEach(function (r) {
+					if (!r[1]) return;
+					var dt = document.createElement('dt');
+					dt.textContent = r[0];
+					var dd = document.createElement('dd');
+					dd.textContent = r[1];
+					info.appendChild(dt);
+					info.appendChild(dd);
+				});
+			}
 
 			links.innerHTML = '';
 			PAGES.forEach(function (pg) {
