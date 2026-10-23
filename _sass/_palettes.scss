@@ -215,3 +215,14 @@
   height: 0;
   overflow: hidden;
 }
+
+/* Center controls on phones */
+@media (max-width: 768px) {
+  .palette-controls {
+    justify-content: center;
+  }
+
+  .style-note {
+    text-align: center;
+  }
+}

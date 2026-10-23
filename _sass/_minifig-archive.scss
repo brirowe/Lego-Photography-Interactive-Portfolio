@@ -277,3 +277,12 @@
 	line-height: 1;
 	cursor: pointer;
 }
+
+/* Center filters on phones */
+@media (max-width: 768px) {
+	.archive-filter-bar,
+	.filter-pills,
+	.archive-active-chips {
+		justify-content: center;
+	}
+}
