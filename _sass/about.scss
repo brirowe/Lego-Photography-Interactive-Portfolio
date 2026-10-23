@@ -143,7 +143,9 @@
 	text-align: center;
 
 	p {
-		font-size: 1.15em;
+		// Normal size on big screens; on phones it shrinks just enough that each
+		// line fits (the longest line is about 21x the font size, 22 leaves a margin)
+		font-size: min(1.15em, calc((100vw - 60px) / 22));
 	}
 }
 
