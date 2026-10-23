@@ -362,3 +362,105 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         styles.push(s);
       }
+      styles.sort(function (a, b) { return STYLE_ORDER.indexOf(a) - STYLE_ORDER.indexOf(b); });
+      pill.classList.toggle('active', !on);
+      render();
+    });
+  });
+
+  select.addEventListener('change', function () {
+    view = select.value;
+    render();
+  });
+
+  // ---- popup: every palette for the clicked photo ----
+  var popupImg = document.getElementById('photo-lightbox-img');
+  window.onPhotoOpen = function (filename, extra) {
+    var card = cards.find(function (c) { return c.getAttribute('data-filename') === filename; });
+    popupImg.style.filter = view === 'normal' ? '' : 'url(#cvd-' + view + ')';
+    if (!card) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'palette-rows palette-rows-compact';
+    STYLE_ORDER.forEach(function (s) {
+      var raw = (card.getAttribute('data-' + s) || '').trim();
+      if (raw) wrap.appendChild(buildRow(raw, s, true));
+    });
+    extra.appendChild(wrap);
+  };
+
+  // ---- copying ----
+  var toast = document.getElementById('copy-toast');
+  var toastTimer;
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try {
+      document.execCommand('copy');
+    } catch (err) {}
+    document.body.removeChild(textarea);
+    return Promise.resolve();
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1200);
+  }
+
+  // handles Copy all and single colors, on the cards and in the popup
+  function handleCopy(e) {
+    var all = e.target.closest('.copy-all');
+    if (all) {
+      var list = all.closest('.palette-row').getAttribute('data-current');
+      copyText(list).then(function () { showToast('Copied all ' + list.split(',').length + ' colors'); });
+      return true;
+    }
+    var stop = e.target.closest('.swatch, .grad-stop');
+    if (!stop) return false;
+    var hex = stop.getAttribute('data-hex');
+    copyText(hex).then(function () {
+      stop.classList.add('copied');
+      showToast('Copied ' + hex);
+      setTimeout(function () { stop.classList.remove('copied'); }, 600);
+    });
+    return true;
+  }
+
+  grid.addEventListener('click', function (e) {
+    var photo = e.target.closest('.palette-card img');
+    if (photo) {
+      openPhoto(photo.closest('.palette-card').getAttribute('data-filename'));
+      return;
+    }
+    handleCopy(e);
+  });
+
+  document.getElementById('photo-lightbox-extra').addEventListener('click', handleCopy);
+
+  renderFilterBar();
+  renderFilterPanel();
+  renderActiveChips();
+  render();
+
+  // Arrived from another page: scroll to that photo's palette
+  if (linkedPhoto) {
+    var target = cards.find(function (c) {
+      return c.getAttribute('data-filename') === linkedPhoto;
+    });
+    if (target) {
+      showLinked(target);
+    }
+    openPhoto(linkedPhoto);
+  }
+});
+</script>
