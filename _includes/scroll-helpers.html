@@ -8,14 +8,33 @@
 		var topBtn = document.getElementById('back-to-top');
 		var lastY = window.scrollY;
 		var ticking = false;
+		var pinned = false;
+		var fullHeight = header.offsetHeight;
+
+		// Pinned = scrolled past the header, so the social icons are dropped.
+		// The height they free up is added back as margin so the page doesn't jump.
+		function setPinned(on) {
+			if (on === pinned) return;
+			if (on) {
+				fullHeight = header.offsetHeight;
+				header.classList.add('header-pinned');
+				header.style.marginBottom = (fullHeight - header.offsetHeight) + 'px';
+			} else {
+				header.classList.remove('header-pinned');
+				header.style.marginBottom = '';
+			}
+			pinned = on;
+		}
 
 		function update() {
 			var y = window.scrollY;
 			var navOpen = nav && nav.classList.contains('open');
 			var dy = y - lastY;
 
+			setPinned(y > fullHeight);
+
 			// hide when scrolling down, show when scrolling up (ignores tiny jitters)
-			if (y <= header.offsetHeight || navOpen) {
+			if (y <= fullHeight || navOpen) {
 				header.classList.remove('header-hidden');
 				lastY = y;
 			} else if (Math.abs(dy) > 6) {
@@ -34,6 +53,12 @@
 				ticking = true;
 			}
 		}, { passive: true });
+
+		window.addEventListener('resize', function () {
+			setPinned(false);
+			fullHeight = header.offsetHeight;
+			update();
+		});
 
 		topBtn.addEventListener('click', function () {
 			var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
