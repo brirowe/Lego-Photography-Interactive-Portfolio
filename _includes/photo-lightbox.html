@@ -5,6 +5,7 @@
 		<div class="photo-lightbox-body">
 			<p class="photo-lightbox-title" id="photo-lightbox-title"></p>
 			<dl class="photo-lightbox-info" id="photo-lightbox-info"></dl>
+			<div class="photo-lightbox-extra" id="photo-lightbox-extra"></div>
 			<div class="photo-lightbox-links" id="photo-lightbox-links"></div>
 		</div>
 	</div>
@@ -32,6 +33,7 @@
 		var title = document.getElementById('photo-lightbox-title');
 		var info = document.getElementById('photo-lightbox-info');
 		var links = document.getElementById('photo-lightbox-links');
+		var extra = document.getElementById('photo-lightbox-extra');
 
 		function clean(v) {
 			v = (v == null ? '' : String(v)).trim();
@@ -68,6 +70,10 @@
 					info.appendChild(dd);
 				});
 			}
+
+			// A page can add its own content here (the palettes page adds every palette)
+			extra.innerHTML = '';
+			if (window.onPhotoOpen) window.onPhotoOpen(p.filename, extra);
 
 			links.innerHTML = '';
 			PAGES.forEach(function (pg) {

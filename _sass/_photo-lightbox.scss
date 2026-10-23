@@ -58,7 +58,7 @@
 
 	@media #{$desktop} {
 		width: 260px;
-		padding: 20px;
+		padding: 56px 20px 20px;
 		border-left: 1px solid rgba(255, 255, 255, 0.08);
 	}
 }
@@ -131,8 +131,13 @@
 	}
 }
 
-/* Palettes popup has no text above the buttons */
-.photo-lightbox-title:empty + .photo-lightbox-info:empty + .photo-lightbox-links {
+/* Extra content a page adds, like the palettes on the Color Palettes page */
+.photo-lightbox-extra:empty {
+	display: none;
+}
+
+/* No text above the buttons */
+.photo-lightbox-title:empty + .photo-lightbox-info:empty + .photo-lightbox-extra:empty + .photo-lightbox-links {
 	margin-top: 0;
 }
 

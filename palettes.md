@@ -5,11 +5,15 @@ permalink: /palettes/
 ---
 # Color Palettes
 
-<p class="archive-intro">Color palettes pulled from each minifig photo. Pick a style to see the colors arranged in different ways, use "View as" to see how they look with different types of color blindness, and click any color to copy its hex code.</p>
+<p class="archive-intro">Color palettes pulled from each minifig photo. Use the filters to narrow down the photos, pick one or more styles to see the colors arranged in different ways, use "View as" to see how they look with different types of color blindness, and click any color to copy its hex code.</p>
+
+<div class="archive-filter-bar" id="palette-filter-bar"></div>
+<div class="archive-filter-panel" id="palette-filter-panel"></div>
+<div class="archive-active-chips" id="palette-active-chips"></div>
 
 <div class="palette-controls">
 <div class="filter-pills" id="style-pills">
-  <button type="button" class="filter-pill active" data-style="palette">All</button>
+  <button type="button" class="filter-pill active" data-style="palette">Standout</button>
   <button type="button" class="filter-pill" data-style="sequential">Sequential</button>
   <button type="button" class="filter-pill" data-style="converging">Converging</button>
   <button type="button" class="filter-pill" data-style="diverging">Diverging</button>
@@ -28,7 +32,7 @@ permalink: /palettes/
 </div>
 </div>
 
-<p class="style-note" id="style-note"></p>
+<div class="style-note" id="style-note"></div>
 
 <div class="cvd-filters" aria-hidden="true">
 <svg width="0" height="0" focusable="false">
@@ -50,8 +54,7 @@ permalink: /palettes/
        data-cool_warm="{{ row.cool_warm }}"
        data-categorical="{{ row.categorical }}">
     <img src="{{ site.baseurl }}/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}" loading="lazy">
-    <div class="swatches"></div>
-    <button type="button" class="copy-all">Copy all</button>
+    <div class="palette-rows"></div>
   </div>
 {% endfor %}
 </div>
@@ -87,6 +90,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ---- styles ----
+  var STYLE_ORDER = ['palette', 'sequential', 'converging', 'diverging', 'cool_warm', 'categorical'];
+  var LABELS = {
+    palette: 'Standout',
+    sequential: 'Sequential',
+    converging: 'Converging',
+    diverging: 'Diverging',
+    cool_warm: 'Cool to warm',
+    categorical: 'Categorical'
+  };
   var GRADIENTS = { sequential: true, converging: true, diverging: true, cool_warm: true };
   var NOTES = {
     palette: 'The standout colors from each photo, each one next to its closest match.',
@@ -98,11 +110,11 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   var grid = document.querySelector('.palette-grid');
-  var cards = grid.querySelectorAll('.palette-card');
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.palette-card'));
   var note = document.getElementById('style-note');
   var select = document.getElementById('cvd-select');
   var pills = document.querySelectorAll('#style-pills .filter-pill');
-  var style = 'palette';
+  var styles = ['palette'];   // styles currently turned on, can be more than one
   var view = 'normal';
 
   function stopButton(hex, cls) {
@@ -118,129 +130,235 @@ document.addEventListener('DOMContentLoaded', function () {
     return b;
   }
 
+  // One palette bar plus its label / Copy all line
+  function buildRow(raw, style, showLabel) {
+    var hexes = raw.split(',').map(function (h) { return h.trim(); });
+    var seen = hexes.map(function (h) { return simulate(h, view); });
+
+    var row = document.createElement('div');
+    row.className = 'palette-row';
+    row.setAttribute('data-current', hexes.join(', '));
+
+    var box = document.createElement('div');
+    if (GRADIENTS[style]) {
+      // one smooth bar, with a click zone over each color stop
+      box.className = 'swatches gradient-bar';
+      box.style.background = 'linear-gradient(to right, ' + seen.join(', ') + ')';
+      var step = 100 / (hexes.length - 1);
+      hexes.forEach(function (hex, i) {
+        var pos = i * step;                              // where this color sits on the bar
+        var left = Math.max(0, pos - step / 2);
+        var right = Math.min(100, pos + step / 2);
+        var b = stopButton(hex, 'grad-stop');
+        b.style.left = left + '%';
+        b.style.width = (right - left) + '%';
+        b.style.setProperty('--tick', ((pos - left) / (right - left) * 100) + '%');
+        box.appendChild(b);
+      });
+    } else {
+      box.className = 'swatches';
+      hexes.forEach(function (hex, i) {
+        var b = stopButton(hex, 'swatch');
+        b.style.backgroundColor = seen[i];
+        box.appendChild(b);
+      });
+    }
+    row.appendChild(box);
+
+    var foot = document.createElement('div');
+    foot.className = 'palette-row-foot';
+    var label = document.createElement('span');
+    label.className = 'palette-row-label';
+    label.textContent = showLabel ? LABELS[style] : '';
+    foot.appendChild(label);
+    var copy = document.createElement('button');
+    copy.type = 'button';
+    copy.className = 'copy-all';
+    copy.textContent = 'Copy all';
+    foot.appendChild(copy);
+    row.appendChild(foot);
+
+    return row;
+  }
+
+  // ---- photo filters (theme, background, etc.) ----
+  var info = {};
+  PHOTO_DATA.forEach(function (p) { info[p.filename] = p; });
+
+  var filterConfig = [
+    { key: 'theme', label: 'Theme' },
+    { key: 'subtheme', label: 'Subtheme' },
+    { key: 'background_type', label: 'Background' },
+    { key: 'season', label: 'Season' },
+    { key: 'country', label: 'Country' },
+    { key: 'state', label: 'State' }
+  ];
+
+  var selected = {};
+  filterConfig.forEach(function (c) { selected[c.key] = new Set(); });
+  var openCategory = null;
+
+  function photoOf(card) { return info[card.getAttribute('data-filename')] || {}; }
+
+  function matchesExcluding(p, excludeKey) {
+    return filterConfig.every(function (cfg) {
+      if (cfg.key === excludeKey) return true;
+      var chosen = selected[cfg.key];
+      return chosen.size === 0 || chosen.has(p[cfg.key]);
+    });
+  }
+
+  function uniqueValues(key) {
+    var vals = new Set();
+    cards.forEach(function (card) {
+      var p = photoOf(card);
+      if (!matchesExcluding(p, key)) return;
+      if (p[key] && p[key] !== 'None') vals.add(p[key]);
+    });
+    return Array.from(vals).sort(function (a, b) { return a.localeCompare(b); });
+  }
+
+  function refreshFilters() {
+    renderFilterBar();
+    renderFilterPanel();
+    renderActiveChips();
+    render();
+  }
+
+  function renderFilterBar() {
+    var bar = document.getElementById('palette-filter-bar');
+    bar.innerHTML = '';
+    filterConfig.forEach(function (cfg) {
+      var count = selected[cfg.key].size;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'filter-toggle' + (openCategory === cfg.key ? ' open' : '') + (count ? ' has-selection' : '');
+      btn.innerHTML = cfg.label + (count ? ' <span class="filter-toggle-count">' + count + '</span>' : '') + ' <span class="filter-toggle-arrow">▾</span>';
+      btn.addEventListener('click', function () {
+        openCategory = openCategory === cfg.key ? null : cfg.key;
+        renderFilterBar();
+        renderFilterPanel();
+      });
+      bar.appendChild(btn);
+    });
+  }
+
+  function renderFilterPanel() {
+    var panel = document.getElementById('palette-filter-panel');
+    panel.innerHTML = '';
+    if (!openCategory) {
+      panel.classList.remove('visible');
+      return;
+    }
+    panel.classList.add('visible');
+
+    var cfg = filterConfig.find(function (c) { return c.key === openCategory; });
+    var pillWrap = document.createElement('div');
+    pillWrap.className = 'filter-pills';
+
+    uniqueValues(cfg.key).forEach(function (val) {
+      var pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'filter-pill' + (selected[cfg.key].has(val) ? ' active' : '');
+      pill.textContent = val;
+      pill.addEventListener('click', function () {
+        if (selected[cfg.key].has(val)) {
+          selected[cfg.key].delete(val);
+        } else {
+          selected[cfg.key].add(val);
+        }
+        renderFilterBar();
+        renderActiveChips();
+        render();
+        pill.classList.toggle('active');
+      });
+      pillWrap.appendChild(pill);
+    });
+
+    panel.appendChild(pillWrap);
+  }
+
+  function renderActiveChips() {
+    var container = document.getElementById('palette-active-chips');
+    container.innerHTML = '';
+
+    var any = false;
+    filterConfig.forEach(function (cfg) {
+      selected[cfg.key].forEach(function (val) {
+        any = true;
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'active-chip';
+        chip.innerHTML = '<span class="active-chip-label">' + cfg.label + ':</span> ' + val + ' <span class="active-chip-remove">&times;</span>';
+        chip.addEventListener('click', function () {
+          selected[cfg.key].delete(val);
+          refreshFilters();
+        });
+        container.appendChild(chip);
+      });
+    });
+
+    if (any) {
+      var clearAll = document.createElement('button');
+      clearAll.type = 'button';
+      clearAll.className = 'clear-all-chip';
+      clearAll.textContent = 'Clear all';
+      clearAll.addEventListener('click', function () {
+        filterConfig.forEach(function (c) { selected[c.key].clear(); });
+        refreshFilters();
+      });
+      container.appendChild(clearAll);
+    }
+  }
+
+  // ---- draw the grid ----
   function render() {
     var shown = 0;
+    var multi = styles.length > 1;
+
     cards.forEach(function (card) {
-      var raw = (card.getAttribute('data-' + style) || '').trim();
-      if (!raw) {
+      var hasAny = styles.some(function (s) { return (card.getAttribute('data-' + s) || '').trim(); });
+      if (!hasAny || !matchesExcluding(photoOf(card), null)) {
         card.hidden = true;
         return;
       }
       card.hidden = false;
       shown++;
 
-      var hexes = raw.split(',').map(function (h) { return h.trim(); });
-      var seen = hexes.map(function (h) { return simulate(h, view); });
-      card.setAttribute('data-current', hexes.join(', '));
-
-      var box = card.querySelector('.swatches');
-      box.innerHTML = '';
-
-      if (GRADIENTS[style]) {
-        // one smooth bar, with a click zone over each color stop
-        box.className = 'swatches gradient-bar';
-        box.style.background = 'linear-gradient(to right, ' + seen.join(', ') + ')';
-        var step = 100 / (hexes.length - 1);
-        hexes.forEach(function (hex, i) {
-          var pos = i * step;                              // where this color sits on the bar
-          var left = Math.max(0, pos - step / 2);
-          var right = Math.min(100, pos + step / 2);
-          var b = stopButton(hex, 'grad-stop');
-          b.style.left = left + '%';
-          b.style.width = (right - left) + '%';
-          b.style.setProperty('--tick', ((pos - left) / (right - left) * 100) + '%');
-          box.appendChild(b);
-        });
-      } else {
-        box.className = 'swatches';
-        box.style.background = '';
-        hexes.forEach(function (hex, i) {
-          var b = stopButton(hex, 'swatch');
-          b.style.backgroundColor = seen[i];
-          box.appendChild(b);
-        });
-      }
+      var rows = card.querySelector('.palette-rows');
+      rows.innerHTML = '';
+      styles.forEach(function (s) {
+        var raw = (card.getAttribute('data-' + s) || '').trim();
+        if (raw) rows.appendChild(buildRow(raw, s, multi));
+      });
 
       card.querySelector('img').style.filter = view === 'normal' ? '' : 'url(#cvd-' + view + ')';
     });
-    note.textContent = NOTES[style] + ' (' + shown + (shown === 1 ? ' photo)' : ' photos)');
+
+    note.innerHTML = '';
+    styles.forEach(function (s) {
+      var line = document.createElement('p');
+      if (multi) {
+        var b = document.createElement('strong');
+        b.textContent = LABELS[s] + ': ';
+        line.appendChild(b);
+      }
+      line.appendChild(document.createTextNode(NOTES[s]));
+      note.appendChild(line);
+    });
+    var count = document.createElement('p');
+    count.className = 'palette-count';
+    count.textContent = shown + (shown === 1 ? ' photo' : ' photos');
+    note.appendChild(count);
   }
 
   pills.forEach(function (pill) {
     pill.addEventListener('click', function () {
-      pills.forEach(function (p) { p.classList.remove('active'); });
-      pill.classList.add('active');
-      style = pill.getAttribute('data-style');
-      render();
-    });
-  });
-
-  select.addEventListener('change', function () {
-    view = select.value;
-    render();
-  });
-
-  // ---- copying ----
-  var toast = document.getElementById('copy-toast');
-  var toastTimer;
-
-  function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    }
-    var textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-    try {
-      document.execCommand('copy');
-    } catch (err) {}
-    document.body.removeChild(textarea);
-    return Promise.resolve();
-  }
-
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1200);
-  }
-
-  grid.addEventListener('click', function (e) {
-    var photo = e.target.closest('.palette-card img');
-    if (photo) {
-      openPhoto(photo.closest('.palette-card').getAttribute('data-filename'));
-      return;
-    }
-    var all = e.target.closest('.copy-all');
-    if (all) {
-      var list = all.closest('.palette-card').getAttribute('data-current');
-      copyText(list).then(function () { showToast('Copied all ' + list.split(',').length + ' colors'); });
-      return;
-    }
-    var stop = e.target.closest('.swatch, .grad-stop');
-    if (!stop) return;
-    var hex = stop.getAttribute('data-hex');
-    copyText(hex).then(function () {
-      stop.classList.add('copied');
-      showToast('Copied ' + hex);
-      setTimeout(function () { stop.classList.remove('copied'); }, 600);
-    });
-  });
-
-  render();
-
-  // Arrived from another page: scroll to that photo's palette
-  if (linkedPhoto) {
-    var target = Array.prototype.find.call(cards, function (c) {
-      return c.getAttribute('data-filename') === linkedPhoto;
-    });
-    if (target) {
-      showLinked(target);
-    }
-  }
-});
-</script>
+      var s = pill.getAttribute('data-style');
+      var on = styles.indexOf(s) !== -1;
+      if (on && styles.length === 1) return;   // always keep at least one style on
+      if (on) {
+        styles = styles.filter(function (x) { return x !== s; });
+      } else {
+        styles.push(s);
+      }
