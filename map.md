@@ -22,23 +22,11 @@ text_width: false
 
 <div id="map"></div>
 
-<div id="lightbox-overlay" onclick="this.style.display='none'">
-  <div id="lightbox-frame">
-    <img id="lightbox-img" src="">
-    <p id="lightbox-caption"></p>
-  </div>
-</div>
+{% include photo-lightbox.html page="map" %}
 
 <script>
-  function showLightbox(src, caption) {
-    document.getElementById('lightbox-img').src = src;
-    var cap = document.getElementById('lightbox-caption');
-    cap.textContent = caption || '';
-    cap.style.display = caption ? 'block' : 'none';
-    document.getElementById('lightbox-overlay').style.display = 'flex';
-  }
-
-  const archiveData = {{ site.data.minifig_archive | jsonify }};
+  var baseurl = "{{ site.baseurl }}";
+  const archiveData = PHOTO_DATA;
 
   // Points east of 60°E (Japan, etc.) are moved one world-width west so they
   // sit just past Hawaii, next to the Americas, instead of across the map.
@@ -277,8 +265,12 @@ text_width: false
 
   map.addLayer(clusters);
 
+  // filename -> the marker it's on and its spot in that marker's carousel
+  var markerByFile = {};
+
   function renderMarkers() {
     clusters.clearLayers();
+    markerByFile = {};
 
     var filtered = points.filter(pointMatches);
     var groups = groupPoints(filtered);
@@ -292,10 +284,10 @@ text_width: false
         var container = document.createElement('div');
         container.className = 'carousel-popup';
         var img = document.createElement('img');
-        img.src = '/Lego-Photography-Interactive-Portfolio/photos/photos_compressed/' + g.filenames[idx];
+        img.src = baseurl + '/photos/photos_compressed/' + g.filenames[idx];
         img.width = 200;
         img.style.cursor = 'pointer';
-        img.onclick = function() { showLightbox('/Lego-Photography-Interactive-Portfolio/photos/' + g.filenames[idx], g.landmarks[idx]); };
+        img.onclick = function() { openPhoto(g.filenames[idx]); };
         container.appendChild(img);
         if (g.filenames.length > 1) {
           var controls = document.createElement('div');
@@ -330,6 +322,13 @@ text_width: false
         maxWidth: 260,
         autoPanPadding: [20, 20]
       });
+      marker.showIndex = function(i) {
+        idx = i;
+        marker.setPopupContent(buildContent());
+      };
+      g.filenames.forEach(function(f, i) {
+        markerByFile[f] = { marker: marker, index: i };
+      });
       clusters.addLayer(marker);
     });
 
@@ -345,9 +344,23 @@ text_width: false
   renderActiveChips();
   renderMarkers();
 
+  // Zoom to a photo's pin and open its popup on that photo
+  function focusPhoto(filename) {
+    var hit = markerByFile[filename];
+    if (!hit) return;
+    document.getElementById('map').scrollIntoView({ block: 'center' });
+    // start at a trail-level zoom; only goes closer if pins are still clustered
+    map.setView(hit.marker.getLatLng(), 14, { animate: false });
+    clusters.zoomToShowLayer(hit.marker, function() {
+      hit.marker.showIndex(hit.index);
+      hit.marker.openPopup();
+    });
+  }
+
   window.addEventListener('load', function() {
     map.invalidateSize();
     renderMarkers();
+    if (linkedPhoto) focusPhoto(linkedPhoto);
   });
 
   var resizeTimer;

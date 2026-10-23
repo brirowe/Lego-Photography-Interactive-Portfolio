@@ -42,6 +42,7 @@ permalink: /palettes/
 <div class="palette-grid">
 {% for row in site.data.palettes %}
   <div class="palette-card"
+       data-filename="{{ row.filename }}"
        data-palette="{{ row.palette }}"
        data-sequential="{{ row.sequential }}"
        data-converging="{{ row.converging }}"
@@ -56,6 +57,8 @@ permalink: /palettes/
 </div>
 
 <div class="copy-toast" id="copy-toast">Copied!</div>
+
+{% include photo-lightbox.html page="palettes" %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -207,6 +210,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   grid.addEventListener('click', function (e) {
+    var photo = e.target.closest('.palette-card img');
+    if (photo) {
+      openPhoto(photo.closest('.palette-card').getAttribute('data-filename'));
+      return;
+    }
     var all = e.target.closest('.copy-all');
     if (all) {
       var list = all.closest('.palette-card').getAttribute('data-current');
@@ -224,5 +232,15 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   render();
+
+  // Arrived from another page: scroll to that photo's palette
+  if (linkedPhoto) {
+    var target = Array.prototype.find.call(cards, function (c) {
+      return c.getAttribute('data-filename') === linkedPhoto;
+    });
+    if (target) {
+      showLinked(target);
+    }
+  }
 });
 </script>

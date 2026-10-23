@@ -18,55 +18,11 @@ text_width: false
 
 <div class="archive-grid" id="archive-grid"></div>
 
-<div id="archive-lightbox" onclick="closeArchiveLightbox()">
-	<div class="archive-lightbox-card" onclick="event.stopPropagation()">
-		<button type="button" class="archive-lightbox-close" onclick="closeArchiveLightbox()" aria-label="Close">&times;</button>
-		<img id="archive-lightbox-img" src="" alt="">
-		<dl id="archive-lightbox-info"></dl>
-	</div>
-</div>
+{% include photo-lightbox.html page="archive" %}
 
 <script>
-	const archivePhotos = {{ site.data.minifig_archive | jsonify }};
+	const archivePhotos = PHOTO_DATA;
 	const baseurl = "{{ site.baseurl }}";
-
-	function openArchiveLightbox(p) {
-		var img = document.getElementById('archive-lightbox-img');
-		img.src = baseurl + '/photos/' + p.filename;
-		img.alt = p.theme || '';
-
-		var sets = p.setTokens.filter(function(t) { return t !== 'None'; });
-		var rows = [
-			['Theme', p.theme],
-			['Subtheme', p.subtheme],
-			[sets.length > 1 ? 'Sets' : 'Set', sets.join(', ')],
-			['Year', p.year]
-		];
-
-		var info = document.getElementById('archive-lightbox-info');
-		info.innerHTML = '';
-		rows.forEach(function(r) {
-			if (!r[1] || r[1] === 'None') return;
-			var dt = document.createElement('dt');
-			dt.textContent = r[0];
-			var dd = document.createElement('dd');
-			dd.textContent = r[1];
-			info.appendChild(dt);
-			info.appendChild(dd);
-		});
-
-		document.getElementById('archive-lightbox').classList.add('open');
-		document.body.style.overflow = 'hidden';
-	}
-
-	function closeArchiveLightbox() {
-		document.getElementById('archive-lightbox').classList.remove('open');
-		document.body.style.overflow = '';
-	}
-
-	document.addEventListener('keydown', function(e) {
-		if (e.key === 'Escape') closeArchiveLightbox();
-	});
 
 	// Elevation ranges for the Elevation filter (feet)
 	var ELEV_BANDS = [
@@ -264,13 +220,14 @@ text_width: false
 		filtered.forEach(function(p) {
 			const item = document.createElement('div');
 			item.className = 'archive-item';
+			item.dataset.filename = p.filename;
 
 			const img = document.createElement('img');
 			img.loading = 'lazy';
 			img.src = baseurl + '/photos/photos_compressed/' + p.filename;
 			img.alt = p.theme;
 			item.appendChild(img);
-			item.addEventListener('click', function() { openArchiveLightbox(p); });
+			item.addEventListener('click', function() { openPhoto(p.filename); });
 
 			const caption = document.createElement('div');
 			caption.className = 'archive-caption';
@@ -285,4 +242,15 @@ text_width: false
 	renderFilterPanel();
 	renderActiveChips();
 	renderGrid();
+
+	// Arrived from another page: scroll to that photo and open it
+	if (linkedPhoto) {
+		const target = Array.from(document.querySelectorAll('.archive-item')).find(function(el) {
+			return el.dataset.filename === linkedPhoto;
+		});
+		if (target) {
+			showLinked(target);
+		}
+		openPhoto(linkedPhoto);
+	}
 </script>

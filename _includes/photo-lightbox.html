@@ -1,0 +1,128 @@
+<div id="photo-lightbox" class="photo-lightbox" aria-hidden="true">
+	<div class="photo-lightbox-card" role="dialog" aria-modal="true" aria-label="Photo">
+		<button type="button" class="photo-lightbox-close" aria-label="Close">&times;</button>
+		<img id="photo-lightbox-img" class="photo-lightbox-img" src="" alt="">
+		<div class="photo-lightbox-body">
+			<p class="photo-lightbox-title" id="photo-lightbox-title"></p>
+			<dl class="photo-lightbox-info" id="photo-lightbox-info"></dl>
+			<div class="photo-lightbox-links" id="photo-lightbox-links"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// All minifig photo info, shared by the page's own script
+	window.PHOTO_DATA = {{ site.data.minifig_archive | jsonify }};
+
+	(function () {
+		var base = "{{ site.baseurl }}";
+		var here = "{{ include.page }}";
+
+		var PAGES = [
+			{ key: 'map', label: 'See on map', path: '/map/' },
+			{ key: 'archive', label: 'Set info', path: '/minifig-archive/' },
+			{ key: 'palettes', label: 'Color palette', path: '/palettes/' }
+		];
+
+		var byFile = {};
+		PHOTO_DATA.forEach(function (p) { byFile[p.filename] = p; });
+
+		var box = document.getElementById('photo-lightbox');
+		var img = document.getElementById('photo-lightbox-img');
+		var title = document.getElementById('photo-lightbox-title');
+		var info = document.getElementById('photo-lightbox-info');
+		var links = document.getElementById('photo-lightbox-links');
+
+		function clean(v) {
+			v = (v == null ? '' : String(v)).trim();
+			return v === 'None' ? '' : v;
+		}
+
+		function openPhoto(filename) {
+			var p = byFile[filename];
+			if (!p) return;
+
+			img.src = base + '/photos/' + p.filename;
+			img.alt = clean(p.theme) || 'Minifig photo';
+			title.textContent = clean(p.landmark) || clean(p.location_name);
+
+			var sets = clean(p.set).split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s && s !== 'None'; });
+			var elev = clean(p.elevation_ft);
+			var rows = [
+				['Theme', clean(p.theme)],
+				['Subtheme', clean(p.subtheme)],
+				[sets.length > 1 ? 'Sets' : 'Set', sets.join(', ')],
+				['Year', clean(p.year)],
+				['Elevation', elev && !isNaN(elev) ? Math.round(Number(elev)).toLocaleString() + ' ft' : '']
+			];
+
+			info.innerHTML = '';
+			rows.forEach(function (r) {
+				if (!r[1]) return;
+				var dt = document.createElement('dt');
+				dt.textContent = r[0];
+				var dd = document.createElement('dd');
+				dd.textContent = r[1];
+				info.appendChild(dt);
+				info.appendChild(dd);
+			});
+
+			links.innerHTML = '';
+			PAGES.forEach(function (pg) {
+				if (pg.key === here) return;
+				var a = document.createElement('a');
+				a.className = 'photo-lightbox-link';
+				a.href = base + pg.path + '?photo=' + encodeURIComponent(p.filename);
+				a.textContent = pg.label;
+				links.appendChild(a);
+			});
+
+			box.classList.add('open');
+			box.setAttribute('aria-hidden', 'false');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function closePhoto() {
+			box.classList.remove('open');
+			box.setAttribute('aria-hidden', 'true');
+			document.body.style.overflow = '';
+		}
+
+		box.addEventListener('click', function (e) {
+			if (e.target === box || e.target.closest('.photo-lightbox-close')) closePhoto();
+		});
+
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape') closePhoto();
+		});
+
+		window.openPhoto = openPhoto;
+		window.closePhoto = closePhoto;
+
+		// Filename passed in from another page, like ?photo=Pic%20(225).jpg
+		window.linkedPhoto = (function () {
+			var f = new URLSearchParams(window.location.search).get('photo');
+			return f && byFile[f] ? f : null;
+		})();
+
+		// Scroll to whatever the link pointed to and briefly outline it.
+		// Photos above it can finish loading and push it down, so keep it
+		// centered for a couple seconds unless the visitor starts scrolling.
+		window.showLinked = function (el) {
+			function center() { el.scrollIntoView({ block: 'center' }); }
+			center();
+			el.classList.add('photo-highlight');
+
+			var stopped = false;
+			var ro = new ResizeObserver(function () { if (!stopped) center(); });
+			ro.observe(el.parentNode);
+			function stop() {
+				stopped = true;
+				ro.disconnect();
+				['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.removeEventListener(ev, stop); });
+			}
+			['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, stop, { passive: true }); });
+			setTimeout(stop, 2500);
+		};
+	})();
+</script>
