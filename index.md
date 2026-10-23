@@ -12,7 +12,7 @@ permalink: /
 </div>
 
 <section class="home-intro">
-  <p>Documenting my Outdoor Adventures with Legos. Don't forget to appreciate the little things.</p>
+  <p>Documenting my Outdoor Adventures with Legos.<br>Don't forget to appreciate the little things.</p>
 </section>
 
 <div class="preview-grid">
