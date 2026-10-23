@@ -8,8 +8,10 @@ permalink: /palettes/
 <div class="palette-controls">
 <div class="filter-pills" id="style-pills">
   <button type="button" class="filter-pill active" data-style="palette">All</button>
+  <button type="button" class="filter-pill" data-style="sequential">Sequential</button>
   <button type="button" class="filter-pill" data-style="converging">Converging</button>
   <button type="button" class="filter-pill" data-style="diverging">Diverging</button>
+  <button type="button" class="filter-pill" data-style="cool_warm">Cool to warm</button>
   <button type="button" class="filter-pill" data-style="categorical">Categorical</button>
 </div>
 <div class="cvd-control">
@@ -39,11 +41,14 @@ permalink: /palettes/
 {% for row in site.data.palettes %}
   <div class="palette-card"
        data-palette="{{ row.palette }}"
+       data-sequential="{{ row.sequential }}"
        data-converging="{{ row.converging }}"
        data-diverging="{{ row.diverging }}"
+       data-cool_warm="{{ row.cool_warm }}"
        data-categorical="{{ row.categorical }}">
     <img src="{{ site.baseurl }}/photos/photos_compressed/{{ row.filename }}" alt="{{ row.filename }}" loading="lazy">
     <div class="swatches"></div>
+    <button type="button" class="copy-all">Copy all</button>
   </div>
 {% endfor %}
 </div>
@@ -76,11 +81,14 @@ document.addEventListener('DOMContentLoaded', function () {
     return '#' + out.map(function (v) { return ('0' + toSrgb(v).toString(16)).slice(-2); }).join('');
   }
 
-  // ---- styles + view ----
+  // ---- styles ----
+  var GRADIENTS = { sequential: true, converging: true, diverging: true, cool_warm: true };
   var NOTES = {
-    palette: 'Every photo. Each color sits next to its closest match, darker end first.',
-    converging: 'Muted at both ends, building to the boldest color in the middle.',
-    diverging: 'Warm colors on one side, cool on the other, meeting in the middle.',
+    palette: 'The standout colors from each photo, each one next to its closest match.',
+    sequential: 'Dark to light through the photo\'s main color. Good for data that goes low to high.',
+    converging: 'Cool and warm at the ends, meeting at the photo\'s darkest shade in the middle.',
+    diverging: 'Cool and warm at the ends, meeting at the photo\'s lightest shade in the middle.',
+    cool_warm: 'The photo\'s boldest cool color blending around the color wheel to its boldest warm color.',
     categorical: 'A few colors picked to be as different from each other as possible.'
   };
 
@@ -92,33 +100,61 @@ document.addEventListener('DOMContentLoaded', function () {
   var style = 'palette';
   var view = 'normal';
 
+  function stopButton(hex, cls) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = cls;
+    b.setAttribute('data-hex', hex);
+    b.title = 'Click to copy ' + hex;
+    var label = document.createElement('span');
+    label.className = 'swatch-label';
+    label.textContent = hex;
+    b.appendChild(label);
+    return b;
+  }
+
   function render() {
     var shown = 0;
     cards.forEach(function (card) {
-      var hexes = (card.getAttribute('data-' + style) || '').trim();
-      if (!hexes) {
+      var raw = (card.getAttribute('data-' + style) || '').trim();
+      if (!raw) {
         card.hidden = true;
         return;
       }
       card.hidden = false;
       shown++;
 
+      var hexes = raw.split(',').map(function (h) { return h.trim(); });
+      var seen = hexes.map(function (h) { return simulate(h, view); });
+      card.setAttribute('data-current', hexes.join(', '));
+
       var box = card.querySelector('.swatches');
       box.innerHTML = '';
-      hexes.split(',').forEach(function (raw) {
-        var hex = raw.trim();
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'swatch';
-        b.setAttribute('data-hex', hex);
-        b.title = 'Click to copy ' + hex;
-        b.style.backgroundColor = simulate(hex, view);
-        var label = document.createElement('span');
-        label.className = 'swatch-label';
-        label.textContent = hex;
-        b.appendChild(label);
-        box.appendChild(b);
-      });
+
+      if (GRADIENTS[style]) {
+        // one smooth bar, with a click zone over each color stop
+        box.className = 'swatches gradient-bar';
+        box.style.background = 'linear-gradient(to right, ' + seen.join(', ') + ')';
+        var step = 100 / (hexes.length - 1);
+        hexes.forEach(function (hex, i) {
+          var pos = i * step;                              // where this color sits on the bar
+          var left = Math.max(0, pos - step / 2);
+          var right = Math.min(100, pos + step / 2);
+          var b = stopButton(hex, 'grad-stop');
+          b.style.left = left + '%';
+          b.style.width = (right - left) + '%';
+          b.style.setProperty('--tick', ((pos - left) / (right - left) * 100) + '%');
+          box.appendChild(b);
+        });
+      } else {
+        box.className = 'swatches';
+        box.style.background = '';
+        hexes.forEach(function (hex, i) {
+          var b = stopButton(hex, 'swatch');
+          b.style.backgroundColor = seen[i];
+          box.appendChild(b);
+        });
+      }
 
       card.querySelector('img').style.filter = view === 'normal' ? '' : 'url(#cvd-' + view + ')';
     });
@@ -139,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
     render();
   });
 
-  // ---- click a swatch to copy ----
+  // ---- copying ----
   var toast = document.getElementById('copy-toast');
   var toastTimer;
 
@@ -161,17 +197,27 @@ document.addEventListener('DOMContentLoaded', function () {
     return Promise.resolve();
   }
 
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1200);
+  }
+
   grid.addEventListener('click', function (e) {
-    var swatch = e.target.closest('.swatch');
-    if (!swatch) return;
-    var hex = swatch.getAttribute('data-hex');
+    var all = e.target.closest('.copy-all');
+    if (all) {
+      var list = all.closest('.palette-card').getAttribute('data-current');
+      copyText(list).then(function () { showToast('Copied all ' + list.split(',').length + ' colors'); });
+      return;
+    }
+    var stop = e.target.closest('.swatch, .grad-stop');
+    if (!stop) return;
+    var hex = stop.getAttribute('data-hex');
     copyText(hex).then(function () {
-      swatch.classList.add('copied');
-      toast.textContent = 'Copied ' + hex;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1200);
-      setTimeout(function () { swatch.classList.remove('copied'); }, 600);
+      stop.classList.add('copied');
+      showToast('Copied ' + hex);
+      setTimeout(function () { stop.classList.remove('copied'); }, 600);
     });
   });
 
