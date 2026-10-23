@@ -1,0 +1,45 @@
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">
+	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<script>
+	(function () {
+		var header = document.getElementById('site-header');
+		var nav = document.getElementById('site-nav');
+		var topBtn = document.getElementById('back-to-top');
+		var lastY = window.scrollY;
+		var ticking = false;
+
+		function update() {
+			var y = window.scrollY;
+			var navOpen = nav && nav.classList.contains('open');
+			var dy = y - lastY;
+
+			// hide when scrolling down, show when scrolling up (ignores tiny jitters)
+			if (y <= header.offsetHeight || navOpen) {
+				header.classList.remove('header-hidden');
+				lastY = y;
+			} else if (Math.abs(dy) > 6) {
+				header.classList.toggle('header-hidden', dy > 0);
+				lastY = y;
+			}
+
+			header.classList.toggle('header-scrolled', y > 0);
+			topBtn.classList.toggle('visible', y > window.innerHeight);
+			ticking = false;
+		}
+
+		window.addEventListener('scroll', function () {
+			if (!ticking) {
+				requestAnimationFrame(update);
+				ticking = true;
+			}
+		}, { passive: true });
+
+		topBtn.addEventListener('click', function () {
+			var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+		});
+
+		update();
+	})();
+</script>

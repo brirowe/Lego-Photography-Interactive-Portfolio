@@ -20,7 +20,7 @@
 	</head>
 	<body {% if page.text_width %}class="text-width"{% endif %}>
 		<div class="wrap">
-			<header>
+			<header class="site-header" id="site-header">
 				<h1><a href="{{ site.baseurl }}/">Backcountry Bricks</a></h1>
 				{% include navigation.html %}
 				{% include social-sidebar.html %}
@@ -30,6 +30,8 @@
 				  © 2026 Backcountry Bricks
 			</footer>
 		</div>
+
+		{% include scroll-helpers.html %}
 
 		<script>
 			// Block right-click and drag-to-save on all images

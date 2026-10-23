@@ -1,0 +1,74 @@
+/* Sticky header: hides on scroll down, comes back on scroll up */
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 900;
+	background: $background;
+	margin: 0 -20px;
+	padding: 0 20px;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+	@media #{$tablet} {
+		margin: 0 -30px;
+		padding: 0 30px;
+	}
+
+	@media #{$desktop} {
+		margin: 0 -50px;
+		padding: 0 50px;
+	}
+
+	&.header-scrolled {
+		box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08), 0 6px 16px rgba(0, 0, 0, 0.45);
+	}
+
+	&.header-hidden {
+		transform: translateY(-100%);
+		box-shadow: none;
+	}
+}
+
+/* Back to top button */
+.back-to-top {
+	position: fixed;
+	right: 16px;
+	bottom: calc(16px + env(safe-area-inset-bottom));
+	z-index: 950;
+	width: 44px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: 1px solid $link-color;
+	border-radius: 50%;
+	background: rgba(16, 16, 16, 0.85);
+	color: #fff;
+	cursor: pointer;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(8px);
+	transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	&.visible {
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateY(0);
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			background: rgba(123, 198, 255, 0.18);
+		}
+	}
+
+	@media #{$desktop} {
+		right: 24px;
+		bottom: 24px;
+	}
+}
