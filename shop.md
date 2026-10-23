@@ -8,7 +8,7 @@ permalink: /shop/
   <div class="intro-heading">
     <h1>Shop</h1>
   </div>
-  <p class="intro-lede">I sell complete used Lego sets, parts and pieces, minifigs, and my custom Lego art and prints.</p>
+  <p class="intro-lede">I sell complete used Lego sets, random pieces, minifigs, and my custom Lego art. Prints coming soon!!</p>
 </section>
 
 <section class="shop-section">
