@@ -2,13 +2,13 @@
 # Site
 
 title: Backcountry Bricks
-url: "https://cosmic-hippopotamus.cloudvent.net"
-baseurl: "/Lego-Photography-Interactive-Portfolio"
+url: "https://backcountrybricks.com"
+baseurl: ""
 google_analytics_key:
 
 # Values for the jekyll-seo-tag gem (https://github.com/jekyll/jekyll-seo-tag)
 logo: /siteicon.png
-description: Photography portfolio template for Jekyll.
+description: Lego minifigure photography from the Colorado backcountry and beyond.
 author:
   name:
   email:
@@ -16,7 +16,8 @@ author:
 social:
   name: Backcountry Bricks
   links:
-    - https://github.com/CloudCannon/aperture-jekyll-template
+    - https://instagram.com/backcountry_bricks
+    - https://tiktok.com/@backcountry_bricks
 
 # -----
 # Build
