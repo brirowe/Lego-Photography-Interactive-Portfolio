@@ -74,7 +74,7 @@ permalink: /about/
   </div>
 
   <div class="stagger-item">
-    <img src="{{ site.baseurl }}/photos/mosaics/mosaic-0035.jpg" alt="9 to 5 Lego mosaic build" loading="lazy" onclick="showLightbox(this.src)">
+    <img src="{{ site.baseurl }}/photos/mosaics/thumbs/mosaic-0035.jpg" alt="9 to 5 Lego mosaic build" loading="lazy" onclick="showLightbox(this.src)">onclick="showLightbox(this.src)">
     <div class="stagger-text">
       <h2>The Mosaics</h2>
       <p>In addition to Minifig photography, I also love to build Lego mosaic-style art as a creative outlet. It's been a fun way to create designs with random pieces and show off some of the cool colors Lego makes. I've really enjoyed making flags to represent things I care about and different groups of people, along with finding a purpose for the random Lego pieces I have laying around. This is a corner of the Lego world I only discovered recently, but have really loved and want to share with others!</p>
